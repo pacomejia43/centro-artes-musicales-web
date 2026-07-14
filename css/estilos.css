@@ -245,6 +245,10 @@ nav ul li a:hover {
     font-size: 1.2rem;
 }
 
+.decor-icon-invertido {
+    transform: scaleX(-1);
+}
+
 /* SECCIÓN INSTRUMENTOS */
 .instrumentos-section {
     padding: 80px 40px;
@@ -277,6 +281,10 @@ nav ul li a:hover {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+.enlace-card {
+    text-decoration: none;
+    color: inherit;
 }
 
 .card-inst:hover {
@@ -345,8 +353,16 @@ nav ul li a:hover {
 .banner-cta {
     padding: 0 40px 80px;
     background-color: var(--crema-fondo);
+    position: relative;
 }
-
+.enlace-banner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+}
 .banner-content {
     background-color: var(--verde-oscuro);
     border-radius: 20px;
