@@ -133,7 +133,7 @@ nav ul li a:hover {
     display: flex;
     padding: 80px 40px 120px 80px;
     /* Aquí deberás poner la ruta de tu fotografía de fondo real */
-    background: url('imagen de fondo.png') no-repeat right center;
+    background: url('../img/fondos/imagen de fondo.png') no-repeat right center;
     background-size: 60%;
     background-color: #e8ecd7; /* Color de respaldo */
     position: relative;
@@ -364,7 +364,7 @@ nav ul li a:hover {
         var(--verde-oscuro) 56%,      /* Se mantiene sólido justo para tapar el corte de la foto */
         rgba(17, 33, 23, 0.6) 75%,    /* A la mitad de Diego, el verde ya es semitransparente */
         rgba(17, 33, 23, 0) 100%      /* Totalmente transparente hasta el borde derecho */
-    ), url('diego.png');
+    ), url('../img/profesores/diego.png');
     
     background-size: 100% 100%, 45%; 
     background-position: left top, right 20%; 
@@ -500,7 +500,7 @@ footer {
     /* 👇 Aquí agregamos la imagen y la capa de transparencia 👇 */
     background-image: 
         linear-gradient(rgba(245, 243, 237, 0.7), rgba(245, 243, 237, 0.2)), /* Capa color crema semitransparente */
-        url('fondonuestrahistoria2.png'); /* Tu imagen de fondo */
+        url('../img/fondos/fondonuestrahistoria2.png');
         
     background-size: cover; /* Hace que la imagen cubra todo el fondo sin deformarse */
     background-position: center; /* Centra la imagen */
@@ -519,7 +519,7 @@ footer {
     /* 👇 LA SOLUCIÓN ESTÁ AQUÍ 👇 */
     background-image: 
         linear-gradient(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 1)), 
-        url('solologotransparente.png'); 
+        url('../img/logos/solologotransparente.png');
         
     background-position: center, center; 
     background-repeat: no-repeat, no-repeat; 
@@ -578,18 +578,18 @@ footer {
 
 /* Fondo específico para el Profesor Paco (Piano) */
 .header-paco {
-    /* Los números 17, 33, 23 son tu mismo "verde-oscuro" pero en formato RGB para poder darle transparencia (0.8) */
     background-image: 
         linear-gradient(rgba(17, 33, 23, 0.8), rgba(17, 33, 23, 0.8)), 
-        url('pianodefondo.png');
+        url('../img/fondos/pianodefondo.png');
 }
 
 /* Fondo específico para el Profesor Diego (Batería) */
 .header-diego {
     background-image: 
         linear-gradient(rgba(17, 33, 23, 0.8), rgba(17, 33, 23, 0.8)), 
-        url('bateriadefondo.png');
+        url('../img/fondos/bateriadefondo.png');
 }
+
 
 /* 👇 AQUÍ ESTÁN LAS CLASES QUE FALTABAN PARA ARREGLAR LA FOTO Y EL TEXTO 👇 */
 
