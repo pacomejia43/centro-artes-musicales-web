@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Noticias Musicales - Centro de Artes Musicales</title>
+    <link rel="stylesheet" href="estilos.css">
+    <!-- Font Awesome para los iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { 
+            font-family: 'Montserrat', sans-serif; 
+            background-image: url('imagennoticias.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-color: rgba(255, 255, 255, 0.5);
+            background-blend-mode: lighten;
+            margin: 0;
+        }
+        .container { 
+            max-width: 1000px; 
+            margin: 50px auto; 
+            padding: 40px 20px; 
+            background-color: rgba(255, 255, 255, 0.6);
+            border-radius: 15px;
+        }
+        h1 { text-align: center; color: #2c3e50; margin-bottom: 30px; }
+    </style>
+</head>
+<body>
+
+    <!-- CABECERA (Copiada de tu index) -->
+    <header>
+        <div class="contenedor-logo">
+            <div class="circulo-imagen">
+                <img src="solologo.jpeg" alt="Centro de Artes Musicales" class="logo-img">
+            </div>
+            <span>CENTRO DE<br><strong>ARTES MUSICALES</strong></span>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html#inicio">Inicio</a></li>
+                <li><a href="nosotros.html">Nuestra Escuela</a></li>
+                <li><a href="index.html#cursos">Cursos</a></li>
+                <li><a href="profesores.html">Profesores</a></li>
+                <li><a href="noticias.html">Noticias</a></li>
+                <li><a href="index.html#contacto">Contacto</a></li>
+            </ul>
+        </nav>
+        <a href="https://wa.me/522226660582" class="btn-header" target="_blank"><i class="fa-regular fa-calendar-check"></i> Clase muestra gratis</a>
+    </header>
+
+    <!-- CONTENIDO DE NOTICIAS -->
+    <div class="container">
+        <h1>Últimas Noticias Musicales</h1>
+        <rssapp-wall id="8IhDdQAkN60jl5cO"></rssapp-wall>
+        <script src="https://widget.rss.app/v1/wall.js" type="text/javascript" async></script>
+    </div>
+
+    <!-- FOOTER (Copiado de tu index) -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-logo">
+                <div class="contenedor-logo">
+                    <div class="circulo-imagen">
+                        <img src="solologo.jpeg" alt="Centro de Artes Musicales" class="logo-img">
+                    </div>
+                    <span>CENTRO DE<br><strong>ARTES MUSICALES</strong></span>
+                </div>
+                <p style="font-size: 12px; margin-top: 10px; color: #aaa;">Aprende música, transforma tu vida.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Enlaces</h4>
+                <ul>
+                    <li><a href="index.html#inicio">Inicio</a></li>
+                    <li><a href="nosotros.html">Nuestra Escuela</a></li>
+                    <li><a href="index.html#cursos">Cursos</a></li>
+                    <li><a href="profesores.html">Profesores</a></li>
+                    <li><a href="noticias.html">Noticias</a></li>
+                    <li><a href="index.html#contacto">Contacto</a></li>
+                </ul>
+            </div>
+            <div class="footer-contact">
+                <h4>Contáctanos</h4>
+                <p><a href="tel:+522226660582" style="text-decoration: none; color: inherit;"><i class="fa-solid fa-phone"></i> 222 666 05 82</a></p>
+                <p><a href="index.html#contacto" style="text-decoration: none; color: inherit;"><i class="fa-solid fa-envelope"></i> cedam.artes@gmail.com</a></p>
+            </div>
+            <div class="footer-social">
+                <h4>Síguenos</h4>
+                <a href="https://www.facebook.com/share/18ydQ4UuBZ/" target="_blank" class="social-icon" style="color: #1877F2;"><i class="fa-brands fa-facebook"></i></a>
+                <a href="https://www.instagram.com/cedam.arte/" target="_blank" class="social-icon" style="color:#E1306C;"><i class="fa-brands fa-instagram"></i></a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Centro de Artes Musicales. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
