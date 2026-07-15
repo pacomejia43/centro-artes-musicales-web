@@ -448,31 +448,39 @@ nav ul li a:hover {
     width: 100%;
     height: 100%;
     z-index: 10;
+    border-radius: 20px;
+    overflow: hidden;
 }
 
 .banner-content {
-    background-color: var(--verde-oscuro);
-    border-radius: 20px;
-    max-width: 1000px;
-    margin: 0 auto;
-    padding: 40px;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    color: var(--blanco);
+    max-width: 100%;
+    min-height: 180px;
 
-    background-image: linear-gradient(
-        to right,
-        var(--verde-oscuro) 40%,
-        var(--verde-oscuro) 56%,
-        rgba(17, 33, 23, 0.6) 75%,
-        rgba(17, 33, 23, 0) 100%
-    ),
-    url('../img/profesores/diego.png');
+    padding: 25px;
 
-    background-size: 100% 100%, 45%;
-    background-position: left top, right 20%;
-    background-repeat: no-repeat, no-repeat;
+    display:flex;
+    justify-content:flex-start;
+    align-items:center;
+
+    color:var(--blanco);
+
+    background-color:var(--verde-oscuro);
+    border-radius: 25px;
+
+
+    background-image:
+        linear-gradient(
+            to right,
+            rgba(17,33,23,.95) 0%,
+            rgba(17,33,23,.95) 45%,
+            rgba(17,33,23,.55) 72%,
+            rgba(17,33,23,0) 100%
+        ),
+        url('../img/profesores/diego.png');
+
+    background-size:100% 100%, 42%;
+    background-position:left top, right bottom;
+    background-repeat:no-repeat;
 }
 
 .banner-text h2 {
@@ -500,7 +508,10 @@ nav ul li a:hover {
     font-size: 80px;
     opacity: 0.8;
 }
-
+.banner-cta{
+    position: relative;
+    overflow: hidden;
+}
 
 /* ==========================================
    CONTACTO
@@ -937,6 +948,18 @@ footer {
 
     header {
         padding: 15px 20px;
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+
+    .contenedor-logo {
+        font-size: 16px;
+        gap: 10px;
+    }
+
+    .circulo-imagen {
+        width: 70px;
+        height: 70px;
     }
 
     .menu-toggle {
@@ -948,7 +971,7 @@ footer {
         top: 100%;
         left: 0;
         width: 100%;
-        background-color: var(--verde-oscuro);
+        background: var(--verde-oscuro);
         display: none;
     }
 
@@ -967,6 +990,104 @@ footer {
         display: none;
     }
 
+    /* HERO */
+
+    .hero {
+        padding: 50px 20px;
+        background-size: cover;
+        background-position: center;
+    }
+
+    .hero::before {
+        background: rgba(232,236,215,.82);
+    }
+
+    .hero-content {
+        max-width: 100%;
+        text-align: center;
+    }
+
+    .hero h1 {
+        font-size: 2.3rem;
+    }
+
+    .hero h1 .script {
+        font-size: 2.8rem;
+    }
+
+    .hero p {
+        font-size: 1rem;
+    }
+
+    .hero-features {
+        flex-direction: column;
+        gap: 12px;
+        align-items: center;
+    }
+
+/* BANNER */
+
+/* BANNER */
+
+.banner-cta{
+    padding:0 20px 50px;
+}
+
+.banner-content{
+
+    min-height:180px;
+
+    padding:35px;
+
+    display:flex;
+    align-items:center;
+    justify-content:flex-start;
+
+    color:#fff;
+
+    background-image:
+    linear-gradient(
+        to right,
+        rgba(17,33,23,1) 0%,
+        rgba(17,33,23,1) 42%,
+        rgba(17,33,23,.70) 63%,
+        rgba(17,33,23,.15) 82%,
+        rgba(17,33,23,0) 100%
+    ),
+    url("../img/profesores/diego.png");
+
+background-repeat:no-repeat;
+
+background-size:
+    100% 100%,
+    58%;
+
+background-position:
+    left top,
+    right center;
+}
+
+.banner-text{
+    max-width:210px;
+}
+
+.banner-text h2{
+    color:#fff;
+    font-size:1.45rem;
+    line-height:1.15;
+}
+
+.banner-text p{
+    color:#fff;
+    font-size:.85rem;
+}
+
+.banner-script{
+    font-size:2.2rem;
+}
+
+.banner-icon{
+    display:none;
 }
 /* =========================================
    RESPONSIVE - PROFESORES
@@ -997,6 +1118,40 @@ footer {
 
     .profesor-cuerpo {
         padding: 30px 25px;
+    }
+
+}
+/* AJUSTE TEMPORAL PARA CELULARES PEQUEÑOS */
+@media (max-width: 480px) {
+
+    .hero {
+        padding: 50px 20px 80px;
+    }
+
+    .hero h1 {
+        font-size: 2.3rem;
+    }
+
+    .hero h1 .script {
+        font-size: 2.8rem;
+    }
+
+    .hero p {
+        font-size: 0.95rem;
+    }
+
+    .hero-features {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .instrumentos-section {
+        padding: 50px 20px;
+    }
+
+    .card-inst {
+        width: 130px;
+        padding: 20px 10px;
     }
 
 }
