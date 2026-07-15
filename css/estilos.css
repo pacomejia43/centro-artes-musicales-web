@@ -1,4 +1,7 @@
-/* VARIABLES DE COLOR PARA MANTENER LA CONSISTENCIA */
+/* ==========================================
+   VARIABLES DE COLOR
+========================================== */
+
 :root {
     --verde-oscuro: #112117;
     --verde-boton: #4A7A2A;
@@ -9,7 +12,11 @@
     --blanco: #ffffff;
 }
 
-/* ESTILOS GENERALES */
+
+/* ==========================================
+   ESTILOS GENERALES / RESET
+========================================== */
+
 * {
     box-sizing: border-box;
     margin: 0;
@@ -22,7 +29,12 @@ body {
     color: var(--texto-oscuro);
     line-height: 1.6;
 }
-/* FONDO DINÁMICO */
+
+
+/* ==========================================
+   FONDO DINÁMICO
+========================================== */
+
 .fondo-dinamico {
     position: fixed;
     top: 0;
@@ -33,7 +45,8 @@ body {
     overflow: hidden;
 }
 
-#video-fondo, .imagen-fondo {
+#video-fondo,
+.imagen-fondo {
     position: absolute;
     top: 0;
     left: 0;
@@ -44,19 +57,28 @@ body {
 }
 
 .imagen-fondo {
-    background-image: url('tu-imagen.jpg'); /* Cambia esto por tu archivo */
+    background-image: url('tu-imagen.jpg');
     background-size: cover;
     background-position: center;
     opacity: 0;
 }
-/* FUENTE CURSIVA */
+
+
+/* ==========================================
+   FUENTES
+========================================== */
+
 .script {
     font-family: 'Dancing Script', cursive;
     color: var(--verde-boton);
     font-weight: 700;
 }
 
-/* CABECERA (HEADER) */
+
+/* ==========================================
+   HEADER / CABECERA
+========================================== */
+
 header {
     background-color: var(--verde-oscuro);
     color: var(--blanco);
@@ -68,6 +90,17 @@ header {
     top: 0;
     z-index: 100;
 }
+/* BOTÓN MENÚ MÓVIL */
+.menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--blanco);
+    font-size: 28px;
+    cursor: pointer;
+}
+
+/* Logo */
 
 .contenedor-logo {
     display: flex;
@@ -75,26 +108,31 @@ header {
     gap: 15px;
     font-size: 22px;
     line-height: 1.2;
-    color: var(--blanco); /* Hereda tu variable para que el texto sea blanco */
+    color: var(--blanco);
 }
 
+
 .circulo-imagen {
-    height: 100px; /* Cambia este número para hacerlo más pequeño */
-    width: 100px;  /* IMPORTANTE: Este número debe ser igual al de arriba */
+    height: 100px;
+    width: 100px;
     border-radius: 50%;
     background-color: #f1efdb;
     overflow: hidden;
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-shrink: 0; 
+    flex-shrink: 0;
 }
 
+
 .logo-img {
-    width: 85%; /* Sube o baja este porcentaje para acercar/alejar el logo */
+    width: 85%;
     height: auto;
-    transform: translateY(-2px); /* Cambia el 0px para centrarlo arriba o abajo */
+    transform: translateY(-2px);
 }
+
+
+/* Navegación */
 
 nav ul {
     list-style: none;
@@ -113,6 +151,9 @@ nav ul li a:hover {
     color: var(--verde-boton);
 }
 
+
+/* Botón header */
+
 .btn-header {
     background-color: var(--verde-boton);
     color: var(--blanco);
@@ -128,29 +169,45 @@ nav ul li a:hover {
     background-color: var(--verde-boton-hover);
 }
 
-/* SECCIÓN PRINCIPAL (HERO) */
+
+/* ==========================================
+   HERO / PORTADA PRINCIPAL
+========================================== */
+
 .hero {
     display: flex;
     padding: 80px 40px 120px 80px;
-    /* Aquí deberás poner la ruta de tu fotografía de fondo real */
     background: url('../img/fondos/imagen de fondo.png') no-repeat right center;
     background-size: 60%;
-    background-color: #e8ecd7; /* Color de respaldo */
+    background-color: #e8ecd7;
     position: relative;
     overflow: hidden;
 }
 
-/* Este degradado simula el desvanecido de la imagen hacia el color sólido de la izquierda */
+
+/* Capa de degradado sobre imagen */
+
 .hero::before {
     content: '';
     position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
-    
-    /* 👇 El color sólido ahora cubre el corte exacto (42%) y se difumina suavemente hasta el 75% 👇 */
-    background: linear-gradient(90deg, #e8ecd7 0%, #e8ecd7 42%, rgba(232, 236, 215, 0) 75%);
-    
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    background: linear-gradient(
+        90deg,
+        #e8ecd7 0%,
+        #e8ecd7 42%,
+        rgba(232, 236, 215, 0) 75%
+    );
+
     z-index: 1;
 }
+
+/* ==========================================
+   HERO / CONTENIDO PRINCIPAL
+========================================== */
 
 .hero-content {
     position: relative;
@@ -174,7 +231,11 @@ nav ul li a:hover {
     margin-bottom: 30px;
 }
 
-/* BOTÓN PRINCIPAL DEL HERO */
+
+/* ==========================================
+   BOTÓN PRINCIPAL HERO
+========================================== */
+
 .btn-main {
     display: inline-flex;
     align-items: center;
@@ -209,7 +270,11 @@ nav ul li a:hover {
     font-weight: normal;
 }
 
-/* CARACTERÍSTICAS DEL HERO */
+
+/* ==========================================
+   CARACTERÍSTICAS DEL HERO
+========================================== */
+
 .hero-features {
     display: flex;
     gap: 30px;
@@ -224,7 +289,11 @@ nav ul li a:hover {
     vertical-align: middle;
 }
 
-/* TÍTULOS DE SECCIÓN */
+
+/* ==========================================
+   TÍTULOS DE SECCIÓN
+========================================== */
+
 .section-title {
     text-align: center;
     margin-bottom: 40px;
@@ -249,7 +318,11 @@ nav ul li a:hover {
     transform: scaleX(-1);
 }
 
-/* SECCIÓN INSTRUMENTOS */
+
+/* ==========================================
+   SECCIÓN INSTRUMENTOS
+========================================== */
+
 .instrumentos-section {
     padding: 80px 40px;
     background-color: var(--blanco);
@@ -262,8 +335,8 @@ nav ul li a:hover {
 
 .grid-instrumentos {
     display: flex;
-    flex-wrap: wrap; /* Permite que los elementos pasen a la siguiente línea */
-    justify-content: center; /* Centra todos los elementos horizontalmente */
+    flex-wrap: wrap;
+    justify-content: center;
     gap: 20px;
     max-width: 1000px;
     margin: 0 auto;
@@ -276,13 +349,14 @@ nav ul li a:hover {
     text-align: center;
     box-shadow: 0 4px 6px rgba(0,0,0,0.05);
     transition: transform 0.3s;
-    width: 150px; /* Le damos un ancho fijo para que todos midan lo mismo */
+    width: 150px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
-.enlace-card {
+
+.enlace-sin-estilo {
     text-decoration: none;
     color: inherit;
 }
@@ -292,7 +366,7 @@ nav ul li a:hover {
 }
 
 .card-inst .icono-propio {
-    height: 60px; /* Ajusta este valor si quieres los iconos más grandes o más chicos */
+    height: 60px;
     width: auto;
     margin-bottom: 15px;
     display: block;
@@ -306,7 +380,11 @@ nav ul li a:hover {
     font-size: 14px;
 }
 
-/* POR QUÉ ELEGIRNOS */
+
+/* ==========================================
+   POR QUÉ ELEGIRNOS
+========================================== */
+
 .por-que-elegirnos {
     padding: 60px 40px;
     background-color: var(--crema-fondo);
@@ -349,12 +427,20 @@ nav ul li a:hover {
     color: #666;
 }
 
-/* BANNER CTA */
+
+/* ==========================================
+   BANNER CTA
+========================================== */
+
 .banner-cta {
     padding: 0 40px 80px;
     background-color: var(--crema-fondo);
     position: relative;
 }
+/* ==========================================
+   BANNER CTA
+========================================== */
+
 .enlace-banner {
     position: absolute;
     top: 0;
@@ -363,6 +449,7 @@ nav ul li a:hover {
     height: 100%;
     z-index: 10;
 }
+
 .banner-content {
     background-color: var(--verde-oscuro);
     border-radius: 20px;
@@ -373,18 +460,19 @@ nav ul li a:hover {
     justify-content: space-around;
     align-items: center;
     color: var(--blanco);
-    
-    /* 👇 Degradado extendido para un difuminado mucho más gradual 👇 */
-    background-image: linear-gradient(to right, 
-        var(--verde-oscuro) 40%,      /* Verde sólido en la zona de texto */
-        var(--verde-oscuro) 56%,      /* Se mantiene sólido justo para tapar el corte de la foto */
-        rgba(17, 33, 23, 0.6) 75%,    /* A la mitad de Diego, el verde ya es semitransparente */
-        rgba(17, 33, 23, 0) 100%      /* Totalmente transparente hasta el borde derecho */
-    ), url('../img/profesores/diego.png');
-    
-    background-size: 100% 100%, 45%; 
-    background-position: left top, right 20%; 
-    background-repeat: no-repeat, no-repeat; 
+
+    background-image: linear-gradient(
+        to right,
+        var(--verde-oscuro) 40%,
+        var(--verde-oscuro) 56%,
+        rgba(17, 33, 23, 0.6) 75%,
+        rgba(17, 33, 23, 0) 100%
+    ),
+    url('../img/profesores/diego.png');
+
+    background-size: 100% 100%, 45%;
+    background-position: left top, right 20%;
+    background-repeat: no-repeat, no-repeat;
 }
 
 .banner-text h2 {
@@ -413,7 +501,11 @@ nav ul li a:hover {
     opacity: 0.8;
 }
 
-/* SECCIÓN CONTACTO */
+
+/* ==========================================
+   CONTACTO
+========================================== */
+
 .contacto-section {
     padding: 60px 40px;
     background-color: #e5ead5;
@@ -456,11 +548,21 @@ nav ul li a:hover {
     font-weight: bold;
 }
 
-/* FOOTER */
+
+/* ==========================================
+   FOOTER
+========================================== */
+
 footer {
     background-color: var(--verde-oscuro);
     color: var(--blanco);
     padding: 60px 40px 20px;
+}
+
+.footer-slogan {
+    font-size: 12px;
+    margin-top: 10px;
+    color: #aaa;
 }
 
 .footer-grid {
@@ -475,8 +577,8 @@ footer {
     list-style: none;
     padding: 0;
     margin: 0;
-    column-count: 2;      /* Divide los elementos en 2 columnas */
-    column-gap: 40px;     /* Da espacio para que el texto no choque */
+    column-count: 2;
+    column-gap: 40px;
 }
 
 .footer-links ul li {
@@ -499,6 +601,18 @@ footer {
     text-decoration: none;
 }
 
+.social-facebook {
+    color: #1877F2;
+}
+
+.social-instagram {
+    color: #E1306C;
+}
+
+.social-youtube {
+    color: #FF0000;
+}
+
 .footer-bottom {
     text-align: center;
     border-top: 1px solid rgba(255,255,255,0.1);
@@ -506,21 +620,26 @@ footer {
     font-size: 12px;
     color: #aaa;
 }
-/* =========================================
-   ESTILOS PARA LA PÁGINA "NUESTRA ESCUELA"
-   ========================================= */
+
+
+/* ==========================================
+   NUESTRA ESCUELA / HISTORIA
+========================================== */
+
 .historia-section {
     padding: 80px 20px;
     min-height: 60vh;
-    
-    /* 👇 Aquí agregamos la imagen y la capa de transparencia 👇 */
-    background-image: 
-        linear-gradient(rgba(245, 243, 237, 0.7), rgba(245, 243, 237, 0.2)), /* Capa color crema semitransparente */
+
+    background-image:
+        linear-gradient(
+            rgba(245, 243, 237, 0.7),
+            rgba(245, 243, 237, 0.2)
+        ),
         url('../img/fondos/fondonuestrahistoria2.png');
-        
-    background-size: cover; /* Hace que la imagen cubra todo el fondo sin deformarse */
-    background-position: center; /* Centra la imagen */
-    background-attachment: fixed; /* Opcional: Da un efecto elegante de que el fondo se queda quieto al hacer scroll */
+
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
 }
 
 .historia-container {
@@ -528,21 +647,21 @@ footer {
     margin: 0 auto;
     padding: 50px;
     border-radius: 20px;
-    /* Le subí un poquito la oscuridad a la sombra para que la caja resalte mejor sobre la foto de la batería */
-    box-shadow: 0 4px 20px rgba(0,0,0,0.15); 
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
     text-align: justify;
-    
-    /* 👇 LA SOLUCIÓN ESTÁ AQUÍ 👇 */
-    background-image: 
-        linear-gradient(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 1)), 
+
+    background-image:
+        linear-gradient(
+            rgba(255,255,255,0.7),
+            rgba(255,255,255,1)
+        ),
         url('../img/logos/solologotransparente.png');
-        
-    background-position: center, center; 
-    background-repeat: no-repeat, no-repeat; 
-    
-    /* 'cover' asegura que el fondo blanco llene TODA la caja, '50%' hace pequeño el logo */
-    background-size: cover, 70%; 
+
+    background-position: center, center;
+    background-repeat: no-repeat, no-repeat;
+    background-size: cover, 70%;
 }
+
 .historia-container h2 {
     color: var(--verde-oscuro);
     font-size: 2.5rem;
@@ -555,9 +674,11 @@ footer {
     font-size: 1.1rem;
     line-height: 1.8;
 }
-/* =========================================
-   ESTILOS PARA LA PÁGINA "PROFESORES"
-   ========================================= */
+
+
+/* ==========================================
+   PROFESORES
+========================================== */
 
 .profesores-section {
     padding: 60px 20px;
@@ -569,20 +690,26 @@ footer {
     margin: 0 auto;
     display: flex;
     flex-direction: column;
-    gap: 50px; /* Separación entre cada ventana de profesor */
+    gap: 50px;
 }
+/* ==========================================
+   PROFESORES
+========================================== */
 
-/* La tarjeta o "ventanita" principal */
+/* Tarjeta principal */
+
 .tarjeta-profesor {
-    background-color: #f4f3ef; /* El color beige del cuerpo */
+    background-color: #f4f3ef;
     border-radius: 15px;
-    overflow: hidden; /* Corta las esquinas redondas */
+    overflow: hidden;
     box-shadow: 0 5px 20px rgba(0,0,0,0.1);
 }
 
-/* El encabezado general de la tarjeta */
+
+/* Encabezado del profesor */
+
 .profesor-header {
-    background-color: var(--verde-oscuro); /* Tu color verde institucional por defecto */
+    background-color: var(--verde-oscuro);
     background-size: cover;
     background-position: center;
     padding: 20px;
@@ -592,36 +719,44 @@ footer {
     color: var(--blanco);
 }
 
-/* Fondo específico para el Profesor Paco (Piano) */
+
+/* Fondos personalizados */
+
 .header-paco {
-    background-image: 
-        linear-gradient(rgba(17, 33, 23, 0.8), rgba(17, 33, 23, 0.8)), 
+    background-image:
+        linear-gradient(
+            rgba(17,33,23,0.8),
+            rgba(17,33,23,0.8)
+        ),
         url('../img/fondos/pianodefondo.png');
 }
 
-/* Fondo específico para el Profesor Diego (Batería) */
 .header-diego {
-    background-image: 
-        linear-gradient(rgba(17, 33, 23, 0.8), rgba(17, 33, 23, 0.8)), 
+    background-image:
+        linear-gradient(
+            rgba(17,33,23,0.8),
+            rgba(17,33,23,0.8)
+        ),
         url('../img/fondos/bateriadefondo.png');
 }
 
 
-/* 👇 AQUÍ ESTÁN LAS CLASES QUE FALTABAN PARA ARREGLAR LA FOTO Y EL TEXTO 👇 */
+/* Imagen del profesor */
 
-/* La foto circular */
 .profesor-foto {
-    width: 250px; 
+    width: 250px;
     height: 250px;
-    border-radius: 50%; /* Esto crea el círculo */
-    object-fit: cover; /* Centra la imagen y evita que se deforme */
+    border-radius: 50%;
+    object-fit: cover;
     box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-    flex-shrink: 0; 
-    overflow: hidden; /* Corta lo que sobre del rectángulo original */
-    aspect-ratio: 1 / 1; /* Fuerza a que sea un círculo perfecto */
+    flex-shrink: 0;
+    overflow: hidden;
+    aspect-ratio: 1 / 1;
 }
 
-/* Los títulos junto a la foto */
+
+/* Información del profesor */
+
 .profesor-titulos h2 {
     font-size: 2.2rem;
     line-height: 1.2;
@@ -636,7 +771,9 @@ footer {
     color: #e0e0e0;
 }
 
-/* El cuerpo de texto beige */
+
+/* Texto del profesor */
+
 .profesor-cuerpo {
     padding: 40px 50px;
     text-align: justify;
@@ -656,9 +793,12 @@ footer {
     line-height: 1.7;
     font-size: 1.05rem;
 }
-/* =========================================
-   ESTILOS PARA LA PÁGINA DE INSTRUMENTOS
-   ========================================= */
+
+
+/* ==========================================
+   PÁGINAS DE INSTRUMENTOS
+========================================== */
+
 .instrumento-section {
     padding: 60px 20px;
     background-color: var(--crema-fondo);
@@ -674,14 +814,18 @@ footer {
     text-align: justify;
 }
 
+
+/* Imagen principal instrumento */
+
 .instrumento-imagen {
     width: 100%;
-    height: 350px; /* Altura de la foto, puedes hacerla más grande o pequeña */
-    object-fit: cover; /* Evita que la foto se deforme */
+    height: 350px;
+    object-fit: cover;
     border-radius: 15px;
     margin-bottom: 30px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.2);
 }
+
 
 .instrumento-container h2 {
     color: var(--verde-oscuro);
@@ -697,7 +841,9 @@ footer {
     color: #333;
 }
 
-/* El recuadro verde para el precio */
+
+/* Caja de precio */
+
 .caja-precio {
     background-color: var(--verde-oscuro);
     color: var(--blanco);
@@ -707,21 +853,23 @@ footer {
     align-items: center;
     gap: 20px;
     margin: 35px 0;
-    box-shadow: 0 5px 15px rgba(17, 33, 23, 0.3);
+    box-shadow: 0 5px 15px rgba(17,33,23,0.3);
 }
 
 .caja-precio p {
-    margin-bottom: 0; /* Quita el margen extra dentro de la caja */
+    margin-bottom: 0;
     color: var(--blanco);
     font-size: 1.1rem;
 }
 
 .caja-precio strong {
     font-size: 1.3rem;
-    color: #e8dbb0; /* Un tono crema/dorado para resaltar el dinero */
+    color: #e8dbb0;
 }
 
-/* Estilos para la lista de metodologías */
+
+/* Lista de metodologías */
+
 .instrumento-container h3 {
     color: var(--verde-oscuro);
     margin-bottom: 15px;
@@ -739,32 +887,116 @@ footer {
     font-size: 1.05rem;
     color: #333;
 }
-/* Clase especial para la guitarra acústica */
+
+
+/* ==========================================
+   IMÁGENES ESPECIALES DE INSTRUMENTOS
+========================================== */
+
+
+/* Guitarra acústica */
+
 .instrumento-imagen-guitarra {
-    width: 100%;           /* Ocupa el 100% del ancho del recuadro */
-    height: 350px;         /* Mantiene la altura fija para que no se salga */
-    object-fit: cover;     /* Recorta la imagen para que encaje sin deformarse */
-    object-position: 50% 93%; /* Se enfoca en la parte de abajo donde está la guitarra */
+    width: 100%;
+    height: 350px;
+    object-fit: cover;
+    object-position: 50% 93%;
     border-radius: 15px;
     margin-bottom: 30px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-    display: block;        /* Asegura que se comporte como un bloque */
+    display: block;
 }
-/* Clase especial para el contenedor que centra la imagen */
+
+
+/* Contenedor centrado */
+
 .contenedor-centrado {
     width: 100%;
     display: flex;
-    justify-content: center; /* Alinea todo al centro horizontalmente */
+    justify-content: center;
     margin-bottom: 20px;
 }
 
-/* Esta clase controla la imagen y el efecto de "alejamiento" */
+
+/* Imagen final guitarra */
+
 .imagen-guitarra-final {
-    width: 70%;          /* Al ser menor al 100%, la imagen se aleja de los bordes del recuadro */
-    height: 250px;       /* Altura compacta y elegante */
-    object-fit: cover;   /* Mantiene el encuadre perfecto sin estirar la foto */
-    object-position: center; /* Centra el contenido de la foto */
-    border-radius: 15px; /* Bordes redondeados para que coincida con el estilo */
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2); /* Sombra elegante */
+    width: 70%;
+    height: 250px;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
     display: block;
+}
+/* =========================================
+   RESPONSIVE - TABLET Y MÓVIL
+   ========================================= */
+
+@media (max-width: 768px) {
+
+    header {
+        padding: 15px 20px;
+    }
+
+    .menu-toggle {
+        display: block;
+    }
+
+    nav {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background-color: var(--verde-oscuro);
+        display: none;
+    }
+
+    nav.active {
+        display: block;
+    }
+
+    nav ul {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+        padding: 25px 0;
+    }
+
+    .btn-header {
+        display: none;
+    }
+
+}
+/* =========================================
+   RESPONSIVE - PROFESORES
+   ========================================= */
+
+@media (max-width: 768px) {
+
+    .profesor-header {
+        flex-direction: column;
+        text-align: center;
+        gap: 20px;
+        padding: 30px 20px;
+    }
+
+    .profesor-foto {
+        width: 180px;
+        height: 180px;
+    }
+
+    .profesor-titulos h2 {
+        font-size: 1.8rem;
+    }
+
+    .profesor-titulos span {
+        font-size: 0.9rem;
+        letter-spacing: 2px;
+    }
+
+    .profesor-cuerpo {
+        padding: 30px 25px;
+    }
+
 }
