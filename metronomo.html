@@ -77,7 +77,7 @@
     }
     /* Cambio 1: "Metrónomo" queda debajo, más pequeño */
     .metro-page-header .metro-sub-title {
-      font-size: 1.8rem; font-weight: 600; color: #5a8a4a;
+      font-size: 1rem; font-weight: 600; color: #5a8a4a;
       font-style: italic; margin-top: 2px;
     }
 
@@ -346,6 +346,83 @@
       display: flex; align-items: center; gap: 8px;
     }
     .metro-tip i { flex-shrink: 0; color: #3a6a2a; }
+
+    /* ════════════════════════════════════
+       RESPONSIVE MÓVIL
+    ════════════════════════════════════ */
+    @media (max-width: 480px) {
+
+      .metro-page {
+        padding: 16px 12px 32px;
+      }
+
+      /* Ocultar decoración en móvil */
+      .metro-page::after { display: none; }
+      .metro-page::before { display: none; }
+
+      /* Encabezado más compacto */
+      .metro-back-link { font-size: .7rem; margin-bottom: 10px; }
+      .metro-page-header { margin-bottom: 14px; }
+      .metro-page-header .metro-main-title { font-size: 1.2rem; }
+      .metro-page-header .metro-sub-title  { font-size: .85rem; }
+
+      /* Cuerpo */
+      .metro-body { gap: 10px; }
+
+      /* Display — columnas más compactas */
+      .metro-display { padding: 12px 14px 10px; border-radius: 12px; }
+      .metro-col-value { font-size: 1.8rem; }
+      .metro-col-label { font-size: .52rem; }
+      .metro-col-sub   { font-size: .62rem; }
+      .metro-col-divider { margin: 0 1px; }
+
+      /* Barras de beat más delgadas */
+      .metro-beats-display { gap: 4px; margin-top: 10px; }
+      .metro-beat-bar { height: 20px; border-radius: 4px; }
+
+      /* Toggle sonido más pequeño */
+      .toggle-switch { width: 38px; height: 20px; border-radius: 10px; }
+      .toggle-switch::after { width: 14px; height: 14px; top: 3px; left: 3px; }
+      .toggle-switch.on::after { transform: translateX(18px); }
+      .toggle-label { font-size: .52rem; }
+
+      /* Slider */
+      .metro-bpm-slider-row span { font-size: .62rem; min-width: 20px; }
+
+      /* Dial — más pequeño y CIRCULAR */
+      .metro-dial-wrap { gap: 8px; padding: 4px 0; }
+      .metro-dial-outer {
+        width: 130px;
+        height: 130px; /* igual al width = círculo perfecto */
+      }
+      .metro-dial-indicator {
+        height: 18px;
+        top: 10px;
+        left: calc(50% - 1.5px);
+        transform-origin: 1.5px 55px;
+      }
+      .metro-dial-inner { width: 62px; height: 62px; }
+      .metro-play-center { width: 38px; height: 38px; }
+      .metro-play-center svg { width: 14px; height: 14px; }
+
+      /* Botones de flecha */
+      .metro-arrow-btn { height: 36px; }
+      .metro-arrow-btn.step1 { width: 36px; font-size: .85rem; }
+      .metro-arrow-btn.step5 { width: 46px; padding: 4px 6px; }
+      .metro-arrow-btn.step5 i    { font-size: .75rem; }
+      .metro-arrow-btn.step5 span { font-size: .58rem; }
+
+      /* Botones de compás */
+      .metro-ts-btn { padding: 7px 10px; font-size: .72rem; border-radius: 8px; }
+      .metro-bottom-row { gap: 6px; }
+      .metro-ts-select { gap: 5px; }
+
+      /* TAP */
+      .metro-tap-big { padding: 9px 12px; font-size: .78rem; border-radius: 8px; }
+
+      /* Consejo */
+      .metro-tip { padding: 8px 12px; font-size: .68rem; }
+    }
   </style>
 </head>
 <body>
