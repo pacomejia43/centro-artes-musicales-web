@@ -1163,54 +1163,95 @@ footer {
         font-size: 13px;
     }
 
-    /* FOOTER */
+    /* FOOTER – layout compacto móvil */
 
     footer {
-        padding: 30px 16px 12px;
-        font-size: 13px;
+        padding: 14px 14px 8px;
     }
 
-    .footer-grid {
-        grid-template-columns: 1fr;
-        gap: 22px;
-        text-align: center;
-    }
-
+    /* Ocultar encabezados de sección en móvil */
     .footer-grid h4 {
-        font-size: 0.85rem;
-        margin-bottom: 10px;
-    }
-
-    .footer-logo .contenedor-logo {
-        justify-content: center;
-        font-size: 11px;
-    }
-
-    .footer-logo .circulo-imagen {
-        width: 42px;
-        height: 42px;
+        display: none;
     }
 
     .footer-slogan {
-        font-size: 11px;
+        display: none;
     }
 
-    .footer-links ul {
-        column-count: 2;
-        padding: 0;
+    /* Fila 1: logo  +  redes sociales (mismo renglón) */
+    .footer-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        text-align: center;
+        margin-bottom: 8px;
     }
 
-    .footer-links a {
-        font-size: 12px;
+    .footer-logo {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
     }
 
-    .footer-links ul li {
-        margin-bottom: 7px;
+    .footer-logo .contenedor-logo {
+        font-size: 10px;
+        gap: 6px;
+    }
+
+    .footer-logo .circulo-imagen {
+        width: 32px;
+        height: 32px;
+    }
+
+    /* Mover redes al lado del logo */
+    .footer-social {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .social-icon {
+        font-size: 16px;
+        margin-right: 0;
+    }
+
+    /* Fila 2: teléfono y email en una línea */
+    .footer-contact {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 6px 14px;
     }
 
     .footer-contact p {
-        font-size: 12px;
-        margin-bottom: 7px;
+        font-size: 11px;
+        margin-bottom: 0;
+    }
+
+    /* Fila 3: links horizontales */
+    .footer-links ul {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 3px 10px;
+        column-count: unset;
+        padding: 0;
+    }
+
+    .footer-links ul li {
+        margin-bottom: 0;
+    }
+
+    .footer-links a {
+        font-size: 10px;
+        color: #aaa;
+    }
+
+    .footer-bottom {
+        font-size: 10px;
+        padding-top: 8px;
     }
 
     .footer-bottom {
