@@ -18,17 +18,34 @@ menuToggle.addEventListener("click", () => {
     }
 });
 
-// Cerrar menú al seleccionar una opción
+
+// ══════════════════════════════════════
+// CERRAR MENÚ AL SELECCIONAR UNA OPCIÓN
+// (excepto al tocar "Herramientas")
+// ══════════════════════════════════════
+
 const enlacesMenu = document.querySelectorAll("nav a");
 enlacesMenu.forEach(enlace => {
     enlace.addEventListener("click", () => {
+        // Si es el enlace de Herramientas, NO cerrar el menú
+        if (enlace.classList.contains('nav-herramientas-link')) return;
+
         nav.classList.remove("active");
         menuIcon.classList.remove("fa-xmark");
         menuIcon.classList.add("fa-bars");
+
+        // También cerrar el submenú si estaba abierto
+        if (navHerramientas) {
+            navHerramientas.classList.remove('open');
+        }
     });
 });
 
-// Subir la página al inicio al cargar
+
+// ══════════════════════════════════════
+// SUBIR LA PÁGINA AL INICIO AL CARGAR
+// ══════════════════════════════════════
+
 window.addEventListener("load", () => {
     window.scrollTo(0, 0);
 });
@@ -36,42 +53,44 @@ window.addEventListener("load", () => {
 
 // ══════════════════════════════════════
 // SUBMENÚ HERRAMIENTAS
-// CAMBIO 4: se abre/cierra con clic, NO con hover
+// Funciona tanto en escritorio como móvil
 // ══════════════════════════════════════
 
-const navHerramientas   = document.querySelector('.nav-herramientas');
-const herramientasLink  = document.querySelector('.nav-herramientas-link');
+const navHerramientas  = document.querySelector('.nav-herramientas');
+const herramientasLink = document.querySelector('.nav-herramientas-link');
 
 if (herramientasLink) {
     herramientasLink.addEventListener('click', function (e) {
         e.preventDefault();
-        // Toggle clase .open en el <li>
+        e.stopPropagation(); // evita que el clic cierre el menú principal en móvil
         navHerramientas.classList.toggle('open');
     });
 }
 
-// Cerrar el submenú si el usuario hace clic en cualquier otro lugar
+// Cerrar el submenú al hacer clic fuera de él
 document.addEventListener('click', function (e) {
     if (navHerramientas && !navHerramientas.contains(e.target)) {
         navHerramientas.classList.remove('open');
     }
 });
 
-// Cerrar el submenú también al seleccionar "Metrónomo"
-// (ya cubierto por el listener de enlacesMenu arriba,
-//  pero lo añadimos explícito para claridad)
+// Cerrar el submenú al tocar un link dentro de él (ej. "Metrónomo")
 const submenuLinks = document.querySelectorAll('.submenu-herramientas a');
 submenuLinks.forEach(link => {
     link.addEventListener('click', () => {
         navHerramientas.classList.remove('open');
+        // También cerrar el menú principal en móvil
+        nav.classList.remove("active");
+        menuIcon.classList.remove("fa-xmark");
+        menuIcon.classList.add("fa-bars");
     });
 });
 
 
 // ══════════════════════════════════════
-// METRÓNOMO (index.html - péndulo)
-// CAMBIO 1: botón stop no es rojo,
-//           solo cambia el ícono a cuadrado ■
+// METRÓNOMO (péndulo en index.html)
+// El guard evita errores si los elementos
+// no existen en otras páginas
 // ══════════════════════════════════════
 
 (function () {
@@ -79,9 +98,6 @@ submenuLinks.forEach(link => {
   let playing = false, timerId = null, swingDir = 1;
   let audioCtx = null;
 
-  // Estos elementos solo existen en index.html si dejaste la sección
-  // del metrónomo de péndulo. Si la eliminaste, los getElementById
-  // devuelven null y el bloque no hace nada.
   const slider    = document.getElementById('bpmSlider');
   const bpmVal    = document.getElementById('bpmValue');
   const tempoName = document.getElementById('tempoName');
@@ -100,6 +116,7 @@ submenuLinks.forEach(link => {
     if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     return audioCtx;
   }
+
   function playClick(accent) {
     const ctx = getCtx(), osc = ctx.createOscillator(), gain = ctx.createGain();
     osc.connect(gain); gain.connect(ctx.destination);
@@ -119,6 +136,7 @@ submenuLinks.forEach(link => {
   function updateSliderFill() {
     slider.style.setProperty('--fill', ((bpm-30)/(240-30)*100)+'%');
   }
+
   function buildDots() {
     dotsWrap.innerHTML = '';
     for (let i=0; i<beats; i++) {
@@ -127,6 +145,7 @@ submenuLinks.forEach(link => {
       dotsWrap.appendChild(d);
     }
   }
+
   function tick() {
     playClick(currentBeat===0);
     dotsWrap.querySelectorAll('.metro-dot').forEach((d,i)=>d.classList.toggle('active',i===currentBeat));
@@ -137,15 +156,17 @@ submenuLinks.forEach(link => {
     swingDir *= -1;
     currentBeat = (currentBeat+1) % beats;
   }
+
   function start() {
     playing=true; currentBeat=0; swingDir=1;
     buildDots(); tick();
     timerId = setInterval(tick, (60/bpm)*1000);
     playBtn.classList.add('playing');
-    // CAMBIO 1: ícono cuadrado ■ (no rojo, solo forma diferente)
+    // Ícono cambia a cuadrado ■ (stop), NO rojo
     playIcon.setAttribute('points','2,2 14,2 14,14 2,14');
     playLabel.textContent = 'Detener';
   }
+
   function stop() {
     playing=false; clearInterval(timerId);
     rod.classList.remove('swing-left','swing-right');
@@ -175,7 +196,9 @@ submenuLinks.forEach(link => {
     tempoName.textContent=getTempoName(bpm); updateSliderFill();
     if(playing){stop();start();}
   });
+
   playBtn.addEventListener('click', ()=>playing?stop():start());
+
   beatBtns.forEach(btn=>{
     btn.addEventListener('click', ()=>{
       beatBtns.forEach(b=>b.classList.remove('active'));
