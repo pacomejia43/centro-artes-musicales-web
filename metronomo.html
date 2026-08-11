@@ -591,16 +591,23 @@
     /* ── Audio ────────────────────────────── */
     function getCtx(){
       if(!audioCtx) audioCtx=new(window.AudioContext||window.webkitAudioContext)();
+      /* Móvil: reanudar contexto suspendido al primer toque */
+      if(audioCtx.state==='suspended') audioCtx.resume();
       return audioCtx;
     }
     function playClick(level){
       if(!soundOn||level===0) return;
-      const ctx=getCtx(),o=ctx.createOscillator(),g=ctx.createGain();
-      o.connect(g); g.connect(ctx.destination);
-      o.frequency.value=level===2?1400:900;
-      g.gain.setValueAtTime(level===2?.62:.38,ctx.currentTime);
-      g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+.07);
-      o.start(ctx.currentTime); o.stop(ctx.currentTime+.09);
+      const ctx=getCtx();
+      const doPlay=()=>{
+        const o=ctx.createOscillator(),g=ctx.createGain();
+        o.connect(g); g.connect(ctx.destination);
+        o.frequency.value=level===2?1400:900;
+        g.gain.setValueAtTime(level===2?.62:.38,ctx.currentTime);
+        g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+.07);
+        o.start(ctx.currentTime); o.stop(ctx.currentTime+.09);
+      };
+      if(ctx.state==='running'){ doPlay(); }
+      else { ctx.resume().then(doPlay); }
     }
 
     /* ── Acentos ──────────────────────────── */
@@ -717,6 +724,8 @@
 
     /* ── Play / Stop ──────────────────────── */
     function start(){
+      /* Desbloquear AudioContext en móvil ANTES de reproducir */
+      getCtx();
       playing=true; curBeat=0; buildBars(); tick();
       timerId=setInterval(tick,(60/bpm)*1000);
       /* Mostrar cuadrado ■, ocultar triángulo ▶ */
