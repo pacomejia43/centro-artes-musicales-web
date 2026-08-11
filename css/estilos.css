@@ -947,19 +947,19 @@ footer {
 @media (max-width: 768px) {
 
     header {
-        padding: 10px 16px;
+        padding: 15px 20px;
         flex-wrap: wrap;
-        gap: 10px;
+        gap: 15px;
     }
 
     .contenedor-logo {
-        font-size: 12px;
-        gap: 8px;
+        font-size: 16px;
+        gap: 10px;
     }
 
     .circulo-imagen {
-        width: 45px;
-        height: 45px;
+        width: 70px;
+        height: 70px;
     }
 
     .menu-toggle {
@@ -993,7 +993,7 @@ footer {
     /* HERO */
 
     .hero {
-        padding: 30px 20px 45px;
+        padding: 50px 20px;
         background-size: cover;
         background-position: center;
     }
@@ -1008,183 +1008,20 @@ footer {
     }
 
     .hero h1 {
-        font-size: 1.7rem;
+        font-size: 2.3rem;
     }
 
     .hero h1 .script {
-        font-size: 2rem;
+        font-size: 2.8rem;
     }
 
     .hero p {
-        font-size: 0.85rem;
-        margin-bottom: 20px;
+        font-size: 1rem;
     }
 
     .hero-features {
         flex-direction: column;
         gap: 12px;
-        align-items: center;
-    }
-
-    .btn-main {
-        padding: 8px 16px 8px 8px;
-        margin-bottom: 25px;
-    }
-
-    .btn-icon {
-        font-size: 20px;
-        margin-right: 10px;
-        padding: 0 8px;
-    }
-
-    .btn-text strong {
-        font-size: 12px;
-    }
-
-    .btn-text span {
-        font-size: 10px;
-    }
-
-    .hero-features {
-        font-size: 12px;
-    }
-
-    .hero-features i {
-        font-size: 16px;
-    }
-
-    /* SECTION TITLE */
-
-    .section-title {
-        margin-bottom: 25px;
-        gap: 8px;
-    }
-
-    .section-title h2 {
-        font-size: 1rem;
-        letter-spacing: 1px;
-    }
-
-    .decor-icon {
-        font-size: 1rem;
-    }
-
-    /* INSTRUMENTOS */
-
-    .instrumentos-section {
-        padding: 45px 20px;
-    }
-
-    .grid-instrumentos {
-        gap: 12px;
-    }
-
-    .card-inst {
-        width: calc(33.333% - 8px);
-        padding: 14px 6px;
-    }
-
-    .card-inst .icono-propio {
-        height: 36px;
-        margin-bottom: 8px;
-    }
-
-    .card-inst p {
-        font-size: 11px;
-    }
-
-    /* POR QUÉ ELEGIRNOS */
-
-    .por-que-elegirnos {
-        padding: 40px 20px;
-    }
-
-    .por-que-elegirnos h2 {
-        margin-bottom: 30px;
-        font-size: 1.1rem;
-    }
-
-    .grid-beneficios {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 25px;
-    }
-
-    .beneficio .icon-circle {
-        width: 55px;
-        height: 55px;
-        font-size: 22px;
-        margin-bottom: 12px;
-    }
-
-    .beneficio h3 {
-        font-size: 13px;
-    }
-
-    .beneficio p {
-        font-size: 12px;
-    }
-
-    /* CONTACTO */
-
-    .contacto-section {
-        padding: 40px 20px;
-    }
-
-    .contacto-container {
-        flex-direction: column;
-        align-items: stretch;
-        text-align: center;
-    }
-
-    .contacto-texto h2 {
-        font-size: 1.2rem;
-    }
-
-    .contacto-texto p {
-        font-size: 0.9rem;
-    }
-
-    .contacto-form {
-        flex-direction: column;
-    }
-
-    .contacto-form input,
-    .contacto-form textarea,
-    .contacto-form button {
-        width: 100%;
-        font-size: 14px;
-    }
-
-    /* FOOTER */
-
-    footer {
-        padding: 40px 20px 15px;
-    }
-
-    .footer-grid {
-        grid-template-columns: 1fr;
-        gap: 30px;
-        text-align: center;
-    }
-
-    .footer-logo .contenedor-logo {
-        justify-content: center;
-        font-size: 14px;
-    }
-
-    .footer-logo .circulo-imagen {
-        width: 55px;
-        height: 55px;
-    }
-
-    .footer-links ul {
-        column-count: 2;
-        padding: 0 10px;
-    }
-
-    .footer-social {
-        display: flex;
-        flex-direction: column;
         align-items: center;
     }
 
@@ -1309,21 +1146,12 @@ background-position:
     }
 
     .instrumentos-section {
-        padding: 40px 16px;
+        padding: 50px 20px;
     }
 
     .card-inst {
-        width: calc(33.333% - 8px);
-        padding: 12px 4px;
-    }
-
-    .card-inst .icono-propio {
-        height: 30px;
-        margin-bottom: 6px;
-    }
-
-    .card-inst p {
-        font-size: 10px;
+        width: 130px;
+        padding: 20px 10px;
     }
 
 }
@@ -1449,3 +1277,25 @@ background-position:
 }
 /* Se abre SOLO cuando JS añade la clase .open — NO con :hover */
 .nav-herramientas.open .submenu-herramientas { display: block; }
+/* Submenú en móvil */
+@media (max-width: 768px) {
+    .submenu-herramientas {
+        position: static;  /* ya no flota, queda en el flujo normal */
+        box-shadow: none;
+        background: rgba(255,255,255,0.08);
+        border-radius: 8px;
+        margin-top: 8px;
+        padding: 4px 0;
+        width: 100%;
+    }
+
+    .submenu-herramientas li a {
+        padding: 10px 24px;
+        font-size: .85rem;
+    }
+
+    /* Evitar que el menú se cierre al tocar Herramientas */
+    .nav-herramientas-link {
+        pointer-events: auto;
+    }
+}
