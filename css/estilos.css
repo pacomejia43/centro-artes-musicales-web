@@ -983,8 +983,14 @@ footer {
     nav ul {
         flex-direction: column;
         align-items: center;
-        gap: 20px;
-        padding: 25px 0;
+        gap: 10px;
+        padding: 14px 0;
+    }
+
+    nav ul li a {
+        font-size: 13px;
+        padding: 4px 0;
+        display: block;
     }
 
     .btn-header {
@@ -1160,23 +1166,33 @@ footer {
     /* FOOTER */
 
     footer {
-        padding: 36px 18px 14px;
+        padding: 30px 16px 12px;
+        font-size: 13px;
     }
 
     .footer-grid {
         grid-template-columns: 1fr;
-        gap: 28px;
+        gap: 22px;
         text-align: center;
+    }
+
+    .footer-grid h4 {
+        font-size: 0.85rem;
+        margin-bottom: 10px;
     }
 
     .footer-logo .contenedor-logo {
         justify-content: center;
-        font-size: 13px;
+        font-size: 11px;
     }
 
     .footer-logo .circulo-imagen {
-        width: 50px;
-        height: 50px;
+        width: 42px;
+        height: 42px;
+    }
+
+    .footer-slogan {
+        font-size: 11px;
     }
 
     .footer-links ul {
@@ -1184,9 +1200,26 @@ footer {
         padding: 0;
     }
 
+    .footer-links a {
+        font-size: 12px;
+    }
+
+    .footer-links ul li {
+        margin-bottom: 7px;
+    }
+
+    .footer-contact p {
+        font-size: 12px;
+        margin-bottom: 7px;
+    }
+
+    .footer-bottom {
+        font-size: 11px;
+    }
+
     .social-icon {
-        font-size: 20px;
-        margin-right: 10px;
+        font-size: 18px;
+        margin-right: 8px;
     }
 
 /* BANNER */
@@ -1194,14 +1227,14 @@ footer {
 /* BANNER */
 
 .banner-cta{
-    padding:0 20px 50px;
+    padding:0 16px 36px;
 }
 
 .banner-content{
 
-    min-height:180px;
+    min-height:120px;
 
-    padding:35px;
+    padding:20px;
 
     display:flex;
     align-items:center;
@@ -1232,22 +1265,22 @@ background-position:
 }
 
 .banner-text{
-    max-width:210px;
+    max-width:180px;
 }
 
 .banner-text h2{
     color:#fff;
-    font-size:1.45rem;
+    font-size:1rem;
     line-height:1.15;
 }
 
 .banner-text p{
     color:#fff;
-    font-size:.85rem;
+    font-size:.75rem;
 }
 
 .banner-script{
-    font-size:2.2rem;
+    font-size:1.5rem;
 }
 
 .banner-icon{
