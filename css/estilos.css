@@ -1277,3 +1277,25 @@ background-position:
 }
 /* Se abre SOLO cuando JS añade la clase .open — NO con :hover */
 .nav-herramientas.open .submenu-herramientas { display: block; }
+/* Submenú en móvil */
+@media (max-width: 768px) {
+    .submenu-herramientas {
+        position: static;  /* ya no flota, queda en el flujo normal */
+        box-shadow: none;
+        background: rgba(255,255,255,0.08);
+        border-radius: 8px;
+        margin-top: 8px;
+        padding: 4px 0;
+        width: 100%;
+    }
+
+    .submenu-herramientas li a {
+        padding: 10px 24px;
+        font-size: .85rem;
+    }
+
+    /* Evitar que el menú se cierre al tocar Herramientas */
+    .nav-herramientas-link {
+        pointer-events: auto;
+    }
+}
