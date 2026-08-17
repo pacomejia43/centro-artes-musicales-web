@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi cuenta — Centro de Artes Musicales</title>
+    <link rel="stylesheet" href="css/estilos.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="contenedor-logo">
+            <div class="circulo-imagen">
+                <img src="img/logos/solologo.jpeg" alt="Centro de Artes Musicales" class="logo-img">
+            </div>
+            <span>CENTRO DE<br><strong>ARTES MUSICALES</strong></span>
+        </div>
+        <button class="menu-toggle" aria-label="Abrir menú">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+        <nav>
+            <ul>
+                <li><a href="index.html#inicio">Inicio</a></li>
+                <li><a href="nosotros.html">Nuestra Escuela</a></li>
+                <li><a href="index.html#cursos">Cursos</a></li>
+                <li><a href="profesores.html">Profesores</a></li>
+                <li><a href="noticias.html">Noticias</a></li>
+                <li><a href="index.html#contacto">Contacto</a></li>
+                <li class="nav-herramientas">
+                    <a href="#" class="nav-herramientas-link">
+                        Herramientas <i class="fa-solid fa-chevron-down fa-xs"></i>
+                    </a>
+                    <ul class="submenu-herramientas">
+                        <li><a href="metronomo.html"><i class="fa-solid fa-music"></i> Metrónomo</a></li>
+                    </ul>
+                </li>
+                <li id="nav-auth"><a href="login.html">Iniciar sesión</a></li>
+            </ul>
+        </nav>
+        <a href="https://wa.me/522226660582" class="btn-header" target="_blank">
+            <i class="fa-regular fa-calendar-check"></i> Clase muestra gratis
+        </a>
+    </header>
+
+    <section class="panel-section">
+        <div class="panel-container">
+
+            <div class="panel-encabezado">
+                <div>
+                    <h1 id="panel-nombre">Hola</h1>
+                    <p id="panel-email"></p>
+                </div>
+                <button class="btn-salir" id="btn-salir"><i class="fa-solid fa-right-from-bracket"></i> Cerrar sesión</button>
+            </div>
+
+            <div class="auth-mensaje" id="panel-mensaje"></div>
+
+            <div class="panel-card">
+                <h2><i class="fa-regular fa-calendar-check"></i> Resumen del mes <span id="resumen-periodo"></span></h2>
+                <div class="resumen-mes-grid">
+                    <div class="resumen-mes-dato">
+                        <span class="numero" id="resumen-tomadas">—</span>
+                        <span class="etiqueta">Clases tomadas</span>
+                    </div>
+                    <div class="resumen-mes-dato">
+                        <span class="numero" id="resumen-disponibles">—</span>
+                        <span class="etiqueta">Clases disponibles</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel-card">
+                <h2><i class="fa-solid fa-music"></i> Mis clases</h2>
+                <div id="lista-clases"><p class="lista-vacia">Cargando…</p></div>
+            </div>
+
+            <div class="panel-card">
+                <h2><i class="fa-solid fa-arrows-rotate"></i> Mis solicitudes de reagendo</h2>
+                <div id="lista-solicitudes"><p class="lista-vacia">Cargando…</p></div>
+            </div>
+
+            <div class="panel-card">
+                <h2><i class="fa-solid fa-wallet"></i> Mi pago de este período</h2>
+                <div id="pago-actual-contenedor"><p class="lista-vacia">Cargando…</p></div>
+            </div>
+
+            <div class="panel-card">
+                <h2><i class="fa-solid fa-clock-rotate-left"></i> Historial de pagos</h2>
+                <div id="lista-pagos-historial"><p class="lista-vacia">Cargando…</p></div>
+            </div>
+
+            <div class="panel-card">
+                <h2><i class="fa-solid fa-book-open"></i> Mi bitácora</h2>
+                <div id="bitacora-contenedor"><p class="lista-vacia">Cargando…</p></div>
+            </div>
+
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-logo">
+                <div class="contenedor-logo">
+                    <div class="circulo-imagen">
+                        <img src="img/logos/solologo.jpeg" alt="Centro de Artes Musicales" class="logo-img">
+                    </div>
+                    <span>CENTRO DE<br><strong>ARTES MUSICALES</strong></span>
+                </div>
+                <p class="footer-slogan">Aprende música, transforma tu vida.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Enlaces</h4>
+                <ul>
+                    <li><a href="index.html#inicio">Inicio</a></li>
+                    <li><a href="nosotros.html">Nuestra Escuela</a></li>
+                    <li><a href="index.html#cursos">Cursos</a></li>
+                    <li><a href="profesores.html">Profesores</a></li>
+                    <li><a href="noticias.html">Noticias</a></li>
+                    <li><a href="index.html#contacto">Contacto</a></li>
+                </ul>
+            </div>
+            <div class="footer-contact">
+                <h4>Contáctanos</h4>
+                <p>
+                    <a href="tel:+522226660582" class="enlace-sin-estilo">
+                        <i class="fa-solid fa-phone"></i> 222 666 05 82
+                    </a>
+                </p>
+                <p>
+                    <a href="index.html#contacto" class="enlace-sin-estilo">
+                        <i class="fa-solid fa-envelope"></i> cedam.artes@gmail.com
+                    </a>
+                </p>
+            </div>
+            <div class="footer-social">
+                <h4>Síguenos</h4>
+                <a href="https://www.facebook.com/share/18ydQ4UuBZ/" target="_blank" class="social-icon social-facebook">
+                    <i class="fa-brands fa-facebook"></i>
+                </a>
+                <a href="https://www.instagram.com/cedam.arte/" target="_blank" class="social-icon social-instagram">
+                    <i class="fa-brands fa-instagram"></i>
+                </a>
+                <a href="https://www.youtube.com/watch?v=dVYHuefOyBA&list=PLnG2RNdqnCih6FNcX9n_os48BPmm_l773&pp=sAgC" target="_blank" class="social-icon social-youtube">
+                    <i class="fa-brands fa-youtube"></i>
+                </a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Centro de Artes Musicales. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="js/api.js"></script>
+    <script src="js/script.js"></script>
+    <script>
+        protegerPagina();
+
+        const INSTRUMENTOS = {
+            PIANO: 'Piano',
+            GUITARRA_ACUSTICA: 'Guitarra acústica',
+            GUITARRA_ELECTRICA: 'Guitarra eléctrica',
+            BAJO_ELECTRICO: 'Bajo eléctrico',
+            VIOLIN: 'Violín',
+            BATERIA: 'Batería',
+            CANTO: 'Canto',
+            COMPOSICION_MUSICAL: 'Composición musical',
+            ARREGLO: 'Arreglo',
+            LECTURA_ESCRITURA_PARTITURAS: 'Lectura y escritura de partituras'
+        };
+
+        function escapeHtml(texto) {
+            if (texto === null || texto === undefined) return '';
+            const div = document.createElement('div');
+            div.textContent = texto;
+            return div.innerHTML;
+        }
+
+        function formatearFecha(fechaHoraIso) {
+            const d = new Date(fechaHoraIso);
+            return d.toLocaleString('es-MX', { dateStyle: 'medium', timeStyle: 'short' });
+        }
+
+        function mostrarMensajePanel(texto, tipo) {
+            const caja = document.getElementById('panel-mensaje');
+            caja.textContent = texto;
+            caja.className = 'auth-mensaje visible ' + tipo;
+            caja.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        document.getElementById('btn-salir').addEventListener('click', cerrarSesion);
+
+        // ---------------------------------------------------------- perfil
+
+        async function cargarPerfil() {
+            const perfil = await apiFetch('/alumno/perfil');
+            document.getElementById('panel-nombre').textContent = 'Hola, ' + (perfil.nombre || '').split(' ')[0];
+            document.getElementById('panel-email').textContent = perfil.email;
+        }
+
+        // ---------------------------------------------------------- resumen del mes
+
+        async function cargarResumenMes() {
+            const resumen = await apiFetch('/alumno/resumen-mes');
+            document.getElementById('resumen-tomadas').textContent = resumen.clasesTomadas;
+            document.getElementById('resumen-disponibles').textContent = resumen.clasesDisponibles;
+            document.getElementById('resumen-periodo').textContent = '(' + resumen.periodo + ')';
+        }
+
+        // ---------------------------------------------------------- clases + reagendo
+
+        async function cargarClases() {
+            const pagina = await apiFetch('/alumno/clases?size=20&sort=fechaHora,desc');
+            const lista = document.getElementById('lista-clases');
+            lista.innerHTML = '';
+
+            if (pagina.content.length === 0) {
+                lista.innerHTML = '<p class="lista-vacia">Todavía no tienes clases agendadas.</p>';
+                return;
+            }
+
+            pagina.content.forEach(clase => {
+                const item = document.createElement('div');
+                item.className = 'clase-item';
+
+                const puedeReagendar = clase.estado === 'PROGRAMADA';
+                item.innerHTML = `
+                    <div class="clase-info">
+                        <strong>${escapeHtml(INSTRUMENTOS[clase.instrumento] || clase.instrumento)}</strong>
+                        <span>${formatearFecha(clase.fechaHora)} · con ${escapeHtml(clase.profesorNombre)}</span>
+                    </div>
+                    <div class="clase-acciones">
+                        <span class="estado-badge estado-${clase.estado}">${clase.estado}</span>
+                        ${puedeReagendar ? `<button type="button" class="btn-chico secundario btn-reagendar" data-clase-id="${clase.id}">Reagendar</button>` : ''}
+                    </div>
+                    ${puedeReagendar ? `
+                    <form class="form-inline" data-form-reagendar="${clase.id}">
+                        <label>Nueva fecha y hora (con al menos 4 horas de anticipación)</label>
+                        <input type="datetime-local" name="fechaHoraPropuesta" required>
+                        <label>Motivo (opcional)</label>
+                        <input type="text" name="motivo" placeholder="Ej. tengo un examen ese día" maxlength="500">
+                        <div class="form-inline-botones">
+                            <button type="submit" class="btn-chico">Enviar solicitud</button>
+                            <button type="button" class="btn-chico secundario btn-cancelar-inline">Cancelar</button>
+                        </div>
+                    </form>` : ''}
+                `;
+                lista.appendChild(item);
+            });
+
+            lista.querySelectorAll('.btn-reagendar').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const form = lista.querySelector(`[data-form-reagendar="${btn.dataset.claseId}"]`);
+                    form.classList.toggle('visible');
+                });
+            });
+
+            lista.querySelectorAll('.btn-cancelar-inline').forEach(btn => {
+                btn.addEventListener('click', () => btn.closest('.form-inline').classList.remove('visible'));
+            });
+
+            lista.querySelectorAll('[data-form-reagendar]').forEach(form => {
+                form.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const claseId = form.dataset.formReagendar;
+                    const fechaHoraPropuesta = form.querySelector('[name="fechaHoraPropuesta"]').value;
+                    const motivo = form.querySelector('[name="motivo"]').value.trim();
+                    const boton = form.querySelector('button[type="submit"]');
+                    boton.disabled = true;
+                    try {
+                        await apiFetch(`/alumno/clases/${claseId}/solicitudes-reagendacion`, {
+                            method: 'POST',
+                            body: JSON.stringify({ fechaHoraPropuesta, motivo: motivo || null })
+                        });
+                        mostrarMensajePanel('Tu solicitud de reagendo fue enviada. Un administrador la revisará.', 'exito');
+                        await Promise.all([cargarClases(), cargarSolicitudes()]);
+                    } catch (err) {
+                        mostrarMensajePanel(err.message, 'error');
+                        boton.disabled = false;
+                    }
+                });
+            });
+        }
+
+        // ---------------------------------------------------------- solicitudes de reagendo
+
+        async function cargarSolicitudes() {
+            const pagina = await apiFetch('/alumno/solicitudes-reagendacion?sort=id,desc');
+            const lista = document.getElementById('lista-solicitudes');
+            lista.innerHTML = '';
+
+            if (pagina.content.length === 0) {
+                lista.innerHTML = '<p class="lista-vacia">No tienes solicitudes de reagendo.</p>';
+                return;
+            }
+
+            pagina.content.forEach(sol => {
+                const item = document.createElement('div');
+                item.className = 'clase-item';
+                item.innerHTML = `
+                    <div class="clase-info">
+                        <strong>${formatearFecha(sol.fechaHoraOriginal)} → ${formatearFecha(sol.fechaHoraPropuesta)}</strong>
+                        <span>${sol.motivo ? escapeHtml(sol.motivo) : 'Sin motivo especificado'}</span>
+                        ${sol.motivoRechazo ? `<span style="display:block;color:#a13a3a;">Motivo del rechazo: ${escapeHtml(sol.motivoRechazo)}</span>` : ''}
+                    </div>
+                    <span class="estado-badge estado-${sol.estado}">${sol.estado}</span>
+                `;
+                lista.appendChild(item);
+            });
+        }
+
+        // ---------------------------------------------------------- pago actual + autorreporte
+
+        async function cargarPagoActual() {
+            const contenedor = document.getElementById('pago-actual-contenedor');
+            try {
+                const pago = await apiFetch('/alumno/pagos/actual');
+                const saldo = Number(pago.saldoPendiente);
+
+                contenedor.innerHTML = `
+                    ${pago.vencido ? '<p class="pago-vencido-aviso"><i class="fa-solid fa-triangle-exclamation"></i> Este pago está vencido.</p>' : ''}
+                    <div class="pago-resumen">
+                        <div class="resumen-mes-dato">
+                            <span class="numero">$${Number(pago.monto).toFixed(2)}</span>
+                            <span class="etiqueta">Monto (${pago.periodo})</span>
+                        </div>
+                        <div class="resumen-mes-dato">
+                            <span class="numero">$${Number(pago.montoPagado).toFixed(2)}</span>
+                            <span class="etiqueta">Pagado</span>
+                        </div>
+                        <div class="resumen-mes-dato">
+                            <span class="numero">$${saldo.toFixed(2)}</span>
+                            <span class="etiqueta">Saldo</span>
+                        </div>
+                    </div>
+                    <p style="margin-bottom:15px;">
+                        <span class="estado-badge estado-${pago.estado}">${pago.estado}</span>
+                        &nbsp;vence el ${pago.fechaLimite}
+                    </p>
+                    ${saldo > 0 ? `
+                        <button type="button" class="btn-chico" id="btn-mostrar-form-pago">Registrar mi pago</button>
+                        <form class="form-inline" id="form-registrar-pago">
+                            <label>Monto pagado</label>
+                            <input type="number" step="0.01" min="0.01" name="monto" required value="${saldo.toFixed(2)}">
+                            <label>Método de pago</label>
+                            <select name="metodoPago" required>
+                                <option value="TRANSFERENCIA">Transferencia</option>
+                                <option value="EFECTIVO">Efectivo</option>
+                                <option value="TARJETA">Tarjeta</option>
+                                <option value="OTRO">Otro</option>
+                            </select>
+                            <label>Referencia (opcional)</label>
+                            <input type="text" name="referencia" placeholder="Ej. número de comprobante" maxlength="255">
+                            <div class="form-inline-botones">
+                                <button type="submit" class="btn-chico">Enviar</button>
+                                <button type="button" class="btn-chico secundario" id="btn-cancelar-form-pago">Cancelar</button>
+                            </div>
+                        </form>
+                    ` : '<p class="lista-vacia">Este período ya está pagado. ¡Gracias!</p>'}
+                `;
+
+                const btnMostrar = document.getElementById('btn-mostrar-form-pago');
+                const formPago = document.getElementById('form-registrar-pago');
+                if (btnMostrar && formPago) {
+                    btnMostrar.addEventListener('click', () => formPago.classList.toggle('visible'));
+                    document.getElementById('btn-cancelar-form-pago').addEventListener('click', () => formPago.classList.remove('visible'));
+
+                    formPago.addEventListener('submit', async (e) => {
+                        e.preventDefault();
+                        const boton = formPago.querySelector('button[type="submit"]');
+                        boton.disabled = true;
+                        try {
+                            await apiFetch(`/alumno/pagos/${pago.id}/registrar`, {
+                                method: 'POST',
+                                body: JSON.stringify({
+                                    monto: formPago.monto.value,
+                                    metodoPago: formPago.metodoPago.value,
+                                    referencia: formPago.referencia.value.trim() || null
+                                })
+                            });
+                            mostrarMensajePanel('Tu pago fue registrado. Quedará confirmado cuando el administrador lo revise.', 'exito');
+                            await Promise.all([cargarPagoActual(), cargarHistorialPagos()]);
+                        } catch (err) {
+                            mostrarMensajePanel(err.message, 'error');
+                            boton.disabled = false;
+                        }
+                    });
+                }
+            } catch (err) {
+                const mensaje = /no tiene pagos registrados/i.test(err.message)
+                    ? 'Aún no tienes ningún cargo registrado. Cuando el Centro registre tu pago del mes, aparecerá aquí.'
+                    : err.message;
+                contenedor.innerHTML = `<p class="lista-vacia">${escapeHtml(mensaje)}</p>`;
+            }
+        }
+
+        async function cargarHistorialPagos() {
+            const pagina = await apiFetch('/alumno/pagos?sort=periodo,desc');
+            const lista = document.getElementById('lista-pagos-historial');
+            lista.innerHTML = '';
+
+            if (pagina.content.length === 0) {
+                lista.innerHTML = '<p class="lista-vacia">Aún no tienes historial de pagos.</p>';
+                return;
+            }
+
+            pagina.content.forEach(pago => {
+                const item = document.createElement('div');
+                item.className = 'clase-item';
+                item.innerHTML = `
+                    <div class="clase-info">
+                        <strong>${pago.periodo}</strong>
+                        <span>Monto: $${Number(pago.monto).toFixed(2)} · Pagado: $${Number(pago.montoPagado).toFixed(2)}</span>
+                    </div>
+                    <span class="estado-badge estado-${pago.estado}">${pago.estado}</span>
+                `;
+                lista.appendChild(item);
+            });
+        }
+
+        // ---------------------------------------------------------- bitácora
+
+        async function cargarBitacora() {
+            const contenedor = document.getElementById('bitacora-contenedor');
+            const bitacora = await apiFetch('/alumno/bitacora');
+            if (bitacora.googleDocsUrl) {
+                contenedor.innerHTML = `<a href="${escapeHtml(bitacora.googleDocsUrl)}" target="_blank" rel="noopener" class="bitacora-link"><i class="fa-solid fa-book-open"></i> Abrir mi bitácora</a>`;
+            } else {
+                contenedor.innerHTML = '<p class="lista-vacia">Tu profesor aún no ha compartido tu bitácora. Estará disponible aquí en cuanto lo haga.</p>';
+            }
+        }
+
+        // ---------------------------------------------------------- arranque
+
+        cargarPerfil().catch(err => console.error('Error al cargar el perfil:', err));
+        cargarResumenMes().catch(err => console.error('Error al cargar el resumen del mes:', err));
+        cargarClases().catch(err => {
+            document.getElementById('lista-clases').innerHTML = `<p class="lista-vacia">${escapeHtml(err.message)}</p>`;
+        });
+        cargarSolicitudes().catch(err => {
+            document.getElementById('lista-solicitudes').innerHTML = `<p class="lista-vacia">${escapeHtml(err.message)}</p>`;
+        });
+        cargarPagoActual();
+        cargarHistorialPagos().catch(err => {
+            document.getElementById('lista-pagos-historial').innerHTML = `<p class="lista-vacia">${escapeHtml(err.message)}</p>`;
+        });
+        cargarBitacora().catch(err => {
+            document.getElementById('bitacora-contenedor').innerHTML = `<p class="lista-vacia">${escapeHtml(err.message)}</p>`;
+        });
+    </script>
+</body>
+</html>

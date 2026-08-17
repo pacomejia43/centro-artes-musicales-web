@@ -1537,3 +1537,401 @@ background-position:
         pointer-events: auto;
     }
 }
+
+/* ==========================================
+   AUTENTICACIÓN — login / registro
+========================================== */
+
+.auth-section {
+    padding: 80px 20px;
+    min-height: 70vh;
+    background-color: var(--crema-fondo);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.auth-card {
+    width: 100%;
+    max-width: 420px;
+    background-color: var(--blanco);
+    border-radius: 20px;
+    padding: 45px 40px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+}
+
+.auth-card h2 {
+    color: var(--verde-oscuro);
+    text-align: center;
+    margin-bottom: 8px;
+}
+
+.auth-subtitulo {
+    text-align: center;
+    color: #777;
+    font-size: 0.9rem;
+    margin-bottom: 30px;
+}
+
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.auth-form label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--verde-texto);
+    margin-bottom: -10px;
+}
+
+.auth-form input {
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    outline: none;
+    font-family: inherit;
+    font-size: 0.95rem;
+    transition: border-color 0.2s;
+}
+
+.auth-form input:focus {
+    border-color: var(--verde-boton);
+}
+
+.auth-form button {
+    background-color: var(--verde-boton);
+    color: var(--blanco);
+    border: none;
+    padding: 13px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 0.95rem;
+    margin-top: 8px;
+    transition: background 0.3s;
+}
+
+.auth-form button:hover {
+    background-color: var(--verde-boton-hover);
+}
+
+.auth-form button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.auth-switch {
+    text-align: center;
+    margin-top: 22px;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.auth-switch a {
+    color: var(--verde-boton);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.auth-switch a:hover {
+    text-decoration: underline;
+}
+
+.auth-mensaje {
+    padding: 12px 15px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    margin-bottom: 16px;
+    display: none;
+}
+
+.auth-mensaje.visible {
+    display: block;
+}
+
+.auth-mensaje.error {
+    background-color: #fbe4e4;
+    color: #a13a3a;
+    border: 1px solid #f0c2c2;
+}
+
+.auth-mensaje.exito {
+    background-color: #e4f3e0;
+    color: var(--verde-texto);
+    border: 1px solid #c5e0bb;
+}
+
+
+/* ==========================================
+   PANEL DEL ALUMNO — mi-cuenta.html
+========================================== */
+
+.panel-section {
+    padding: 60px 20px 100px;
+    background-color: var(--crema-fondo);
+    min-height: 70vh;
+}
+
+.panel-container {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.panel-encabezado {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.panel-encabezado h1 {
+    color: var(--verde-oscuro);
+    font-size: 1.8rem;
+}
+
+.panel-encabezado p {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.btn-salir {
+    background: none;
+    border: 1px solid var(--verde-oscuro);
+    color: var(--verde-oscuro);
+    padding: 8px 18px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+}
+
+.btn-salir:hover {
+    background-color: var(--verde-oscuro);
+    color: var(--blanco);
+}
+
+.panel-card {
+    background-color: var(--blanco);
+    border-radius: 18px;
+    padding: 30px 35px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+}
+
+.panel-card h2 {
+    color: var(--verde-oscuro);
+    font-size: 1.15rem;
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.panel-card h2 i {
+    color: var(--verde-boton);
+}
+
+.resumen-mes-grid {
+    display: flex;
+    gap: 40px;
+    flex-wrap: wrap;
+}
+
+.resumen-mes-dato {
+    text-align: center;
+}
+
+.resumen-mes-dato .numero {
+    font-size: 2.6rem;
+    font-weight: 700;
+    color: var(--verde-boton);
+    line-height: 1;
+    display: block;
+}
+
+.resumen-mes-dato .etiqueta {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #888;
+}
+
+.lista-vacia {
+    color: #888;
+    font-size: 0.9rem;
+    font-style: italic;
+}
+
+.clase-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 16px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.clase-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.clase-info strong {
+    display: block;
+    color: var(--verde-texto);
+    margin-bottom: 3px;
+}
+
+.clase-info span {
+    font-size: 0.85rem;
+    color: #777;
+}
+
+.clase-acciones {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.estado-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+}
+
+.estado-PROGRAMADA { background-color: #dcecfb; color: #1c5a96; }
+.estado-REALIZADA   { background-color: #e0f3d9; color: #386024; }
+.estado-AUSENTE     { background-color: #fbe6d4; color: #a15a1c; }
+.estado-CANCELADA   { background-color: #ececec; color: #666; }
+.estado-REAGENDADA  { background-color: #ececec; color: #666; }
+.estado-PENDIENTE   { background-color: #fdf1cf; color: #93720c; }
+.estado-APROBADA    { background-color: #e0f3d9; color: #386024; }
+.estado-RECHAZADA   { background-color: #fbe4e4; color: #a13a3a; }
+.estado-PAGADO      { background-color: #e0f3d9; color: #386024; }
+.estado-PARCIAL     { background-color: #fdf1cf; color: #93720c; }
+
+.btn-chico {
+    background-color: var(--verde-boton);
+    color: var(--blanco);
+    border: none;
+    padding: 7px 16px;
+    border-radius: 20px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+    white-space: nowrap;
+}
+
+.btn-chico:hover {
+    background-color: var(--verde-boton-hover);
+}
+
+.btn-chico.secundario {
+    background: none;
+    border: 1px solid #ccc;
+    color: #555;
+}
+
+.btn-chico.secundario:hover {
+    background-color: #f0f0f0;
+}
+
+.form-inline {
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+    background-color: var(--crema-fondo);
+    border-radius: 12px;
+    padding: 18px;
+    margin-top: 12px;
+    width: 100%;
+}
+
+.form-inline.visible {
+    display: flex;
+}
+
+.form-inline input,
+.form-inline select {
+    padding: 10px 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 0.9rem;
+}
+
+.form-inline .form-inline-botones {
+    display: flex;
+    gap: 10px;
+}
+
+.pago-resumen {
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.pago-vencido-aviso {
+    background-color: #fbe4e4;
+    color: #a13a3a;
+    padding: 10px 15px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 18px;
+}
+
+.bitacora-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background-color: var(--verde-boton);
+    color: var(--blanco);
+    text-decoration: none;
+    padding: 12px 22px;
+    border-radius: 10px;
+    font-weight: 600;
+    transition: background 0.2s;
+}
+
+.bitacora-link:hover {
+    background-color: var(--verde-boton-hover);
+}
+
+@media (max-width: 768px) {
+    .auth-card {
+        padding: 32px 24px;
+    }
+
+    .panel-section {
+        padding: 30px 14px 60px;
+    }
+
+    .panel-card {
+        padding: 22px 20px;
+    }
+
+    .clase-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .clase-acciones {
+        width: 100%;
+        justify-content: space-between;
+    }
+}
