@@ -218,7 +218,6 @@
                 <div class="fila-acciones">
                     <a class="btn-chico secundario" id="alumno-link-pagos" href="#">Ver pagos</a>
                     <button type="button" class="btn-chico secundario" id="btn-reset-password">Restablecer contraseña</button>
-                    <button type="button" class="btn-chico secundario" id="btn-eliminar-alumno">Eliminar alumno</button>
                 </div>
             </div>
         </div>
@@ -434,20 +433,6 @@
                 mostrarMensaje('admin-mensaje', err.message, 'error');
             } finally {
                 boton.disabled = false;
-            }
-        });
-
-        // ---------------------------------------------------------- eliminar
-
-        document.getElementById('btn-eliminar-alumno').addEventListener('click', async () => {
-            if (!confirm('¿Eliminar a este alumno? Esta acción no se puede deshacer.')) return;
-            try {
-                await apiFetch(`/admin/alumnos/${alumnoActualId}`, { method: 'DELETE' });
-                cerrarModal('modal-alumno');
-                mostrarMensaje('admin-mensaje', 'Alumno eliminado.', 'exito');
-                cargarAlumnos(0);
-            } catch (err) {
-                mostrarMensaje('admin-mensaje', err.message, 'error');
             }
         });
 

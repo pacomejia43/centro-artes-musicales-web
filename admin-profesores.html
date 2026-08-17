@@ -227,16 +227,12 @@
                             <td>${badgeActivo(p.activo)}</td>
                             <td><div class="fila-acciones">
                                 <button type="button" class="btn-chico secundario" data-editar="${p.id}">Editar</button>
-                                <button type="button" class="btn-chico secundario" data-eliminar="${p.id}">Eliminar</button>
                             </div></td>
                         `;
                         tbody.appendChild(tr);
                     });
                     tbody.querySelectorAll('[data-editar]').forEach(btn => {
                         btn.addEventListener('click', () => abrirEdicionProfesor(btn.dataset.editar));
-                    });
-                    tbody.querySelectorAll('[data-eliminar]').forEach(btn => {
-                        btn.addEventListener('click', () => eliminarProfesor(btn.dataset.eliminar));
                     });
                 }
                 renderPaginacion(document.getElementById('paginacion-profesores'), pageResp, cargarProfesores);
@@ -313,19 +309,6 @@
                 boton.disabled = false;
             }
         });
-
-        // ---------------------------------------------------------- eliminar
-
-        async function eliminarProfesor(id) {
-            if (!confirm('¿Eliminar a este profesor? Esta acción no se puede deshacer.')) return;
-            try {
-                await apiFetch(`/admin/profesores/${id}`, { method: 'DELETE' });
-                mostrarMensaje('admin-mensaje', 'Profesor eliminado.', 'exito');
-                cargarProfesores(0);
-            } catch (err) {
-                mostrarMensaje('admin-mensaje', err.message, 'error');
-            }
-        }
 
         // ---------------------------------------------------------- arranque
 
