@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pagos — Panel de administración</title>
+    <link rel="stylesheet" href="css/estilos.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="contenedor-logo">
+            <div class="circulo-imagen">
+                <img src="img/logos/solologo.jpeg" alt="Centro de Artes Musicales" class="logo-img">
+            </div>
+            <span>CENTRO DE<br><strong>ARTES MUSICALES</strong></span>
+        </div>
+        <button class="menu-toggle" aria-label="Abrir menú">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+        <nav>
+            <ul>
+                <li><a href="index.html#inicio">Inicio</a></li>
+                <li><a href="nosotros.html">Nuestra Escuela</a></li>
+                <li><a href="index.html#cursos">Cursos</a></li>
+                <li><a href="profesores.html">Profesores</a></li>
+                <li><a href="noticias.html">Noticias</a></li>
+                <li><a href="index.html#contacto">Contacto</a></li>
+                <li class="nav-herramientas">
+                    <a href="#" class="nav-herramientas-link">
+                        Herramientas <i class="fa-solid fa-chevron-down fa-xs"></i>
+                    </a>
+                    <ul class="submenu-herramientas">
+                        <li><a href="metronomo.html"><i class="fa-solid fa-music"></i> Metrónomo</a></li>
+                    </ul>
+                </li>
+                <li id="nav-auth"><a href="login.html">Iniciar sesión</a></li>
+            </ul>
+        </nav>
+        <a href="https://wa.me/522226660582" class="btn-header" target="_blank">
+            <i class="fa-regular fa-calendar-check"></i> Clase muestra gratis
+        </a>
+    </header>
+
+    <section class="panel-section">
+        <div class="panel-container">
+
+            <div class="panel-encabezado">
+                <div>
+                    <h1 id="panel-nombre">Hola</h1>
+                    <p><a href="admin.html">← Panel de administración</a></p>
+                </div>
+                <button class="btn-salir" id="btn-salir"><i class="fa-solid fa-right-from-bracket"></i> Cerrar sesión</button>
+            </div>
+
+            <div class="auth-mensaje" id="admin-mensaje"></div>
+
+            <div class="panel-card">
+                <h2><i class="fa-solid fa-wallet"></i> Pagos</h2>
+
+                <div class="admin-toolbar">
+                    <div class="admin-toolbar-filtros">
+                        <select id="filtro-alumno"><option value="">Todos los alumnos</option></select>
+                        <select id="filtro-estado">
+                            <option value="">Todos los estados</option>
+                            <option value="PENDIENTE">PENDIENTE</option>
+                            <option value="PARCIAL">PARCIAL</option>
+                            <option value="PAGADO">PAGADO</option>
+                        </select>
+                        <input type="text" id="filtro-periodo" placeholder="Periodo, ej. 2026-08">
+                    </div>
+                    <button type="button" class="btn-chico" id="btn-nuevo-cargo"><i class="fa-solid fa-plus"></i> Nuevo cargo</button>
+                </div>
+
+                <div class="tabla-admin-wrapper">
+                    <table class="tabla-admin">
+                        <thead>
+                            <tr>
+                                <th>Alumno</th>
+                                <th>Periodo</th>
+                                <th>Monto</th>
+                                <th>Pagado</th>
+                                <th>Saldo</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabla-pagos-body">
+                            <tr><td colspan="7" class="lista-vacia">Cargando…</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="paginacion" id="paginacion-pagos"></div>
+            </div>
+
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-logo">
+                <div class="contenedor-logo">
+                    <div class="circulo-imagen">
+                        <img src="img/logos/solologo.jpeg" alt="Centro de Artes Musicales" class="logo-img">
+                    </div>
+                    <span>CENTRO DE<br><strong>ARTES MUSICALES</strong></span>
+                </div>
+                <p class="footer-slogan">Aprende música, transforma tu vida.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Enlaces</h4>
+                <ul>
+                    <li><a href="index.html#inicio">Inicio</a></li>
+                    <li><a href="nosotros.html">Nuestra Escuela</a></li>
+                    <li><a href="index.html#cursos">Cursos</a></li>
+                    <li><a href="profesores.html">Profesores</a></li>
+                    <li><a href="noticias.html">Noticias</a></li>
+                    <li><a href="index.html#contacto">Contacto</a></li>
+                </ul>
+            </div>
+            <div class="footer-contact">
+                <h4>Contáctanos</h4>
+                <p>
+                    <a href="tel:+522226660582" class="enlace-sin-estilo">
+                        <i class="fa-solid fa-phone"></i> 222 666 05 82
+                    </a>
+                </p>
+                <p>
+                    <a href="index.html#contacto" class="enlace-sin-estilo">
+                        <i class="fa-solid fa-envelope"></i> cedam.artes@gmail.com
+                    </a>
+                </p>
+            </div>
+            <div class="footer-social">
+                <h4>Síguenos</h4>
+                <a href="https://www.facebook.com/share/18ydQ4UuBZ/" target="_blank" class="social-icon social-facebook">
+                    <i class="fa-brands fa-facebook"></i>
+                </a>
+                <a href="https://www.instagram.com/cedam.arte/" target="_blank" class="social-icon social-instagram">
+                    <i class="fa-brands fa-instagram"></i>
+                </a>
+                <a href="https://www.youtube.com/watch?v=dVYHuefOyBA&list=PLnG2RNdqnCih6FNcX9n_os48BPmm_l773&pp=sAgC" target="_blank" class="social-icon social-youtube">
+                    <i class="fa-brands fa-youtube"></i>
+                </a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Centro de Artes Musicales. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- Modal: nuevo cargo -->
+    <div class="modal-overlay" id="modal-nuevo-cargo">
+        <div class="modal">
+            <button type="button" class="modal-cerrar" data-cerrar="modal-nuevo-cargo">&times;</button>
+            <h3>Nuevo cargo</h3>
+            <form class="modal-form" id="form-nuevo-cargo">
+                <label for="cp-alumnoId">Alumno</label>
+                <select id="cp-alumnoId" name="alumnoId" required><option value="">Cargando…</option></select>
+
+                <label for="cp-monto">Monto</label>
+                <input type="number" id="cp-monto" name="monto" step="0.01" min="0">
+
+                <label for="cp-periodo">Periodo</label>
+                <input type="text" id="cp-periodo" name="periodo" placeholder="Ej. 2026-08">
+
+                <label for="cp-fechaLimite">Fecha límite de pago</label>
+                <input type="date" id="cp-fechaLimite" name="fechaLimite" required>
+
+                <label for="cp-notas">Notas (opcional)</label>
+                <textarea id="cp-notas" name="notas" maxlength="500"></textarea>
+
+                <div class="form-inline-botones">
+                    <button type="submit" class="btn-chico">Crear cargo</button>
+                    <button type="button" class="btn-chico secundario" data-cerrar="modal-nuevo-cargo">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal: detalle de pago + transacciones -->
+    <div class="modal-overlay" id="modal-detalle-pago">
+        <div class="modal">
+            <button type="button" class="modal-cerrar" data-cerrar="modal-detalle-pago">&times;</button>
+            <h3 id="dp-titulo">Pago</h3>
+            <div id="dp-resumen"></div>
+
+            <div class="modal-seccion">
+                <h4>Transacciones</h4>
+                <div id="pago-transacciones"></div>
+                <div class="fila-acciones" style="margin-top:14px;">
+                    <button type="button" class="btn-chico secundario" id="btn-registrar-transaccion">Registrar transacción</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: registrar transacción -->
+    <div class="modal-overlay" id="modal-registrar-transaccion">
+        <div class="modal">
+            <button type="button" class="modal-cerrar" data-cerrar="modal-registrar-transaccion">&times;</button>
+            <h3>Registrar transacción</h3>
+            <form class="modal-form" id="form-registrar-transaccion">
+                <label for="rt-monto">Monto</label>
+                <input type="number" id="rt-monto" name="monto" step="0.01" min="0.01" required>
+
+                <label for="rt-fecha">Fecha</label>
+                <input type="date" id="rt-fecha" name="fecha">
+
+                <label for="rt-metodoPago">Método de pago</label>
+                <select id="rt-metodoPago" name="metodoPago" required>
+                    <option value="TRANSFERENCIA">Transferencia</option>
+                    <option value="EFECTIVO">Efectivo</option>
+                    <option value="TARJETA">Tarjeta</option>
+                    <option value="OTRO">Otro</option>
+                </select>
+
+                <label for="rt-referencia">Referencia (opcional)</label>
+                <input type="text" id="rt-referencia" name="referencia" maxlength="255">
+
+                <div class="form-inline-botones">
+                    <button type="submit" class="btn-chico">Registrar</button>
+                    <button type="button" class="btn-chico secundario" data-cerrar="modal-registrar-transaccion">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal: rechazar transacción -->
+    <div class="modal-overlay" id="modal-rechazar-transaccion">
+        <div class="modal">
+            <button type="button" class="modal-cerrar" data-cerrar="modal-rechazar-transaccion">&times;</button>
+            <h3>Rechazar transacción</h3>
+            <form class="modal-form" id="form-rechazar-transaccion">
+                <label for="rtx-motivoRechazo">Motivo del rechazo (opcional)</label>
+                <textarea id="rtx-motivoRechazo" name="motivoRechazo" maxlength="500"></textarea>
+                <div class="form-inline-botones">
+                    <button type="submit" class="btn-chico">Rechazar transacción</button>
+                    <button type="button" class="btn-chico secundario" data-cerrar="modal-rechazar-transaccion">Volver</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/script.js"></script>
+    <script src="js/admin.js"></script>
+    <script>
+        protegerPaginaAdmin();
+
+        let paginaActualPagos = 0;
+        let pagoActualId = null;
+        let transaccionActualId = null;
+
+        document.querySelectorAll('[data-cerrar]').forEach(btn => {
+            btn.addEventListener('click', () => cerrarModal(btn.dataset.cerrar));
+        });
+
+        // ---------------------------------------------------------- listado
+
+        async function cargarPagos(pagina = 0) {
+            paginaActualPagos = pagina;
+            const tbody = document.getElementById('tabla-pagos-body');
+            const qs = construirQueryString({
+                alumnoId: document.getElementById('filtro-alumno').value,
+                estado: document.getElementById('filtro-estado').value,
+                periodo: document.getElementById('filtro-periodo').value.trim(),
+                page: pagina,
+                size: 15,
+                sort: 'periodo,desc'
+            });
+            try {
+                const pageResp = await apiFetch('/admin/pagos' + qs);
+                tbody.innerHTML = '';
+                if (pageResp.content.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="7" class="lista-vacia">No se encontraron pagos.</td></tr>';
+                } else {
+                    pageResp.content.forEach(p => {
+                        const tr = document.createElement('tr');
+                        tr.innerHTML = `
+                            <td>${escapeHtml(p.alumnoNombre)}</td>
+                            <td>${escapeHtml(p.periodo)}</td>
+                            <td>$${Number(p.monto).toFixed(2)}</td>
+                            <td>$${Number(p.montoPagado).toFixed(2)}</td>
+                            <td>$${Number(p.saldoPendiente).toFixed(2)}${p.vencido ? ' <i class="fa-solid fa-triangle-exclamation" style="color:#a13a3a;" title="Vencido"></i>' : ''}</td>
+                            <td>${badgeEstado(p.estado)}</td>
+                            <td><div class="fila-acciones">
+                                <button type="button" class="btn-chico secundario" data-ver="${p.id}">Ver</button>
+                            </div></td>
+                        `;
+                        tbody.appendChild(tr);
+                    });
+                    tbody.querySelectorAll('[data-ver]').forEach(btn => {
+                        btn.addEventListener('click', () => abrirDetallePago(btn.dataset.ver));
+                    });
+                }
+                renderPaginacion(document.getElementById('paginacion-pagos'), pageResp, cargarPagos);
+            } catch (err) {
+                tbody.innerHTML = `<tr><td colspan="7" class="lista-vacia">${escapeHtml(err.message)}</td></tr>`;
+            }
+        }
+
+        ['filtro-alumno', 'filtro-estado'].forEach(id => {
+            document.getElementById(id).addEventListener('change', () => cargarPagos(0));
+        });
+        document.getElementById('filtro-periodo').addEventListener('input', debounce(() => cargarPagos(0), 350));
+
+        // ---------------------------------------------------------- nuevo cargo
+
+        document.getElementById('btn-nuevo-cargo').addEventListener('click', () => {
+            document.getElementById('form-nuevo-cargo').reset();
+            abrirModal('modal-nuevo-cargo');
+        });
+
+        document.getElementById('form-nuevo-cargo').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const form = e.target;
+            const alumnoId = form.alumnoId.value;
+            if (!alumnoId) {
+                mostrarMensaje('admin-mensaje', 'Selecciona un alumno.', 'error');
+                return;
+            }
+            const boton = form.querySelector('button[type="submit"]');
+            boton.disabled = true;
+            try {
+                await apiFetch(`/admin/alumnos/${alumnoId}/pagos`, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        monto: form.monto.value ? Number(form.monto.value) : null,
+                        periodo: form.periodo.value.trim() || null,
+                        fechaLimite: form.fechaLimite.value,
+                        notas: form.notas.value.trim() || null
+                    })
+                });
+                cerrarModal('modal-nuevo-cargo');
+                mostrarMensaje('admin-mensaje', 'Cargo creado correctamente.', 'exito');
+                cargarPagos(0);
+            } catch (err) {
+                mostrarMensaje('admin-mensaje', err.message, 'error');
+            } finally {
+                boton.disabled = false;
+            }
+        });
+
+        // ---------------------------------------------------------- detalle + transacciones
+
+        function renderTransacciones(pago) {
+            const cont = document.getElementById('pago-transacciones');
+            if (!pago.transacciones || pago.transacciones.length === 0) {
+                cont.innerHTML = '<p class="lista-vacia">Sin transacciones registradas.</p>';
+                return;
+            }
+            cont.innerHTML = pago.transacciones.map(t => `
+                <div class="clase-item">
+                    <div class="clase-info">
+                        <strong>$${Number(t.monto).toFixed(2)} · ${METODOS_PAGO[t.metodoPago] || t.metodoPago}</strong>
+                        <span>${formatearFecha(t.fecha)}${t.referencia ? ' · Ref: ' + escapeHtml(t.referencia) : ''}</span>
+                        ${t.motivoRechazo ? `<span style="display:block;color:#a13a3a;">Motivo del rechazo: ${escapeHtml(t.motivoRechazo)}</span>` : ''}
+                    </div>
+                    <div class="clase-acciones">
+                        ${badgeEstado(t.estado)}
+                        ${t.estado === 'PENDIENTE' ? `
+                            <button type="button" class="btn-chico" data-confirmar-tx="${t.id}">Confirmar</button>
+                            <button type="button" class="btn-chico secundario" data-rechazar-tx="${t.id}">Rechazar</button>
+                        ` : ''}
+                    </div>
+                </div>
+            `).join('');
+            cont.querySelectorAll('[data-confirmar-tx]').forEach(btn => {
+                btn.addEventListener('click', () => confirmarTransaccion(btn.dataset.confirmarTx));
+            });
+            cont.querySelectorAll('[data-rechazar-tx]').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    transaccionActualId = btn.dataset.rechazarTx;
+                    document.getElementById('form-rechazar-transaccion').reset();
+                    abrirModal('modal-rechazar-transaccion');
+                });
+            });
+        }
+
+        async function abrirDetallePago(id) {
+            try {
+                const pago = await apiFetch(`/admin/pagos/${id}`);
+                pagoActualId = pago.id;
+                document.getElementById('dp-titulo').textContent = `${pago.alumnoNombre} — ${pago.periodo}`;
+                document.getElementById('dp-resumen').innerHTML = `
+                    ${pago.vencido ? '<p class="pago-vencido-aviso"><i class="fa-solid fa-triangle-exclamation"></i> Este pago está vencido.</p>' : ''}
+                    <div class="pago-resumen">
+                        <div class="resumen-mes-dato"><span class="numero">$${Number(pago.monto).toFixed(2)}</span><span class="etiqueta">Monto</span></div>
+                        <div class="resumen-mes-dato"><span class="numero">$${Number(pago.montoPagado).toFixed(2)}</span><span class="etiqueta">Pagado</span></div>
+                        <div class="resumen-mes-dato"><span class="numero">$${Number(pago.saldoPendiente).toFixed(2)}</span><span class="etiqueta">Saldo</span></div>
+                    </div>
+                    <p>${badgeEstado(pago.estado)} &nbsp;vence el ${formatearFechaCorta(pago.fechaLimite)}</p>
+                `;
+                renderTransacciones(pago);
+                abrirModal('modal-detalle-pago');
+            } catch (err) {
+                mostrarMensaje('admin-mensaje', err.message, 'error');
+            }
+        }
+
+        async function refrescarDetallePago() {
+            const pago = await apiFetch(`/admin/pagos/${pagoActualId}`);
+            renderTransacciones(pago);
+            cargarPagos(paginaActualPagos);
+        }
+
+        document.getElementById('btn-registrar-transaccion').addEventListener('click', () => {
+            document.getElementById('form-registrar-transaccion').reset();
+            document.getElementById('rt-fecha').value = new Date().toISOString().slice(0, 10);
+            abrirModal('modal-registrar-transaccion');
+        });
+
+        document.getElementById('form-registrar-transaccion').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const form = e.target;
+            const boton = form.querySelector('button[type="submit"]');
+            boton.disabled = true;
+            try {
+                await apiFetch(`/admin/pagos/${pagoActualId}/transacciones`, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        monto: Number(form.monto.value),
+                        // El backend espera LocalDateTime completo, no solo la fecha del <input type="date">.
+                        fecha: form.fecha.value ? form.fecha.value + 'T00:00:00' : null,
+                        metodoPago: form.metodoPago.value,
+                        referencia: form.referencia.value.trim() || null
+                    })
+                });
+                cerrarModal('modal-registrar-transaccion');
+                mostrarMensaje('admin-mensaje', 'Transacción registrada.', 'exito');
+                await refrescarDetallePago();
+            } catch (err) {
+                mostrarMensaje('admin-mensaje', err.message, 'error');
+            } finally {
+                boton.disabled = false;
+            }
+        });
+
+        async function confirmarTransaccion(id) {
+            if (!confirm('¿Confirmar esta transacción?')) return;
+            try {
+                await apiFetch(`/admin/pagos/transacciones/${id}/confirmar`, { method: 'PUT' });
+                mostrarMensaje('admin-mensaje', 'Transacción confirmada.', 'exito');
+                await refrescarDetallePago();
+            } catch (err) {
+                mostrarMensaje('admin-mensaje', err.message, 'error');
+            }
+        }
+
+        document.getElementById('form-rechazar-transaccion').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const form = e.target;
+            const boton = form.querySelector('button[type="submit"]');
+            boton.disabled = true;
+            try {
+                await apiFetch(`/admin/pagos/transacciones/${transaccionActualId}/rechazar`, {
+                    method: 'PUT',
+                    body: JSON.stringify({ motivoRechazo: form.motivoRechazo.value.trim() || null })
+                });
+                cerrarModal('modal-rechazar-transaccion');
+                mostrarMensaje('admin-mensaje', 'Transacción rechazada.', 'exito');
+                await refrescarDetallePago();
+            } catch (err) {
+                mostrarMensaje('admin-mensaje', err.message, 'error');
+            } finally {
+                boton.disabled = false;
+            }
+        });
+
+        // ---------------------------------------------------------- arranque
+
+        const parametros = new URLSearchParams(window.location.search);
+        const alumnoIdInicial = parametros.get('alumnoId');
+
+        Promise.all([
+            poblarSelectAlumnos(document.getElementById('filtro-alumno'), alumnoIdInicial, 'Todos los alumnos'),
+            poblarSelectAlumnos(document.getElementById('cp-alumnoId'), null, 'Selecciona un alumno…')
+        ])
+            .then(() => cargarPagos(0))
+            .catch(err => {
+                document.getElementById('tabla-pagos-body').innerHTML = `<tr><td colspan="7" class="lista-vacia">${escapeHtml(err.message)}</td></tr>`;
+            });
+    </script>
+</body>
+</html>

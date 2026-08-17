@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alumnos — Panel de administración</title>
+    <link rel="stylesheet" href="css/estilos.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="contenedor-logo">
+            <div class="circulo-imagen">
+                <img src="img/logos/solologo.jpeg" alt="Centro de Artes Musicales" class="logo-img">
+            </div>
+            <span>CENTRO DE<br><strong>ARTES MUSICALES</strong></span>
+        </div>
+        <button class="menu-toggle" aria-label="Abrir menú">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+        <nav>
+            <ul>
+                <li><a href="index.html#inicio">Inicio</a></li>
+                <li><a href="nosotros.html">Nuestra Escuela</a></li>
+                <li><a href="index.html#cursos">Cursos</a></li>
+                <li><a href="profesores.html">Profesores</a></li>
+                <li><a href="noticias.html">Noticias</a></li>
+                <li><a href="index.html#contacto">Contacto</a></li>
+                <li class="nav-herramientas">
+                    <a href="#" class="nav-herramientas-link">
+                        Herramientas <i class="fa-solid fa-chevron-down fa-xs"></i>
+                    </a>
+                    <ul class="submenu-herramientas">
+                        <li><a href="metronomo.html"><i class="fa-solid fa-music"></i> Metrónomo</a></li>
+                    </ul>
+                </li>
+                <li id="nav-auth"><a href="login.html">Iniciar sesión</a></li>
+            </ul>
+        </nav>
+        <a href="https://wa.me/522226660582" class="btn-header" target="_blank">
+            <i class="fa-regular fa-calendar-check"></i> Clase muestra gratis
+        </a>
+    </header>
+
+    <section class="panel-section">
+        <div class="panel-container">
+
+            <div class="panel-encabezado">
+                <div>
+                    <h1 id="panel-nombre">Hola</h1>
+                    <p><a href="admin.html">← Panel de administración</a></p>
+                </div>
+                <button class="btn-salir" id="btn-salir"><i class="fa-solid fa-right-from-bracket"></i> Cerrar sesión</button>
+            </div>
+
+            <div class="auth-mensaje" id="admin-mensaje"></div>
+
+            <div class="panel-card">
+                <h2><i class="fa-solid fa-user-graduate"></i> Alumnos</h2>
+
+                <div class="admin-toolbar">
+                    <div class="admin-toolbar-filtros">
+                        <input type="text" id="filtro-nombre" placeholder="Buscar por nombre…">
+                        <select id="filtro-activo">
+                            <option value="">Todos los estados</option>
+                            <option value="true">Activos</option>
+                            <option value="false">Inactivos</option>
+                        </select>
+                    </div>
+                    <button type="button" class="btn-chico" id="btn-nuevo-alumno"><i class="fa-solid fa-plus"></i> Nuevo alumno</button>
+                </div>
+
+                <div class="tabla-admin-wrapper">
+                    <table class="tabla-admin">
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Email</th>
+                                <th>Teléfono</th>
+                                <th>Inscripción</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabla-alumnos-body">
+                            <tr><td colspan="6" class="lista-vacia">Cargando…</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="paginacion" id="paginacion-alumnos"></div>
+            </div>
+
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-logo">
+                <div class="contenedor-logo">
+                    <div class="circulo-imagen">
+                        <img src="img/logos/solologo.jpeg" alt="Centro de Artes Musicales" class="logo-img">
+                    </div>
+                    <span>CENTRO DE<br><strong>ARTES MUSICALES</strong></span>
+                </div>
+                <p class="footer-slogan">Aprende música, transforma tu vida.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Enlaces</h4>
+                <ul>
+                    <li><a href="index.html#inicio">Inicio</a></li>
+                    <li><a href="nosotros.html">Nuestra Escuela</a></li>
+                    <li><a href="index.html#cursos">Cursos</a></li>
+                    <li><a href="profesores.html">Profesores</a></li>
+                    <li><a href="noticias.html">Noticias</a></li>
+                    <li><a href="index.html#contacto">Contacto</a></li>
+                </ul>
+            </div>
+            <div class="footer-contact">
+                <h4>Contáctanos</h4>
+                <p>
+                    <a href="tel:+522226660582" class="enlace-sin-estilo">
+                        <i class="fa-solid fa-phone"></i> 222 666 05 82
+                    </a>
+                </p>
+                <p>
+                    <a href="index.html#contacto" class="enlace-sin-estilo">
+                        <i class="fa-solid fa-envelope"></i> cedam.artes@gmail.com
+                    </a>
+                </p>
+            </div>
+            <div class="footer-social">
+                <h4>Síguenos</h4>
+                <a href="https://www.facebook.com/share/18ydQ4UuBZ/" target="_blank" class="social-icon social-facebook">
+                    <i class="fa-brands fa-facebook"></i>
+                </a>
+                <a href="https://www.instagram.com/cedam.arte/" target="_blank" class="social-icon social-instagram">
+                    <i class="fa-brands fa-instagram"></i>
+                </a>
+                <a href="https://www.youtube.com/watch?v=dVYHuefOyBA&list=PLnG2RNdqnCih6FNcX9n_os48BPmm_l773&pp=sAgC" target="_blank" class="social-icon social-youtube">
+                    <i class="fa-brands fa-youtube"></i>
+                </a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Centro de Artes Musicales. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- Modal: nuevo alumno -->
+    <div class="modal-overlay" id="modal-nuevo-alumno">
+        <div class="modal">
+            <button type="button" class="modal-cerrar" data-cerrar="modal-nuevo-alumno">&times;</button>
+            <h3>Nuevo alumno</h3>
+            <form class="modal-form" id="form-nuevo-alumno">
+                <label for="na-email">Email</label>
+                <input type="email" id="na-email" name="email" required>
+
+                <label for="na-password">Contraseña inicial</label>
+                <input type="text" id="na-password" name="password" required minlength="6">
+
+                <label for="na-nombre">Nombre completo</label>
+                <input type="text" id="na-nombre" name="nombre" required>
+
+                <label for="na-telefono">Teléfono</label>
+                <input type="text" id="na-telefono" name="telefono">
+
+                <label for="na-fechaNacimiento">Fecha de nacimiento</label>
+                <input type="date" id="na-fechaNacimiento" name="fechaNacimiento">
+
+                <div class="form-inline-botones">
+                    <button type="submit" class="btn-chico">Crear alumno</button>
+                    <button type="button" class="btn-chico secundario" data-cerrar="modal-nuevo-alumno">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal: detalle / edición de alumno -->
+    <div class="modal-overlay" id="modal-alumno">
+        <div class="modal">
+            <button type="button" class="modal-cerrar" data-cerrar="modal-alumno">&times;</button>
+            <h3 id="modal-alumno-titulo">Alumno</h3>
+            <form class="modal-form" id="form-alumno">
+                <label>Email</label>
+                <input type="email" id="alumno-email" disabled>
+
+                <label for="al-nombre">Nombre completo</label>
+                <input type="text" id="al-nombre" name="nombre" required>
+
+                <label for="al-telefono">Teléfono</label>
+                <input type="text" id="al-telefono" name="telefono">
+
+                <label for="al-fechaNacimiento">Fecha de nacimiento</label>
+                <input type="date" id="al-fechaNacimiento" name="fechaNacimiento">
+
+                <label for="al-googleDocsUrl">Link de bitácora (Google Docs)</label>
+                <input type="url" id="al-googleDocsUrl" name="googleDocsUrl" placeholder="https://docs.google.com/…">
+                <div id="alumno-bitacora-link"></div>
+
+                <label style="display:flex; align-items:center; gap:8px;">
+                    <input type="checkbox" id="al-activo" name="activo" style="width:auto;"> Alumno activo
+                </label>
+
+                <div class="form-inline-botones">
+                    <button type="submit" class="btn-chico">Guardar cambios</button>
+                    <button type="button" class="btn-chico secundario" data-cerrar="modal-alumno">Cancelar</button>
+                </div>
+            </form>
+
+            <div class="modal-seccion" id="alumno-resumen-mes"></div>
+
+            <div class="modal-seccion">
+                <h4>Otras acciones</h4>
+                <div class="fila-acciones">
+                    <a class="btn-chico secundario" id="alumno-link-pagos" href="#">Ver pagos</a>
+                    <button type="button" class="btn-chico secundario" id="btn-reset-password">Restablecer contraseña</button>
+                    <button type="button" class="btn-chico secundario" id="btn-eliminar-alumno">Eliminar alumno</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: restablecer contraseña -->
+    <div class="modal-overlay" id="modal-reset-password">
+        <div class="modal">
+            <button type="button" class="modal-cerrar" data-cerrar="modal-reset-password">&times;</button>
+            <h3>Restablecer contraseña</h3>
+            <form class="modal-form" id="form-reset-password">
+                <label for="rp-password">Nueva contraseña</label>
+                <input type="text" id="rp-password" name="passwordNueva" required minlength="6">
+                <div class="form-inline-botones">
+                    <button type="submit" class="btn-chico">Guardar</button>
+                    <button type="button" class="btn-chico secundario" data-cerrar="modal-reset-password">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/script.js"></script>
+    <script src="js/admin.js"></script>
+    <script>
+        protegerPaginaAdmin();
+
+        let paginaActualAlumnos = 0;
+        let alumnoActualId = null;
+
+        document.querySelectorAll('[data-cerrar]').forEach(btn => {
+            btn.addEventListener('click', () => cerrarModal(btn.dataset.cerrar));
+        });
+
+        // ---------------------------------------------------------- listado
+
+        async function cargarAlumnos(pagina = 0) {
+            paginaActualAlumnos = pagina;
+            const tbody = document.getElementById('tabla-alumnos-body');
+            const qs = construirQueryString({
+                nombre: document.getElementById('filtro-nombre').value.trim(),
+                activo: document.getElementById('filtro-activo').value,
+                page: pagina,
+                size: 15
+            });
+            try {
+                const pageResp = await apiFetch('/admin/alumnos' + qs);
+                // El backend no soporta ordenar por "nombre" (falla con 500: "nombre" no es
+                // una propiedad directa de la entidad Alumno). Se ordena aquí en el cliente.
+                pageResp.content.sort((a, b) => a.nombre.localeCompare(b.nombre));
+                tbody.innerHTML = '';
+                if (pageResp.content.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="6" class="lista-vacia">No se encontraron alumnos.</td></tr>';
+                } else {
+                    pageResp.content.forEach(a => {
+                        const tr = document.createElement('tr');
+                        tr.innerHTML = `
+                            <td>${escapeHtml(a.nombre)}</td>
+                            <td>${escapeHtml(a.email)}</td>
+                            <td>${escapeHtml(a.telefono) || '—'}</td>
+                            <td>${formatearFechaCorta(a.fechaInscripcion)}</td>
+                            <td>${badgeActivo(a.activo)}</td>
+                            <td><div class="fila-acciones">
+                                <button type="button" class="btn-chico secundario" data-ver="${a.id}">Ver / editar</button>
+                            </div></td>
+                        `;
+                        tbody.appendChild(tr);
+                    });
+                    tbody.querySelectorAll('[data-ver]').forEach(btn => {
+                        btn.addEventListener('click', () => abrirDetalleAlumno(btn.dataset.ver));
+                    });
+                }
+                renderPaginacion(document.getElementById('paginacion-alumnos'), pageResp, cargarAlumnos);
+            } catch (err) {
+                tbody.innerHTML = `<tr><td colspan="6" class="lista-vacia">${escapeHtml(err.message)}</td></tr>`;
+            }
+        }
+
+        document.getElementById('filtro-nombre').addEventListener('input', debounce(() => cargarAlumnos(0), 350));
+        document.getElementById('filtro-activo').addEventListener('change', () => cargarAlumnos(0));
+
+        // ---------------------------------------------------------- crear
+
+        document.getElementById('btn-nuevo-alumno').addEventListener('click', () => {
+            document.getElementById('form-nuevo-alumno').reset();
+            abrirModal('modal-nuevo-alumno');
+        });
+
+        document.getElementById('form-nuevo-alumno').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const form = e.target;
+            const boton = form.querySelector('button[type="submit"]');
+            boton.disabled = true;
+            try {
+                await apiFetch('/admin/alumnos', {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        email: form.email.value.trim(),
+                        password: form.password.value,
+                        nombre: form.nombre.value.trim(),
+                        telefono: form.telefono.value.trim() || null,
+                        fechaNacimiento: form.fechaNacimiento.value || null
+                    })
+                });
+                cerrarModal('modal-nuevo-alumno');
+                mostrarMensaje('admin-mensaje', 'Alumno creado correctamente.', 'exito');
+                cargarAlumnos(0);
+            } catch (err) {
+                mostrarMensaje('admin-mensaje', err.message, 'error');
+            } finally {
+                boton.disabled = false;
+            }
+        });
+
+        // ---------------------------------------------------------- detalle / editar
+
+        async function abrirDetalleAlumno(id) {
+            try {
+                const alumno = await apiFetch(`/admin/alumnos/${id}`);
+                alumnoActualId = alumno.id;
+                document.getElementById('modal-alumno-titulo').textContent = alumno.nombre;
+                document.getElementById('alumno-email').value = alumno.email;
+                const form = document.getElementById('form-alumno');
+                form.nombre.value = alumno.nombre || '';
+                form.telefono.value = alumno.telefono || '';
+                form.fechaNacimiento.value = alumno.fechaNacimiento || '';
+                form.activo.checked = !!alumno.activo;
+
+                document.getElementById('alumno-link-pagos').href = `admin-pagos.html?alumnoId=${alumno.id}`;
+
+                // AlumnoResponse no trae googleDocsUrl: es un endpoint aparte.
+                form.googleDocsUrl.value = '';
+                document.getElementById('alumno-bitacora-link').innerHTML = '';
+                try {
+                    const bitacora = await apiFetch(`/admin/alumnos/${id}/bitacora`);
+                    form.googleDocsUrl.value = bitacora.googleDocsUrl || '';
+                    document.getElementById('alumno-bitacora-link').innerHTML = bitacora.googleDocsUrl
+                        ? `<a href="${escapeHtml(bitacora.googleDocsUrl)}" target="_blank" rel="noopener">Abrir bitácora actual ↗</a>`
+                        : '';
+                } catch (err) {
+                    console.error('Error al cargar bitácora:', err);
+                }
+
+                const resumenEl = document.getElementById('alumno-resumen-mes');
+                resumenEl.innerHTML = '<h4>Resumen del mes</h4><p class="lista-vacia">Cargando…</p>';
+                try {
+                    const resumen = await apiFetch(`/admin/alumnos/${id}/resumen-mes`);
+                    resumenEl.innerHTML = `
+                        <h4>Resumen del mes (${escapeHtml(resumen.periodo)})</h4>
+                        <div class="resumen-mes-grid">
+                            <div class="resumen-mes-dato"><span class="numero">${resumen.clasesTomadas}</span><span class="etiqueta">Tomadas</span></div>
+                            <div class="resumen-mes-dato"><span class="numero">${resumen.clasesDisponibles}</span><span class="etiqueta">Disponibles</span></div>
+                            <div class="resumen-mes-dato"><span class="numero">${resumen.limiteMensual}</span><span class="etiqueta">Límite</span></div>
+                        </div>
+                    `;
+                } catch (err) {
+                    resumenEl.innerHTML = `<h4>Resumen del mes</h4><p class="lista-vacia">${escapeHtml(err.message)}</p>`;
+                }
+
+                abrirModal('modal-alumno');
+            } catch (err) {
+                mostrarMensaje('admin-mensaje', err.message, 'error');
+            }
+        }
+
+        document.getElementById('form-alumno').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const form = e.target;
+            const boton = form.querySelector('button[type="submit"]');
+            boton.disabled = true;
+            try {
+                await apiFetch(`/admin/alumnos/${alumnoActualId}`, {
+                    method: 'PUT',
+                    body: JSON.stringify({
+                        nombre: form.nombre.value.trim(),
+                        telefono: form.telefono.value.trim() || null,
+                        fechaNacimiento: form.fechaNacimiento.value || null,
+                        googleDocsUrl: form.googleDocsUrl.value.trim() || null,
+                        activo: form.activo.checked
+                    })
+                });
+                cerrarModal('modal-alumno');
+                mostrarMensaje('admin-mensaje', 'Cambios guardados.', 'exito');
+                cargarAlumnos(paginaActualAlumnos);
+            } catch (err) {
+                mostrarMensaje('admin-mensaje', err.message, 'error');
+            } finally {
+                boton.disabled = false;
+            }
+        });
+
+        // ---------------------------------------------------------- restablecer contraseña
+
+        document.getElementById('btn-reset-password').addEventListener('click', () => {
+            document.getElementById('form-reset-password').reset();
+            cerrarModal('modal-alumno');
+            abrirModal('modal-reset-password');
+        });
+
+        document.getElementById('form-reset-password').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const form = e.target;
+            const boton = form.querySelector('button[type="submit"]');
+            boton.disabled = true;
+            try {
+                await apiFetch(`/admin/alumnos/${alumnoActualId}/password`, {
+                    method: 'PUT',
+                    body: JSON.stringify({ passwordNueva: form.passwordNueva.value })
+                });
+                cerrarModal('modal-reset-password');
+                mostrarMensaje('admin-mensaje', 'Contraseña restablecida.', 'exito');
+            } catch (err) {
+                mostrarMensaje('admin-mensaje', err.message, 'error');
+            } finally {
+                boton.disabled = false;
+            }
+        });
+
+        // ---------------------------------------------------------- eliminar
+
+        document.getElementById('btn-eliminar-alumno').addEventListener('click', async () => {
+            if (!confirm('¿Eliminar a este alumno? Esta acción no se puede deshacer.')) return;
+            try {
+                await apiFetch(`/admin/alumnos/${alumnoActualId}`, { method: 'DELETE' });
+                cerrarModal('modal-alumno');
+                mostrarMensaje('admin-mensaje', 'Alumno eliminado.', 'exito');
+                cargarAlumnos(0);
+            } catch (err) {
+                mostrarMensaje('admin-mensaje', err.message, 'error');
+            }
+        });
+
+        // ---------------------------------------------------------- arranque
+
+        cargarAlumnos(0);
+    </script>
+</body>
+</html>

@@ -38,6 +38,18 @@ function protegerPagina() {
     }
 }
 
+/** Redirige a login (sin sesión) o a mi-cuenta (sesión sin rol ADMIN). Llamar al inicio de admin*.html. */
+function protegerPaginaAdmin() {
+    if (!estaAutenticado()) {
+        window.location.href = 'login.html';
+        return;
+    }
+    const usuario = obtenerUsuario();
+    if (!usuario || usuario.role !== 'ADMIN') {
+        window.location.href = 'mi-cuenta.html';
+    }
+}
+
 /**
  * Envuelve fetch(): agrega el token si existe, parsea JSON, y convierte respuestas de error
  * del backend (formato ApiError: message + detalles) en un Error con mensaje legible.
@@ -54,7 +66,9 @@ async function apiFetch(path, options = {}) {
 
     const response = await fetch(API_BASE_URL + path, Object.assign({}, options, { headers }));
 
-    if (response.status === 401) {
+    // Un 401 solo significa "sesión expirada" si veníamos con token. Sin token (login/registro
+    // fallidos), el 401 es un rechazo normal de credenciales y debe mostrar el mensaje del backend.
+    if (response.status === 401 && token) {
         cerrarSesion();
         throw new Error('Tu sesión expiró, inicia sesión de nuevo.');
     }
@@ -88,8 +102,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (estaAutenticado()) {
         const usuario = obtenerUsuario();
-        enlace.textContent = (usuario && usuario.nombre) ? usuario.nombre.split(' ')[0] : 'Mi cuenta';
-        enlace.href = 'mi-cuenta.html';
+        if (usuario && usuario.role === 'ADMIN') {
+            enlace.textContent = 'Panel Admin';
+            enlace.href = 'admin.html';
+        } else {
+            enlace.textContent = (usuario && usuario.nombre) ? usuario.nombre.split(' ')[0] : 'Mi cuenta';
+            enlace.href = 'mi-cuenta.html';
+        }
     } else {
         enlace.textContent = 'Iniciar sesión';
         enlace.href = 'login.html';

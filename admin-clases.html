@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clases — Panel de administración</title>
+    <link rel="stylesheet" href="css/estilos.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="contenedor-logo">
+            <div class="circulo-imagen">
+                <img src="img/logos/solologo.jpeg" alt="Centro de Artes Musicales" class="logo-img">
+            </div>
+            <span>CENTRO DE<br><strong>ARTES MUSICALES</strong></span>
+        </div>
+        <button class="menu-toggle" aria-label="Abrir menú">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+        <nav>
+            <ul>
+                <li><a href="index.html#inicio">Inicio</a></li>
+                <li><a href="nosotros.html">Nuestra Escuela</a></li>
+                <li><a href="index.html#cursos">Cursos</a></li>
+                <li><a href="profesores.html">Profesores</a></li>
+                <li><a href="noticias.html">Noticias</a></li>
+                <li><a href="index.html#contacto">Contacto</a></li>
+                <li class="nav-herramientas">
+                    <a href="#" class="nav-herramientas-link">
+                        Herramientas <i class="fa-solid fa-chevron-down fa-xs"></i>
+                    </a>
+                    <ul class="submenu-herramientas">
+                        <li><a href="metronomo.html"><i class="fa-solid fa-music"></i> Metrónomo</a></li>
+                    </ul>
+                </li>
+                <li id="nav-auth"><a href="login.html">Iniciar sesión</a></li>
+            </ul>
+        </nav>
+        <a href="https://wa.me/522226660582" class="btn-header" target="_blank">
+            <i class="fa-regular fa-calendar-check"></i> Clase muestra gratis
+        </a>
+    </header>
+
+    <section class="panel-section">
+        <div class="panel-container">
+
+            <div class="panel-encabezado">
+                <div>
+                    <h1 id="panel-nombre">Hola</h1>
+                    <p><a href="admin.html">← Panel de administración</a></p>
+                </div>
+                <button class="btn-salir" id="btn-salir"><i class="fa-solid fa-right-from-bracket"></i> Cerrar sesión</button>
+            </div>
+
+            <div class="auth-mensaje" id="admin-mensaje"></div>
+
+            <div class="panel-card">
+                <h2><i class="fa-solid fa-music"></i> Clases</h2>
+
+                <div class="admin-toolbar">
+                    <div class="admin-toolbar-filtros">
+                        <select id="filtro-alumno"><option value="">Todos los alumnos</option></select>
+                        <select id="filtro-profesor"><option value="">Todos los profesores</option></select>
+                        <select id="filtro-estado">
+                            <option value="">Todos los estados</option>
+                            <option value="PROGRAMADA">PROGRAMADA</option>
+                            <option value="REALIZADA">REALIZADA</option>
+                            <option value="AUSENTE">AUSENTE</option>
+                            <option value="CANCELADA">CANCELADA</option>
+                            <option value="REAGENDADA">REAGENDADA</option>
+                        </select>
+                        <input type="datetime-local" id="filtro-desde" title="Desde">
+                        <input type="datetime-local" id="filtro-hasta" title="Hasta">
+                    </div>
+                    <button type="button" class="btn-chico" id="btn-nueva-clase"><i class="fa-solid fa-plus"></i> Programar clase</button>
+                </div>
+
+                <div class="tabla-admin-wrapper">
+                    <table class="tabla-admin">
+                        <thead>
+                            <tr>
+                                <th>Fecha y hora</th>
+                                <th>Alumno</th>
+                                <th>Profesor</th>
+                                <th>Instrumento</th>
+                                <th>Duración</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabla-clases-body">
+                            <tr><td colspan="7" class="lista-vacia">Cargando…</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="paginacion" id="paginacion-clases"></div>
+            </div>
+
+            <div class="panel-card" id="solicitudes">
+                <h2><i class="fa-solid fa-arrows-rotate"></i> Solicitudes de reagendación</h2>
+
+                <div class="admin-toolbar">
+                    <div class="admin-toolbar-filtros">
+                        <select id="filtro-solicitud-estado">
+                            <option value="PENDIENTE">Pendientes</option>
+                            <option value="">Todas</option>
+                            <option value="APROBADA">Aprobadas</option>
+                            <option value="RECHAZADA">Rechazadas</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="tabla-admin-wrapper">
+                    <table class="tabla-admin">
+                        <thead>
+                            <tr>
+                                <th>Alumno</th>
+                                <th>Fecha original</th>
+                                <th>Fecha propuesta</th>
+                                <th>Profesor propuesto</th>
+                                <th>Motivo</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabla-solicitudes-body">
+                            <tr><td colspan="7" class="lista-vacia">Cargando…</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="paginacion" id="paginacion-solicitudes"></div>
+            </div>
+
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-logo">
+                <div class="contenedor-logo">
+                    <div class="circulo-imagen">
+                        <img src="img/logos/solologo.jpeg" alt="Centro de Artes Musicales" class="logo-img">
+                    </div>
+                    <span>CENTRO DE<br><strong>ARTES MUSICALES</strong></span>
+                </div>
+                <p class="footer-slogan">Aprende música, transforma tu vida.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Enlaces</h4>
+                <ul>
+                    <li><a href="index.html#inicio">Inicio</a></li>
+                    <li><a href="nosotros.html">Nuestra Escuela</a></li>
+                    <li><a href="index.html#cursos">Cursos</a></li>
+                    <li><a href="profesores.html">Profesores</a></li>
+                    <li><a href="noticias.html">Noticias</a></li>
+                    <li><a href="index.html#contacto">Contacto</a></li>
+                </ul>
+            </div>
+            <div class="footer-contact">
+                <h4>Contáctanos</h4>
+                <p>
+                    <a href="tel:+522226660582" class="enlace-sin-estilo">
+                        <i class="fa-solid fa-phone"></i> 222 666 05 82
+                    </a>
+                </p>
+                <p>
+                    <a href="index.html#contacto" class="enlace-sin-estilo">
+                        <i class="fa-solid fa-envelope"></i> cedam.artes@gmail.com
+                    </a>
+                </p>
+            </div>
+            <div class="footer-social">
+                <h4>Síguenos</h4>
+                <a href="https://www.facebook.com/share/18ydQ4UuBZ/" target="_blank" class="social-icon social-facebook">
+                    <i class="fa-brands fa-facebook"></i>
+                </a>
+                <a href="https://www.instagram.com/cedam.arte/" target="_blank" class="social-icon social-instagram">
+                    <i class="fa-brands fa-instagram"></i>
+                </a>
+                <a href="https://www.youtube.com/watch?v=dVYHuefOyBA&list=PLnG2RNdqnCih6FNcX9n_os48BPmm_l773&pp=sAgC" target="_blank" class="social-icon social-youtube">
+                    <i class="fa-brands fa-youtube"></i>
+                </a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Centro de Artes Musicales. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- Modal: programar clase -->
+    <div class="modal-overlay" id="modal-nueva-clase">
+        <div class="modal">
+            <button type="button" class="modal-cerrar" data-cerrar="modal-nueva-clase">&times;</button>
+            <h3>Programar clase</h3>
+            <form class="modal-form" id="form-nueva-clase">
+                <label for="nc-alumnoId">Alumno</label>
+                <select id="nc-alumnoId" name="alumnoId" required><option value="">Cargando…</option></select>
+
+                <label for="nc-profesorId">Profesor</label>
+                <select id="nc-profesorId" name="profesorId" required><option value="">Cargando…</option></select>
+
+                <label for="nc-instrumento">Instrumento</label>
+                <select id="nc-instrumento" name="instrumento" required></select>
+
+                <label for="nc-fechaHora">Fecha y hora</label>
+                <input type="datetime-local" id="nc-fechaHora" name="fechaHora" required>
+
+                <label for="nc-duracionMinutos">Duración (minutos)</label>
+                <input type="number" id="nc-duracionMinutos" name="duracionMinutos" min="15" step="5" placeholder="45">
+
+                <label for="nc-notas">Notas (opcional)</label>
+                <textarea id="nc-notas" name="notas" maxlength="500"></textarea>
+
+                <div class="form-inline-botones">
+                    <button type="submit" class="btn-chico">Programar</button>
+                    <button type="button" class="btn-chico secundario" data-cerrar="modal-nueva-clase">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal: marcar asistencia -->
+    <div class="modal-overlay" id="modal-asistencia">
+        <div class="modal">
+            <button type="button" class="modal-cerrar" data-cerrar="modal-asistencia">&times;</button>
+            <h3>Marcar asistencia</h3>
+            <form class="modal-form" id="form-asistencia">
+                <label for="as-estado">Nuevo estado</label>
+                <select id="as-estado" name="estado" required>
+                    <option value="REALIZADA">REALIZADA</option>
+                    <option value="AUSENTE">AUSENTE</option>
+                    <option value="PROGRAMADA">PROGRAMADA</option>
+                    <option value="CANCELADA">CANCELADA</option>
+                    <option value="REAGENDADA">REAGENDADA</option>
+                </select>
+                <div class="form-inline-botones">
+                    <button type="submit" class="btn-chico">Guardar</button>
+                    <button type="button" class="btn-chico secundario" data-cerrar="modal-asistencia">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal: cancelar clase -->
+    <div class="modal-overlay" id="modal-cancelar-clase">
+        <div class="modal">
+            <button type="button" class="modal-cerrar" data-cerrar="modal-cancelar-clase">&times;</button>
+            <h3>Cancelar clase</h3>
+            <form class="modal-form" id="form-cancelar-clase">
+                <label for="cc-motivo">Motivo (opcional)</label>
+                <textarea id="cc-motivo" name="motivo" maxlength="500"></textarea>
+                <div class="form-inline-botones">
+                    <button type="submit" class="btn-chico">Cancelar clase</button>
+                    <button type="button" class="btn-chico secundario" data-cerrar="modal-cancelar-clase">Volver</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal: reagendar clase -->
+    <div class="modal-overlay" id="modal-reagendar-clase">
+        <div class="modal">
+            <button type="button" class="modal-cerrar" data-cerrar="modal-reagendar-clase">&times;</button>
+            <h3>Reagendar clase</h3>
+            <form class="modal-form" id="form-reagendar-clase">
+                <label for="rc-fechaHoraPropuesta">Nueva fecha y hora</label>
+                <input type="datetime-local" id="rc-fechaHoraPropuesta" name="fechaHoraPropuesta" required>
+
+                <label for="rc-profesorId">Profesor (opcional, si cambia)</label>
+                <select id="rc-profesorId" name="profesorId"><option value="">(mismo profesor)</option></select>
+
+                <div class="form-inline-botones">
+                    <button type="submit" class="btn-chico">Reagendar</button>
+                    <button type="button" class="btn-chico secundario" data-cerrar="modal-reagendar-clase">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal: rechazar solicitud de reagendación -->
+    <div class="modal-overlay" id="modal-rechazar-solicitud">
+        <div class="modal">
+            <button type="button" class="modal-cerrar" data-cerrar="modal-rechazar-solicitud">&times;</button>
+            <h3>Rechazar solicitud</h3>
+            <form class="modal-form" id="form-rechazar-solicitud">
+                <label for="rs-motivoRechazo">Motivo del rechazo (opcional)</label>
+                <textarea id="rs-motivoRechazo" name="motivoRechazo" maxlength="500"></textarea>
+                <div class="form-inline-botones">
+                    <button type="submit" class="btn-chico">Rechazar solicitud</button>
+                    <button type="button" class="btn-chico secundario" data-cerrar="modal-rechazar-solicitud">Volver</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/script.js"></script>
+    <script src="js/admin.js"></script>
+    <script>
+        protegerPaginaAdmin();
+
+        let paginaActualClases = 0;
+        let paginaActualSolicitudes = 0;
+        let claseActualId = null;
+        let solicitudActualId = null;
+        let profesoresMapa = {};
+
+        document.querySelectorAll('[data-cerrar]').forEach(btn => {
+            btn.addEventListener('click', () => cerrarModal(btn.dataset.cerrar));
+        });
+
+        // select de instrumento (una sola vez)
+        document.getElementById('nc-instrumento').innerHTML = Object.keys(INSTRUMENTOS).map(key =>
+            `<option value="${key}">${INSTRUMENTOS[key]}</option>`
+        ).join('');
+
+        // ---------------------------------------------------------- listas de apoyo (alumnos/profesores activos)
+
+        async function cargarListasApoyo() {
+            const [alumnosPage, profesoresPage] = await Promise.all([
+                // Sin "sort=nombre,asc": el backend no soporta ordenar alumnos por nombre
+                // (500, "nombre" no es propiedad directa de la entidad Alumno).
+                apiFetch('/admin/alumnos?activo=true&size=200'),
+                apiFetch('/admin/profesores?activo=true&size=200&sort=nombreCompleto,asc')
+            ]);
+            alumnosPage.content.sort((a, b) => a.nombre.localeCompare(b.nombre));
+            profesoresMapa = {};
+            profesoresPage.content.forEach(p => { profesoresMapa[p.id] = p.nombreCompleto; });
+
+            const opcionesAlumnos = alumnosPage.content.map(a => `<option value="${a.id}">${escapeHtml(a.nombre)}</option>`).join('');
+            const opcionesProfesores = profesoresPage.content.map(p => `<option value="${p.id}">${escapeHtml(p.nombreCompleto)}</option>`).join('');
+
+            document.getElementById('filtro-alumno').innerHTML = '<option value="">Todos los alumnos</option>' + opcionesAlumnos;
+            document.getElementById('filtro-profesor').innerHTML = '<option value="">Todos los profesores</option>' + opcionesProfesores;
+            document.getElementById('nc-alumnoId').innerHTML = '<option value="">Selecciona…</option>' + opcionesAlumnos;
+            document.getElementById('nc-profesorId').innerHTML = '<option value="">Selecciona…</option>' + opcionesProfesores;
+            document.getElementById('rc-profesorId').innerHTML = '<option value="">(mismo profesor)</option>' + opcionesProfesores;
+        }
+
+        // ---------------------------------------------------------- listado de clases
+
+        async function cargarClases(pagina = 0) {
+            paginaActualClases = pagina;
+            const tbody = document.getElementById('tabla-clases-body');
+            const qs = construirQueryString({
+                alumnoId: document.getElementById('filtro-alumno').value,
+                profesorId: document.getElementById('filtro-profesor').value,
+                estado: document.getElementById('filtro-estado').value,
+                desde: document.getElementById('filtro-desde').value,
+                hasta: document.getElementById('filtro-hasta').value,
+                page: pagina,
+                size: 15,
+                sort: 'fechaHora,desc'
+            });
+            try {
+                const pageResp = await apiFetch('/admin/clases' + qs);
+                tbody.innerHTML = '';
+                if (pageResp.content.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="7" class="lista-vacia">No se encontraron clases.</td></tr>';
+                } else {
+                    pageResp.content.forEach(c => {
+                        const tr = document.createElement('tr');
+                        const puedeAccionar = c.estado === 'PROGRAMADA';
+                        tr.innerHTML = `
+                            <td>${formatearFecha(c.fechaHora)}</td>
+                            <td>${escapeHtml(c.alumnoNombre)}</td>
+                            <td>${escapeHtml(c.profesorNombre)}</td>
+                            <td>${escapeHtml(INSTRUMENTOS[c.instrumento] || c.instrumento)}</td>
+                            <td>${c.duracionMinutos ? c.duracionMinutos + ' min' : '—'}</td>
+                            <td>${badgeEstado(c.estado)}</td>
+                            <td><div class="fila-acciones">
+                                ${puedeAccionar ? `
+                                    <button type="button" class="btn-chico secundario" data-asistencia="${c.id}">Asistencia</button>
+                                    <button type="button" class="btn-chico secundario" data-reagendar="${c.id}">Reagendar</button>
+                                    <button type="button" class="btn-chico secundario" data-cancelar="${c.id}">Cancelar</button>
+                                ` : ''}
+                            </div></td>
+                        `;
+                        tbody.appendChild(tr);
+                    });
+                    tbody.querySelectorAll('[data-asistencia]').forEach(btn => {
+                        btn.addEventListener('click', () => {
+                            claseActualId = btn.dataset.asistencia;
+                            document.getElementById('form-asistencia').reset();
+                            abrirModal('modal-asistencia');
+                        });
+                    });
+                    tbody.querySelectorAll('[data-reagendar]').forEach(btn => {
+                        btn.addEventListener('click', () => {
+                            claseActualId = btn.dataset.reagendar;
+                            document.getElementById('form-reagendar-clase').reset();
+                            abrirModal('modal-reagendar-clase');
+                        });
+                    });
+                    tbody.querySelectorAll('[data-cancelar]').forEach(btn => {
+                        btn.addEventListener('click', () => {
+                            claseActualId = btn.dataset.cancelar;
+                            document.getElementById('form-cancelar-clase').reset();
+                            abrirModal('modal-cancelar-clase');
+                        });
+                    });
+                }
+                renderPaginacion(document.getElementById('paginacion-clases'), pageResp, cargarClases);
+            } catch (err) {
+                tbody.innerHTML = `<tr><td colspan="7" class="lista-vacia">${escapeHtml(err.message)}</td></tr>`;
+            }
+        }
+
+        ['filtro-alumno', 'filtro-profesor', 'filtro-estado', 'filtro-desde', 'filtro-hasta'].forEach(id => {
+            document.getElementById(id).addEventListener('change', () => cargarClases(0));
+        });
+
+        // ---------------------------------------------------------- programar clase
+
+        document.getElementById('btn-nueva-clase').addEventListener('click', () => {
+            document.getElementById('form-nueva-clase').reset();
+            abrirModal('modal-nueva-clase');
+        });
+
+        document.getElementById('form-nueva-clase').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const form = e.target;
+            const boton = form.querySelector('button[type="submit"]');
+            boton.disabled = true;
+            try {
+                await apiFetch('/admin/clases', {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        alumnoId: Number(form.alumnoId.value),
+                        profesorId: Number(form.profesorId.value),
+                        instrumento: form.instrumento.value,
+                        fechaHora: form.fechaHora.value,
+                        duracionMinutos: form.duracionMinutos.value ? Number(form.duracionMinutos.value) : null,
+                        notas: form.notas.value.trim() || null
+                    })
+                });
+                cerrarModal('modal-nueva-clase');
+                mostrarMensaje('admin-mensaje', 'Clase programada correctamente.', 'exito');
+                cargarClases(0);
+            } catch (err) {
+                mostrarMensaje('admin-mensaje', err.message, 'error');
+            } finally {
+                boton.disabled = false;
+            }
+        });
+
+        // ---------------------------------------------------------- asistencia
+
+        document.getElementById('form-asistencia').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const form = e.target;
+            const boton = form.querySelector('button[type="submit"]');
+            boton.disabled = true;
+            try {
+                await apiFetch(`/admin/clases/${claseActualId}/asistencia`, {
+                    method: 'PUT',
+                    body: JSON.stringify({ estado: form.estado.value })
+                });
+                cerrarModal('modal-asistencia');
+                mostrarMensaje('admin-mensaje', 'Asistencia actualizada.', 'exito');
+                cargarClases(paginaActualClases);
+            } catch (err) {
+                mostrarMensaje('admin-mensaje', err.message, 'error');
+            } finally {
+                boton.disabled = false;
+            }
+        });
+
+        // ---------------------------------------------------------- cancelar
+
+        document.getElementById('form-cancelar-clase').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const form = e.target;
+            const boton = form.querySelector('button[type="submit"]');
+            boton.disabled = true;
+            try {
+                await apiFetch(`/admin/clases/${claseActualId}/cancelar`, {
+                    method: 'PUT',
+                    body: JSON.stringify({ motivo: form.motivo.value.trim() || null })
+                });
+                cerrarModal('modal-cancelar-clase');
+                mostrarMensaje('admin-mensaje', 'Clase cancelada.', 'exito');
+                cargarClases(paginaActualClases);
+            } catch (err) {
+                mostrarMensaje('admin-mensaje', err.message, 'error');
+            } finally {
+                boton.disabled = false;
+            }
+        });
+
+        // ---------------------------------------------------------- reagendar (desde admin)
+
+        document.getElementById('form-reagendar-clase').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const form = e.target;
+            const boton = form.querySelector('button[type="submit"]');
+            boton.disabled = true;
+            try {
+                await apiFetch(`/admin/clases/${claseActualId}/reagendar`, {
+                    method: 'PUT',
+                    body: JSON.stringify({
+                        fechaHoraPropuesta: form.fechaHoraPropuesta.value,
+                        profesorId: form.profesorId.value ? Number(form.profesorId.value) : null
+                    })
+                });
+                cerrarModal('modal-reagendar-clase');
+                mostrarMensaje('admin-mensaje', 'Clase reagendada.', 'exito');
+                cargarClases(paginaActualClases);
+            } catch (err) {
+                mostrarMensaje('admin-mensaje', err.message, 'error');
+            } finally {
+                boton.disabled = false;
+            }
+        });
+
+        // ---------------------------------------------------------- solicitudes de reagendación
+
+        async function cargarSolicitudes(pagina = 0) {
+            paginaActualSolicitudes = pagina;
+            const tbody = document.getElementById('tabla-solicitudes-body');
+            const qs = construirQueryString({
+                estado: document.getElementById('filtro-solicitud-estado').value,
+                page: pagina,
+                size: 15,
+                sort: 'id,desc'
+            });
+            try {
+                const pageResp = await apiFetch('/admin/solicitudes-reagendacion' + qs);
+                tbody.innerHTML = '';
+                if (pageResp.content.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="7" class="lista-vacia">No hay solicitudes.</td></tr>';
+                } else {
+                    pageResp.content.forEach(s => {
+                        const tr = document.createElement('tr');
+                        const puedeAccionar = s.estado === 'PENDIENTE';
+                        tr.innerHTML = `
+                            <td>${escapeHtml(s.alumnoNombre)}</td>
+                            <td>${formatearFecha(s.fechaHoraOriginal)}</td>
+                            <td>${formatearFecha(s.fechaHoraPropuesta)}</td>
+                            <td>${s.profesorPropuestoId ? escapeHtml(profesoresMapa[s.profesorPropuestoId] || ('Profesor #' + s.profesorPropuestoId)) : '—'}</td>
+                            <td>${s.motivo ? escapeHtml(s.motivo) : '—'}${s.motivoRechazo ? `<br><span style="color:#a13a3a;">Rechazo: ${escapeHtml(s.motivoRechazo)}</span>` : ''}</td>
+                            <td>${badgeEstado(s.estado)}</td>
+                            <td><div class="fila-acciones">
+                                ${puedeAccionar ? `
+                                    <button type="button" class="btn-chico" data-aprobar="${s.id}">Aprobar</button>
+                                    <button type="button" class="btn-chico secundario" data-rechazar-solicitud="${s.id}">Rechazar</button>
+                                ` : ''}
+                            </div></td>
+                        `;
+                        tbody.appendChild(tr);
+                    });
+                    tbody.querySelectorAll('[data-aprobar]').forEach(btn => {
+                        btn.addEventListener('click', () => aprobarSolicitud(btn.dataset.aprobar));
+                    });
+                    tbody.querySelectorAll('[data-rechazar-solicitud]').forEach(btn => {
+                        btn.addEventListener('click', () => {
+                            solicitudActualId = btn.dataset.rechazarSolicitud;
+                            document.getElementById('form-rechazar-solicitud').reset();
+                            abrirModal('modal-rechazar-solicitud');
+                        });
+                    });
+                }
+                renderPaginacion(document.getElementById('paginacion-solicitudes'), pageResp, cargarSolicitudes);
+            } catch (err) {
+                tbody.innerHTML = `<tr><td colspan="7" class="lista-vacia">${escapeHtml(err.message)}</td></tr>`;
+            }
+        }
+
+        document.getElementById('filtro-solicitud-estado').addEventListener('change', () => cargarSolicitudes(0));
+
+        async function aprobarSolicitud(id) {
+            if (!confirm('¿Aprobar esta solicitud de reagendación? Se creará una nueva clase con la fecha propuesta.')) return;
+            try {
+                await apiFetch(`/admin/solicitudes-reagendacion/${id}/aprobar`, { method: 'PUT' });
+                mostrarMensaje('admin-mensaje', 'Solicitud aprobada.', 'exito');
+                cargarSolicitudes(paginaActualSolicitudes);
+                cargarClases(paginaActualClases);
+            } catch (err) {
+                mostrarMensaje('admin-mensaje', err.message, 'error');
+            }
+        }
+
+        document.getElementById('form-rechazar-solicitud').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const form = e.target;
+            const boton = form.querySelector('button[type="submit"]');
+            boton.disabled = true;
+            try {
+                await apiFetch(`/admin/solicitudes-reagendacion/${solicitudActualId}/rechazar`, {
+                    method: 'PUT',
+                    body: JSON.stringify({ motivoRechazo: form.motivoRechazo.value.trim() || null })
+                });
+                cerrarModal('modal-rechazar-solicitud');
+                mostrarMensaje('admin-mensaje', 'Solicitud rechazada.', 'exito');
+                cargarSolicitudes(paginaActualSolicitudes);
+            } catch (err) {
+                mostrarMensaje('admin-mensaje', err.message, 'error');
+            } finally {
+                boton.disabled = false;
+            }
+        });
+
+        // ---------------------------------------------------------- arranque
+
+        cargarListasApoyo()
+            .then(() => cargarClases(0))
+            .catch(err => {
+                document.getElementById('tabla-clases-body').innerHTML = `<tr><td colspan="7" class="lista-vacia">${escapeHtml(err.message)}</td></tr>`;
+            });
+        cargarSolicitudes(0);
+    </script>
+</body>
+</html>

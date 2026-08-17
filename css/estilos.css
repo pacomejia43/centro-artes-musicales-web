@@ -1935,3 +1935,336 @@ background-position:
         justify-content: space-between;
     }
 }
+
+
+/* ==========================================
+   PANEL ADMIN — admin.html y admin-*.html
+========================================== */
+
+.estado-CONFIRMADA { background-color: #e0f3d9; color: #386024; }
+.estado-ACTIVO      { background-color: #e0f3d9; color: #386024; }
+.estado-INACTIVO    { background-color: #ececec; color: #666; }
+
+/* --- barra de herramientas: búsqueda + filtros + botón nuevo --- */
+
+.admin-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 22px;
+}
+
+.admin-toolbar-filtros {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    flex: 1;
+}
+
+.admin-toolbar input,
+.admin-toolbar select {
+    padding: 9px 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 0.88rem;
+    outline: none;
+}
+
+.admin-toolbar input:focus,
+.admin-toolbar select:focus {
+    border-color: var(--verde-boton);
+}
+
+.admin-toolbar input[type="text"],
+.admin-toolbar input[type="search"] {
+    min-width: 200px;
+}
+
+/* --- tabla --- */
+
+.tabla-admin-wrapper {
+    overflow-x: auto;
+}
+
+.tabla-admin {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+}
+
+.tabla-admin th {
+    text-align: left;
+    padding: 12px 14px;
+    color: var(--verde-oscuro);
+    border-bottom: 2px solid #eee;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+}
+
+.tabla-admin td {
+    padding: 12px 14px;
+    border-bottom: 1px solid #eee;
+    vertical-align: middle;
+}
+
+.tabla-admin tbody tr:hover {
+    background-color: var(--crema-fondo);
+}
+
+.tabla-admin tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.fila-acciones {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+}
+
+/* --- paginación --- */
+
+.paginacion {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 18px;
+    margin-top: 22px;
+    font-size: 0.85rem;
+    color: #666;
+}
+
+/* --- chips (especialidades de profesores) --- */
+
+.chip-lista {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.chip {
+    display: inline-block;
+    background-color: var(--crema-fondo);
+    color: var(--verde-texto);
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.checkbox-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px 16px;
+}
+
+.checkbox-grid label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.88rem;
+    font-weight: 400;
+    color: var(--texto-oscuro);
+    margin-bottom: 0;
+}
+
+.checkbox-grid input[type="checkbox"] {
+    width: auto;
+    accent-color: var(--verde-boton);
+}
+
+/* --- modal (crear/editar/detalle) --- */
+
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(17, 33, 23, 0.55);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    z-index: 1000;
+}
+
+.modal-overlay.visible {
+    display: flex;
+}
+
+.modal {
+    background-color: var(--blanco);
+    border-radius: 18px;
+    padding: 32px 36px;
+    max-width: 540px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
+    position: relative;
+}
+
+.modal h3 {
+    color: var(--verde-oscuro);
+    font-size: 1.25rem;
+    padding-right: 24px;
+}
+
+.modal-cerrar {
+    position: absolute;
+    top: 20px;
+    right: 22px;
+    background: none;
+    border: none;
+    font-size: 1.4rem;
+    line-height: 1;
+    color: #999;
+    cursor: pointer;
+}
+
+.modal-cerrar:hover {
+    color: var(--verde-oscuro);
+}
+
+.modal-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 18px;
+}
+
+.modal-form label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--verde-texto);
+    margin-bottom: -10px;
+}
+
+.modal-form input,
+.modal-form select,
+.modal-form textarea {
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    outline: none;
+    font-family: inherit;
+    font-size: 0.95rem;
+    width: 100%;
+    transition: border-color 0.2s;
+}
+
+.modal-form input:focus,
+.modal-form select:focus,
+.modal-form textarea:focus {
+    border-color: var(--verde-boton);
+}
+
+.modal-form textarea {
+    resize: vertical;
+    min-height: 70px;
+}
+
+.modal-seccion {
+    margin-top: 22px;
+    padding-top: 18px;
+    border-top: 1px solid #eee;
+}
+
+.modal-seccion h4 {
+    color: var(--verde-oscuro);
+    font-size: 0.95rem;
+    margin-bottom: 12px;
+}
+
+/* --- dashboard (admin.html) --- */
+
+.admin-nav-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.admin-nav-card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    background-color: var(--blanco);
+    border-radius: 18px;
+    padding: 26px 24px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+    text-decoration: none;
+    color: var(--texto-oscuro);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.admin-nav-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+.admin-nav-card i {
+    font-size: 1.6rem;
+    color: var(--verde-boton);
+}
+
+.admin-nav-card strong {
+    color: var(--verde-oscuro);
+    font-size: 1.05rem;
+}
+
+.admin-nav-card span {
+    font-size: 0.85rem;
+    color: #777;
+}
+
+.alerta-atencion {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    background-color: #fdf1cf;
+    color: #93720c;
+    padding: 16px 20px;
+    border-radius: 12px;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.alerta-atencion a {
+    color: #93720c;
+}
+
+@media (max-width: 768px) {
+    .admin-toolbar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .admin-toolbar-filtros {
+        flex-direction: column;
+    }
+
+    .admin-toolbar-filtros input,
+    .admin-toolbar-filtros select {
+        width: 100%;
+    }
+
+    .modal {
+        padding: 26px 22px;
+    }
+
+    .checkbox-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .tabla-admin th,
+    .tabla-admin td {
+        padding: 10px;
+    }
+}

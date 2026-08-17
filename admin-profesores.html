@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profesores — Panel de administración</title>
+    <link rel="stylesheet" href="css/estilos.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="contenedor-logo">
+            <div class="circulo-imagen">
+                <img src="img/logos/solologo.jpeg" alt="Centro de Artes Musicales" class="logo-img">
+            </div>
+            <span>CENTRO DE<br><strong>ARTES MUSICALES</strong></span>
+        </div>
+        <button class="menu-toggle" aria-label="Abrir menú">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+        <nav>
+            <ul>
+                <li><a href="index.html#inicio">Inicio</a></li>
+                <li><a href="nosotros.html">Nuestra Escuela</a></li>
+                <li><a href="index.html#cursos">Cursos</a></li>
+                <li><a href="profesores.html">Profesores</a></li>
+                <li><a href="noticias.html">Noticias</a></li>
+                <li><a href="index.html#contacto">Contacto</a></li>
+                <li class="nav-herramientas">
+                    <a href="#" class="nav-herramientas-link">
+                        Herramientas <i class="fa-solid fa-chevron-down fa-xs"></i>
+                    </a>
+                    <ul class="submenu-herramientas">
+                        <li><a href="metronomo.html"><i class="fa-solid fa-music"></i> Metrónomo</a></li>
+                    </ul>
+                </li>
+                <li id="nav-auth"><a href="login.html">Iniciar sesión</a></li>
+            </ul>
+        </nav>
+        <a href="https://wa.me/522226660582" class="btn-header" target="_blank">
+            <i class="fa-regular fa-calendar-check"></i> Clase muestra gratis
+        </a>
+    </header>
+
+    <section class="panel-section">
+        <div class="panel-container">
+
+            <div class="panel-encabezado">
+                <div>
+                    <h1 id="panel-nombre">Hola</h1>
+                    <p><a href="admin.html">← Panel de administración</a></p>
+                </div>
+                <button class="btn-salir" id="btn-salir"><i class="fa-solid fa-right-from-bracket"></i> Cerrar sesión</button>
+            </div>
+
+            <div class="auth-mensaje" id="admin-mensaje"></div>
+
+            <div class="panel-card">
+                <h2><i class="fa-solid fa-chalkboard-user"></i> Profesores</h2>
+
+                <div class="admin-toolbar">
+                    <div class="admin-toolbar-filtros">
+                        <select id="filtro-activo">
+                            <option value="">Todos los estados</option>
+                            <option value="true">Activos</option>
+                            <option value="false">Inactivos</option>
+                        </select>
+                    </div>
+                    <button type="button" class="btn-chico" id="btn-nuevo-profesor"><i class="fa-solid fa-plus"></i> Nuevo profesor</button>
+                </div>
+
+                <div class="tabla-admin-wrapper">
+                    <table class="tabla-admin">
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Email</th>
+                                <th>Teléfono</th>
+                                <th>Especialidades</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabla-profesores-body">
+                            <tr><td colspan="6" class="lista-vacia">Cargando…</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="paginacion" id="paginacion-profesores"></div>
+            </div>
+
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-logo">
+                <div class="contenedor-logo">
+                    <div class="circulo-imagen">
+                        <img src="img/logos/solologo.jpeg" alt="Centro de Artes Musicales" class="logo-img">
+                    </div>
+                    <span>CENTRO DE<br><strong>ARTES MUSICALES</strong></span>
+                </div>
+                <p class="footer-slogan">Aprende música, transforma tu vida.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Enlaces</h4>
+                <ul>
+                    <li><a href="index.html#inicio">Inicio</a></li>
+                    <li><a href="nosotros.html">Nuestra Escuela</a></li>
+                    <li><a href="index.html#cursos">Cursos</a></li>
+                    <li><a href="profesores.html">Profesores</a></li>
+                    <li><a href="noticias.html">Noticias</a></li>
+                    <li><a href="index.html#contacto">Contacto</a></li>
+                </ul>
+            </div>
+            <div class="footer-contact">
+                <h4>Contáctanos</h4>
+                <p>
+                    <a href="tel:+522226660582" class="enlace-sin-estilo">
+                        <i class="fa-solid fa-phone"></i> 222 666 05 82
+                    </a>
+                </p>
+                <p>
+                    <a href="index.html#contacto" class="enlace-sin-estilo">
+                        <i class="fa-solid fa-envelope"></i> cedam.artes@gmail.com
+                    </a>
+                </p>
+            </div>
+            <div class="footer-social">
+                <h4>Síguenos</h4>
+                <a href="https://www.facebook.com/share/18ydQ4UuBZ/" target="_blank" class="social-icon social-facebook">
+                    <i class="fa-brands fa-facebook"></i>
+                </a>
+                <a href="https://www.instagram.com/cedam.arte/" target="_blank" class="social-icon social-instagram">
+                    <i class="fa-brands fa-instagram"></i>
+                </a>
+                <a href="https://www.youtube.com/watch?v=dVYHuefOyBA&list=PLnG2RNdqnCih6FNcX9n_os48BPmm_l773&pp=sAgC" target="_blank" class="social-icon social-youtube">
+                    <i class="fa-brands fa-youtube"></i>
+                </a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Centro de Artes Musicales. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- Modal: crear / editar profesor -->
+    <div class="modal-overlay" id="modal-profesor">
+        <div class="modal">
+            <button type="button" class="modal-cerrar" data-cerrar="modal-profesor">&times;</button>
+            <h3 id="modal-profesor-titulo">Nuevo profesor</h3>
+            <form class="modal-form" id="form-profesor">
+                <label for="pr-nombreCompleto">Nombre completo</label>
+                <input type="text" id="pr-nombreCompleto" name="nombreCompleto" required>
+
+                <label for="pr-email">Email</label>
+                <input type="email" id="pr-email" name="email">
+
+                <label for="pr-telefono">Teléfono</label>
+                <input type="text" id="pr-telefono" name="telefono">
+
+                <label>Especialidades</label>
+                <div class="checkbox-grid" id="prof-especialidades"></div>
+
+                <label id="pr-activo-label" style="display:none; align-items:center; gap:8px;">
+                    <input type="checkbox" id="pr-activo" name="activo" style="width:auto;"> Profesor activo
+                </label>
+
+                <div class="form-inline-botones">
+                    <button type="submit" class="btn-chico">Guardar</button>
+                    <button type="button" class="btn-chico secundario" data-cerrar="modal-profesor">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/script.js"></script>
+    <script src="js/admin.js"></script>
+    <script>
+        protegerPaginaAdmin();
+
+        let paginaActualProfesores = 0;
+        let profesoresActuales = [];
+        let profesorActualId = null;
+
+        document.querySelectorAll('[data-cerrar]').forEach(btn => {
+            btn.addEventListener('click', () => cerrarModal(btn.dataset.cerrar));
+        });
+
+        // checkboxes de especialidades (una sola vez)
+        document.getElementById('prof-especialidades').innerHTML = Object.keys(INSTRUMENTOS).map(key =>
+            `<label><input type="checkbox" name="especialidades" value="${key}"> ${INSTRUMENTOS[key]}</label>`
+        ).join('');
+
+        // ---------------------------------------------------------- listado
+
+        async function cargarProfesores(pagina = 0) {
+            paginaActualProfesores = pagina;
+            const tbody = document.getElementById('tabla-profesores-body');
+            const qs = construirQueryString({
+                activo: document.getElementById('filtro-activo').value,
+                page: pagina,
+                size: 15,
+                sort: 'nombreCompleto,asc'
+            });
+            try {
+                const pageResp = await apiFetch('/admin/profesores' + qs);
+                profesoresActuales = pageResp.content;
+                tbody.innerHTML = '';
+                if (pageResp.content.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="6" class="lista-vacia">No se encontraron profesores.</td></tr>';
+                } else {
+                    pageResp.content.forEach(p => {
+                        const tr = document.createElement('tr');
+                        const chips = (p.especialidades || []).map(e => `<span class="chip">${escapeHtml(INSTRUMENTOS[e] || e)}</span>`).join('');
+                        tr.innerHTML = `
+                            <td>${escapeHtml(p.nombreCompleto)}</td>
+                            <td>${escapeHtml(p.email) || '—'}</td>
+                            <td>${escapeHtml(p.telefono) || '—'}</td>
+                            <td><div class="chip-lista">${chips || '—'}</div></td>
+                            <td>${badgeActivo(p.activo)}</td>
+                            <td><div class="fila-acciones">
+                                <button type="button" class="btn-chico secundario" data-editar="${p.id}">Editar</button>
+                                <button type="button" class="btn-chico secundario" data-eliminar="${p.id}">Eliminar</button>
+                            </div></td>
+                        `;
+                        tbody.appendChild(tr);
+                    });
+                    tbody.querySelectorAll('[data-editar]').forEach(btn => {
+                        btn.addEventListener('click', () => abrirEdicionProfesor(btn.dataset.editar));
+                    });
+                    tbody.querySelectorAll('[data-eliminar]').forEach(btn => {
+                        btn.addEventListener('click', () => eliminarProfesor(btn.dataset.eliminar));
+                    });
+                }
+                renderPaginacion(document.getElementById('paginacion-profesores'), pageResp, cargarProfesores);
+            } catch (err) {
+                tbody.innerHTML = `<tr><td colspan="6" class="lista-vacia">${escapeHtml(err.message)}</td></tr>`;
+            }
+        }
+
+        document.getElementById('filtro-activo').addEventListener('change', () => cargarProfesores(0));
+
+        // ---------------------------------------------------------- crear / editar
+
+        function marcarEspecialidades(especialidades) {
+            const seleccionadas = new Set(especialidades || []);
+            document.querySelectorAll('#prof-especialidades input[type="checkbox"]').forEach(cb => {
+                cb.checked = seleccionadas.has(cb.value);
+            });
+        }
+
+        document.getElementById('btn-nuevo-profesor').addEventListener('click', () => {
+            profesorActualId = null;
+            document.getElementById('modal-profesor-titulo').textContent = 'Nuevo profesor';
+            document.getElementById('form-profesor').reset();
+            marcarEspecialidades([]);
+            document.getElementById('pr-activo-label').style.display = 'none';
+            abrirModal('modal-profesor');
+        });
+
+        function abrirEdicionProfesor(id) {
+            const p = profesoresActuales.find(x => String(x.id) === String(id));
+            if (!p) return;
+            profesorActualId = p.id;
+            document.getElementById('modal-profesor-titulo').textContent = p.nombreCompleto;
+            const form = document.getElementById('form-profesor');
+            form.nombreCompleto.value = p.nombreCompleto || '';
+            form.email.value = p.email || '';
+            form.telefono.value = p.telefono || '';
+            marcarEspecialidades(p.especialidades);
+            document.getElementById('pr-activo-label').style.display = 'flex';
+            form.activo.checked = !!p.activo;
+            abrirModal('modal-profesor');
+        }
+
+        document.getElementById('form-profesor').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const form = e.target;
+            const especialidades = Array.from(form.querySelectorAll('input[name="especialidades"]:checked')).map(cb => cb.value);
+            if (especialidades.length === 0) {
+                mostrarMensaje('admin-mensaje', 'Selecciona al menos una especialidad.', 'error');
+                return;
+            }
+            const boton = form.querySelector('button[type="submit"]');
+            boton.disabled = true;
+            try {
+                const cuerpo = {
+                    nombreCompleto: form.nombreCompleto.value.trim(),
+                    email: form.email.value.trim() || null,
+                    telefono: form.telefono.value.trim() || null,
+                    especialidades
+                };
+                if (profesorActualId) {
+                    cuerpo.activo = form.activo.checked;
+                    await apiFetch(`/admin/profesores/${profesorActualId}`, { method: 'PUT', body: JSON.stringify(cuerpo) });
+                    mostrarMensaje('admin-mensaje', 'Cambios guardados.', 'exito');
+                } else {
+                    await apiFetch('/admin/profesores', { method: 'POST', body: JSON.stringify(cuerpo) });
+                    mostrarMensaje('admin-mensaje', 'Profesor creado correctamente.', 'exito');
+                }
+                cerrarModal('modal-profesor');
+                cargarProfesores(paginaActualProfesores);
+            } catch (err) {
+                mostrarMensaje('admin-mensaje', err.message, 'error');
+            } finally {
+                boton.disabled = false;
+            }
+        });
+
+        // ---------------------------------------------------------- eliminar
+
+        async function eliminarProfesor(id) {
+            if (!confirm('¿Eliminar a este profesor? Esta acción no se puede deshacer.')) return;
+            try {
+                await apiFetch(`/admin/profesores/${id}`, { method: 'DELETE' });
+                mostrarMensaje('admin-mensaje', 'Profesor eliminado.', 'exito');
+                cargarProfesores(0);
+            } catch (err) {
+                mostrarMensaje('admin-mensaje', err.message, 'error');
+            }
+        }
+
+        // ---------------------------------------------------------- arranque
+
+        cargarProfesores(0);
+    </script>
+</body>
+</html>
