@@ -171,6 +171,9 @@
                 <label for="na-fechaNacimiento">Fecha de nacimiento</label>
                 <input type="date" id="na-fechaNacimiento" name="fechaNacimiento">
 
+                <label for="na-fechaPrimeraClase">Fecha de primera clase (opcional)</label>
+                <input type="date" id="na-fechaPrimeraClase" name="fechaPrimeraClase">
+
                 <div class="form-inline-botones">
                     <button type="submit" class="btn-chico">Crear alumno</button>
                     <button type="button" class="btn-chico secundario" data-cerrar="modal-nuevo-alumno">Cancelar</button>
@@ -197,6 +200,10 @@
                 <label for="al-fechaNacimiento">Fecha de nacimiento</label>
                 <input type="date" id="al-fechaNacimiento" name="fechaNacimiento">
 
+                <label for="al-fechaPrimeraClase">Fecha de primera clase</label>
+                <input type="date" id="al-fechaPrimeraClase" name="fechaPrimeraClase">
+                <p class="ayuda-campo">Con esta fecha se calculan las 4 clases del ciclo y se genera automáticamente el cargo del próximo pago (4 semanas después).</p>
+
                 <label for="al-googleDocsUrl">Link de bitácora (Google Docs)</label>
                 <input type="url" id="al-googleDocsUrl" name="googleDocsUrl" placeholder="https://docs.google.com/…">
                 <div id="alumno-bitacora-link"></div>
@@ -213,6 +220,14 @@
 
             <div class="modal-seccion" id="alumno-resumen-mes"></div>
 
+            <div class="modal-seccion" id="alumno-ciclo-seccion" style="display:none;">
+                <h4>Ciclo de 4 clases</h4>
+                <div id="alumno-ciclo-info"></div>
+                <div class="fila-acciones" style="margin-top:10px;">
+                    <button type="button" class="btn-chico secundario" id="btn-generar-ciclo">Generar las 4 clases en el calendario</button>
+                </div>
+            </div>
+
             <div class="modal-seccion">
                 <h4>Otras acciones</h4>
                 <div class="fila-acciones">
@@ -220,6 +235,33 @@
                     <button type="button" class="btn-chico secundario" id="btn-reset-password">Restablecer contraseña</button>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- Modal: generar clases del ciclo -->
+    <div class="modal-overlay" id="modal-generar-ciclo">
+        <div class="modal">
+            <button type="button" class="modal-cerrar" data-cerrar="modal-generar-ciclo">&times;</button>
+            <h3>Generar las 4 clases del ciclo</h3>
+            <p id="gc-fechas-preview"></p>
+            <form class="modal-form" id="form-generar-ciclo">
+                <label for="gc-profesorId">Profesor</label>
+                <select id="gc-profesorId" name="profesorId" required><option value="">Cargando…</option></select>
+
+                <label for="gc-instrumento">Instrumento</label>
+                <select id="gc-instrumento" name="instrumento" required></select>
+
+                <label for="gc-horaClase">Hora de cada clase</label>
+                <input type="time" id="gc-horaClase" name="horaClase" required>
+
+                <label for="gc-duracionMinutos">Duración en minutos (opcional)</label>
+                <input type="number" id="gc-duracionMinutos" name="duracionMinutos" min="1" step="1">
+
+                <div class="form-inline-botones">
+                    <button type="submit" class="btn-chico">Generar 4 clases</button>
+                    <button type="button" class="btn-chico secundario" data-cerrar="modal-generar-ciclo">Cancelar</button>
+                </div>
+            </form>
         </div>
     </div>
 
@@ -247,6 +289,7 @@
 
         let paginaActualAlumnos = 0;
         let alumnoActualId = null;
+        let alumnoActualNombre = '';
 
         document.querySelectorAll('[data-cerrar]').forEach(btn => {
             btn.addEventListener('click', () => cerrarModal(btn.dataset.cerrar));
@@ -319,7 +362,8 @@
                         password: form.password.value,
                         nombre: form.nombre.value.trim(),
                         telefono: form.telefono.value.trim() || null,
-                        fechaNacimiento: form.fechaNacimiento.value || null
+                        fechaNacimiento: form.fechaNacimiento.value || null,
+                        fechaPrimeraClase: form.fechaPrimeraClase.value || null
                     })
                 });
                 cerrarModal('modal-nuevo-alumno');
@@ -338,15 +382,30 @@
             try {
                 const alumno = await apiFetch(`/admin/alumnos/${id}`);
                 alumnoActualId = alumno.id;
+                alumnoActualNombre = alumno.nombre;
                 document.getElementById('modal-alumno-titulo').textContent = alumno.nombre;
                 document.getElementById('alumno-email').value = alumno.email;
                 const form = document.getElementById('form-alumno');
                 form.nombre.value = alumno.nombre || '';
                 form.telefono.value = alumno.telefono || '';
                 form.fechaNacimiento.value = alumno.fechaNacimiento || '';
+                form.fechaPrimeraClase.value = alumno.fechaPrimeraClase || '';
                 form.activo.checked = !!alumno.activo;
 
                 document.getElementById('alumno-link-pagos').href = `admin-pagos.html?alumnoId=${alumno.id}`;
+
+                const cicloSeccion = document.getElementById('alumno-ciclo-seccion');
+                const cicloInfo = document.getElementById('alumno-ciclo-info');
+                if (alumno.fechaPrimeraClase) {
+                    cicloSeccion.style.display = '';
+                    const fechas = alumno.fechasCicloClases.map((f, i) => `<li>Clase ${i + 1}: ${formatearFechaCorta(f)}</li>`).join('');
+                    cicloInfo.innerHTML = `
+                        <ul style="margin:0 0 8px 18px; padding:0;">${fechas}</ul>
+                        <p><strong>Próximo pago programado para: ${formatearFechaCorta(alumno.proximoPago)}</strong></p>
+                    `;
+                } else {
+                    cicloSeccion.style.display = 'none';
+                }
 
                 // AlumnoResponse no trae googleDocsUrl: es un endpoint aparte.
                 form.googleDocsUrl.value = '';
@@ -396,12 +455,61 @@
                         telefono: form.telefono.value.trim() || null,
                         fechaNacimiento: form.fechaNacimiento.value || null,
                         googleDocsUrl: form.googleDocsUrl.value.trim() || null,
-                        activo: form.activo.checked
+                        activo: form.activo.checked,
+                        fechaPrimeraClase: form.fechaPrimeraClase.value || null
                     })
                 });
                 cerrarModal('modal-alumno');
                 mostrarMensaje('admin-mensaje', 'Cambios guardados.', 'exito');
                 cargarAlumnos(paginaActualAlumnos);
+            } catch (err) {
+                mostrarMensaje('admin-mensaje', err.message, 'error');
+            } finally {
+                boton.disabled = false;
+            }
+        });
+
+        // ---------------------------------------------------------- generar clases del ciclo
+
+        document.getElementById('gc-instrumento').innerHTML = Object.keys(INSTRUMENTOS).map(key =>
+            `<option value="${key}">${INSTRUMENTOS[key]}</option>`
+        ).join('');
+
+        document.getElementById('btn-generar-ciclo').addEventListener('click', async () => {
+            const form = document.getElementById('form-generar-ciclo');
+            form.reset();
+            document.getElementById('gc-fechas-preview').textContent = `Se agendarán 4 clases semanales para ${alumnoActualNombre}, con el mismo profesor, instrumento y hora.`;
+            cerrarModal('modal-alumno');
+            abrirModal('modal-generar-ciclo');
+            try {
+                await poblarSelectProfesores(document.getElementById('gc-profesorId'), null, 'Selecciona un profesor…');
+            } catch (err) {
+                mostrarMensaje('admin-mensaje', err.message, 'error');
+            }
+        });
+
+        document.getElementById('form-generar-ciclo').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const form = e.target;
+            if (!form.profesorId.value) {
+                mostrarMensaje('admin-mensaje', 'Selecciona un profesor.', 'error');
+                return;
+            }
+            const boton = form.querySelector('button[type="submit"]');
+            boton.disabled = true;
+            try {
+                await apiFetch('/admin/clases/ciclo', {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        alumnoId: alumnoActualId,
+                        profesorId: form.profesorId.value,
+                        instrumento: form.instrumento.value,
+                        horaClase: form.horaClase.value,
+                        duracionMinutos: form.duracionMinutos.value ? Number(form.duracionMinutos.value) : null
+                    })
+                });
+                cerrarModal('modal-generar-ciclo');
+                mostrarMensaje('admin-mensaje', 'Las 4 clases del ciclo quedaron agendadas.', 'exito');
             } catch (err) {
                 mostrarMensaje('admin-mensaje', err.message, 'error');
             } finally {

@@ -70,7 +70,7 @@
                             <option value="PARCIAL">PARCIAL</option>
                             <option value="PAGADO">PAGADO</option>
                         </select>
-                        <input type="text" id="filtro-periodo" placeholder="Periodo, ej. 2026-08">
+                        <input type="month" id="filtro-periodo" placeholder="Periodo">
                     </div>
                     <button type="button" class="btn-chico" id="btn-nuevo-cargo"><i class="fa-solid fa-plus"></i> Nuevo cargo</button>
                 </div>
@@ -165,8 +165,8 @@
                 <label for="cp-monto">Monto</label>
                 <input type="number" id="cp-monto" name="monto" step="0.01" min="0">
 
-                <label for="cp-periodo">Periodo</label>
-                <input type="text" id="cp-periodo" name="periodo" placeholder="Ej. 2026-08">
+                <label for="cp-periodo">Periodo (dejar vacío = mes actual)</label>
+                <input type="month" id="cp-periodo" name="periodo">
 
                 <label for="cp-fechaLimite">Fecha límite de pago</label>
                 <input type="date" id="cp-fechaLimite" name="fechaLimite" required>

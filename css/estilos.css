@@ -2168,6 +2168,12 @@ background-position:
     min-height: 70px;
 }
 
+.modal-form .ayuda-campo {
+    font-size: 0.78rem;
+    color: #777;
+    margin-top: -10px;
+}
+
 .modal-seccion {
     margin-top: 22px;
     padding-top: 18px;

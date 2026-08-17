@@ -82,6 +82,11 @@
                 <div id="lista-solicitudes"><p class="lista-vacia">Cargando…</p></div>
             </div>
 
+            <div class="panel-card" id="ciclo-card" style="display:none;">
+                <h2><i class="fa-solid fa-calendar-week"></i> Tu ciclo de 4 clases</h2>
+                <div id="ciclo-info"></div>
+            </div>
+
             <div class="panel-card">
                 <h2><i class="fa-solid fa-wallet"></i> Mi pago de este período</h2>
                 <div id="pago-actual-contenedor"><p class="lista-vacia">Cargando…</p></div>
@@ -183,6 +188,12 @@
             return d.toLocaleString('es-MX', { dateStyle: 'medium', timeStyle: 'short' });
         }
 
+        function formatearFechaCorta(fechaIso) {
+            if (!fechaIso) return '—';
+            const d = new Date(fechaIso + 'T00:00:00');
+            return d.toLocaleDateString('es-MX', { dateStyle: 'medium' });
+        }
+
         function mostrarMensajePanel(texto, tipo) {
             const caja = document.getElementById('panel-mensaje');
             caja.textContent = texto;
@@ -198,6 +209,18 @@
             const perfil = await apiFetch('/alumno/perfil');
             document.getElementById('panel-nombre').textContent = 'Hola, ' + (perfil.nombre || '').split(' ')[0];
             document.getElementById('panel-email').textContent = perfil.email;
+
+            const cicloCard = document.getElementById('ciclo-card');
+            if (perfil.fechaPrimeraClase) {
+                const fechas = perfil.fechasCicloClases.map((f, i) => `<li>Clase ${i + 1}: ${formatearFechaCorta(f)}</li>`).join('');
+                document.getElementById('ciclo-info').innerHTML = `
+                    <ul style="margin:0 0 10px 18px; padding:0;">${fechas}</ul>
+                    <p><strong>Tu próximo pago está programado para el ${formatearFechaCorta(perfil.proximoPago)}.</strong></p>
+                `;
+                cicloCard.style.display = '';
+            } else {
+                cicloCard.style.display = 'none';
+            }
         }
 
         // ---------------------------------------------------------- resumen del mes
