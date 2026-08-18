@@ -630,8 +630,16 @@
 
         // ---------------------------------------------------------- arranque
 
+        // Permite llegar ya filtrado a un alumno (ej. justo después de generar su ciclo de 4 clases).
+        const alumnoIdInicial = new URLSearchParams(window.location.search).get('alumnoId');
+
         cargarListasApoyo()
-            .then(() => cargarClases(0))
+            .then(() => {
+                if (alumnoIdInicial) {
+                    document.getElementById('filtro-alumno').value = alumnoIdInicial;
+                }
+                return cargarClases(0);
+            })
             .catch(err => {
                 document.getElementById('tabla-clases-body').innerHTML = `<tr><td colspan="7" class="lista-vacia">${escapeHtml(err.message)}</td></tr>`;
             });

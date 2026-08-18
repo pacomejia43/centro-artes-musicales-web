@@ -250,11 +250,13 @@
                 <p class="ayuda-campo">
                     Opcional. Si no configuras nada aquí, el alumno se rige por el límite mensual general (4 clases,
                     sin importar el instrumento). Configura cupos solo para alumnos que reparten sus clases entre
-                    varios instrumentos (ej. Valentina: 2 de piano + 2 de canto al mes).
+                    varios instrumentos (ej. Valentina: 2 de piano + 2 de canto al mes). Si agregas cupos, las
+                    cantidades deben sumar exactamente 4 clases al mes entre todos los instrumentos.
                 </p>
                 <div id="alumno-cupos-lista"></div>
-                <div class="fila-acciones" style="margin-top:10px;">
+                <div class="fila-acciones" style="margin-top:10px; align-items:center;">
                     <button type="button" class="btn-chico secundario" id="btn-agregar-cupo">+ Agregar instrumento</button>
+                    <span id="alumno-cupos-total"></span>
                 </div>
                 <p class="ayuda-campo">Los cupos se guardan junto con el resto de los cambios, con el botón de hasta abajo.</p>
             </div>
@@ -552,6 +554,21 @@
         document.getElementById('form-alumno').addEventListener('submit', async (e) => {
             e.preventDefault();
             const form = e.target;
+
+            const cupos = Array.from(document.querySelectorAll('#alumno-cupos-lista .fila-cupo')).map(fila => ({
+                instrumento: fila.querySelector('.cupo-instrumento').value,
+                cupoMensual: Number(fila.querySelector('.cupo-cantidad').value)
+            }));
+            if (cupos.length > 0) {
+                const totalCupos = cupos.reduce((suma, c) => suma + c.cupoMensual, 0);
+                if (totalCupos !== 4) {
+                    mostrarMensaje('admin-mensaje',
+                        `Los cupos por instrumento deben sumar 4 clases al mes en total (ahora suman ${totalCupos}). Ajusta las cantidades antes de guardar.`,
+                        'error');
+                    return;
+                }
+            }
+
             const boton = document.getElementById('btn-guardar-alumno');
             boton.disabled = true;
             try {
@@ -572,11 +589,6 @@
                     })
                 });
 
-                const filasCupo = document.querySelectorAll('#alumno-cupos-lista .fila-cupo');
-                const cupos = Array.from(filasCupo).map(fila => ({
-                    instrumento: fila.querySelector('.cupo-instrumento').value,
-                    cupoMensual: Number(fila.querySelector('.cupo-cantidad').value)
-                }));
                 await apiFetch(`/admin/alumnos/${alumnoActualId}/cupos`, {
                     method: 'PUT',
                     body: JSON.stringify({ cupos })
@@ -602,6 +614,21 @@
 
         // ---------------------------------------------------------- cupo de clases por instrumento
 
+        /** Suma las cantidades capturadas y avisa si no llegan a las 4 clases mensuales (o se pasan). */
+        function actualizarTotalCupos() {
+            const total = Array.from(document.querySelectorAll('#alumno-cupos-lista .cupo-cantidad'))
+                .reduce((suma, input) => suma + (Number(input.value) || 0), 0);
+            const etiqueta = document.getElementById('alumno-cupos-total');
+            if (!etiqueta) return;
+            if (total === 0) {
+                etiqueta.textContent = '';
+                return;
+            }
+            etiqueta.textContent = `Total: ${total} de 4 clases al mes`;
+            etiqueta.style.color = total === 4 ? 'var(--verde-boton)' : '#a13a3a';
+            etiqueta.style.fontWeight = '600';
+        }
+
         function agregarFilaCupo(instrumentoSeleccionado, cantidad) {
             const opciones = Object.keys(INSTRUMENTOS).map(key =>
                 `<option value="${key}" ${key === instrumentoSeleccionado ? 'selected' : ''}>${INSTRUMENTOS[key]}</option>`
@@ -613,8 +640,13 @@
                 <input type="number" class="cupo-cantidad" min="1" step="1" value="${cantidad || 1}">
                 <button type="button" class="btn-chico secundario btn-quitar-cupo">Quitar</button>
             `;
-            fila.querySelector('.btn-quitar-cupo').addEventListener('click', () => fila.remove());
+            fila.querySelector('.btn-quitar-cupo').addEventListener('click', () => {
+                fila.remove();
+                actualizarTotalCupos();
+            });
+            fila.querySelector('.cupo-cantidad').addEventListener('input', actualizarTotalCupos);
             document.getElementById('alumno-cupos-lista').appendChild(fila);
+            actualizarTotalCupos();
         }
 
         document.getElementById('btn-agregar-cupo').addEventListener('click', () => agregarFilaCupo(null, 2));
@@ -703,11 +735,12 @@
                         duracionMinutos: form.duracionMinutos.value ? Number(form.duracionMinutos.value) : null
                     })
                 });
-                cerrarModal('modal-generar-ciclo');
-                mostrarMensaje('admin-mensaje', 'Las 4 clases del ciclo quedaron agendadas.', 'exito');
+                // Las 4 clases ya quedaron guardadas como filas reales en "clase" — se manda al
+                // admin directo al apartado Clases, filtrado a este alumno, para que las vea de
+                // inmediato (el alumno también las verá en "Mis clases", misma tabla).
+                window.location.href = `admin-clases.html?alumnoId=${alumnoActualId}`;
             } catch (err) {
                 mostrarMensaje('admin-mensaje', err.message, 'error');
-            } finally {
                 boton.disabled = false;
             }
         });
