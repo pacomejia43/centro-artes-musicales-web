@@ -30,6 +30,14 @@ body {
     line-height: 1.6;
 }
 
+/* App instalada (standalone): sin zoom por pellizco/doble toque, para que se sienta como app
+   nativa. No afecta el sitio normal abierto en el navegador (ahí sigue habiendo zoom). */
+@media (display-mode: standalone) {
+    html, body {
+        touch-action: manipulation;
+    }
+}
+
 
 /* ==========================================
    FONDO DINÁMICO
@@ -2423,6 +2431,27 @@ background-position:
 
 .fila-cupo input {
     width: 80px;
+}
+
+.fila-asignacion-ciclo {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+}
+
+.fila-asignacion-ciclo select {
+    flex: 1;
+    min-width: 120px;
+}
+
+.fila-asignacion-ciclo input[type="time"] {
+    width: 110px;
+}
+
+.fila-asignacion-ciclo input[type="number"] {
+    width: 65px;
 }
 
 .password-visible-caja {

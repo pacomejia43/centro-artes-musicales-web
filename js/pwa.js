@@ -13,6 +13,15 @@ function appYaInstalada() {
     return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
 }
 
+// App instalada: bloquea el zoom (pellizco/doble toque) para que se sienta como app nativa.
+// El sitio normal en el navegador conserva el viewport original y su zoom de siempre.
+if (appYaInstalada()) {
+    const metaViewport = document.querySelector('meta[name="viewport"]');
+    if (metaViewport) {
+        metaViewport.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no');
+    }
+}
+
 function crearModalInstrucciones() {
     const overlay = document.createElement('div');
     overlay.className = 'modal-overlay';

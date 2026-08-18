@@ -232,5 +232,12 @@
     <script src="js/api.js"></script>
     <script src="js/script.js"></script>
     <script src="js/pwa.js"></script>
+    <script>
+        // App instalada + sesión iniciada: entra directo a su panel, sin pasar por la portada.
+        if (appYaInstalada() && estaAutenticado()) {
+            const usuario = obtenerUsuario();
+            window.location.replace((usuario && usuario.role === 'ADMIN') ? 'admin.html' : 'mi-cuenta.html');
+        }
+    </script>
 </body>
 </html>

@@ -283,16 +283,17 @@
             <h3>Generar las 4 clases del ciclo</h3>
             <p id="gc-fechas-preview"></p>
             <form class="modal-form" id="form-generar-ciclo">
-                <label for="gc-profesorId">Profesor</label>
-                <select id="gc-profesorId" name="profesorId" required><option value="">Cargando…</option></select>
+                <p class="ayuda-campo">
+                    Asigna instrumento, profesor y hora para las 4 clases del ciclo. Si el alumno tiene cupos
+                    configurados arriba, ya aparece una fila por cada instrumento con su cantidad — solo falta
+                    elegir profesor y hora. Las cantidades deben sumar 4 en total.
+                </p>
+                <div id="gc-asignaciones-lista"></div>
+                <div class="fila-acciones" style="margin-top:6px;">
+                    <button type="button" class="btn-chico secundario" id="btn-agregar-asignacion">+ Agregar instrumento</button>
+                </div>
 
-                <label for="gc-instrumento">Instrumento</label>
-                <select id="gc-instrumento" name="instrumento" required></select>
-
-                <label for="gc-horaClase">Hora de cada clase</label>
-                <input type="time" id="gc-horaClase" name="horaClase" required>
-
-                <label for="gc-duracionMinutos">Duración en minutos (opcional)</label>
+                <label for="gc-duracionMinutos">Duración en minutos (opcional, aplica a las 4 clases)</label>
                 <input type="number" id="gc-duracionMinutos" name="duracionMinutos" min="1" step="1">
 
                 <div class="form-inline-botones">
@@ -619,30 +620,77 @@
 
         // ---------------------------------------------------------- generar clases del ciclo
 
-        document.getElementById('gc-instrumento').innerHTML = Object.keys(INSTRUMENTOS).map(key =>
-            `<option value="${key}">${INSTRUMENTOS[key]}</option>`
-        ).join('');
+        async function agregarFilaAsignacion(instrumentoSeleccionado, cantidad) {
+            const opcionesInstrumento = Object.keys(INSTRUMENTOS).map(key =>
+                `<option value="${key}" ${key === instrumentoSeleccionado ? 'selected' : ''}>${INSTRUMENTOS[key]}</option>`
+            ).join('');
+            const fila = document.createElement('div');
+            fila.className = 'fila-asignacion-ciclo';
+            fila.innerHTML = `
+                <select class="asig-instrumento">${opcionesInstrumento}</select>
+                <select class="asig-profesor"><option value="">Cargando…</option></select>
+                <input type="time" class="asig-hora" required>
+                <input type="number" class="asig-cantidad" min="1" max="4" step="1" value="${cantidad || 1}">
+                <button type="button" class="btn-chico secundario btn-quitar-asignacion">Quitar</button>
+            `;
+            fila.querySelector('.btn-quitar-asignacion').addEventListener('click', () => fila.remove());
+            document.getElementById('gc-asignaciones-lista').appendChild(fila);
+            await poblarSelectProfesores(fila.querySelector('.asig-profesor'), null, 'Profesor…');
+        }
+
+        document.getElementById('btn-agregar-asignacion').addEventListener('click', () => agregarFilaAsignacion(null, 1));
 
         document.getElementById('btn-generar-ciclo').addEventListener('click', async () => {
             const form = document.getElementById('form-generar-ciclo');
             form.reset();
-            document.getElementById('gc-fechas-preview').textContent = `Se agendarán 4 clases semanales para ${alumnoActualNombre}, con el mismo profesor, instrumento y hora.`;
+            document.getElementById('gc-asignaciones-lista').innerHTML = '';
+            document.getElementById('gc-fechas-preview').textContent = `Se agendarán 4 clases semanales para ${alumnoActualNombre}.`;
             cerrarModal('modal-alumno');
             abrirModal('modal-generar-ciclo');
-            try {
-                await poblarSelectProfesores(document.getElementById('gc-profesorId'), null, 'Selecciona un profesor…');
-            } catch (err) {
-                mostrarMensaje('admin-mensaje', err.message, 'error');
+
+            const filasCupo = document.querySelectorAll('#alumno-cupos-lista .fila-cupo');
+            if (filasCupo.length > 0) {
+                for (const filaCupo of filasCupo) {
+                    await agregarFilaAsignacion(
+                        filaCupo.querySelector('.cupo-instrumento').value,
+                        Number(filaCupo.querySelector('.cupo-cantidad').value)
+                    );
+                }
+            } else {
+                await agregarFilaAsignacion(null, 4);
             }
         });
 
         document.getElementById('form-generar-ciclo').addEventListener('submit', async (e) => {
             e.preventDefault();
             const form = e.target;
-            if (!form.profesorId.value) {
-                mostrarMensaje('admin-mensaje', 'Selecciona un profesor.', 'error');
+            const filas = document.querySelectorAll('#gc-asignaciones-lista .fila-asignacion-ciclo');
+            if (filas.length === 0) {
+                mostrarMensaje('admin-mensaje', 'Agrega al menos una asignación.', 'error');
                 return;
             }
+
+            const asignaciones = [];
+            for (const fila of filas) {
+                const profesorId = fila.querySelector('.asig-profesor').value;
+                const horaClase = fila.querySelector('.asig-hora').value;
+                if (!profesorId || !horaClase) {
+                    mostrarMensaje('admin-mensaje', 'Completa profesor y hora en todas las filas.', 'error');
+                    return;
+                }
+                asignaciones.push({
+                    instrumento: fila.querySelector('.asig-instrumento').value,
+                    profesorId: Number(profesorId),
+                    horaClase,
+                    cantidad: Number(fila.querySelector('.asig-cantidad').value)
+                });
+            }
+            const totalCantidad = asignaciones.reduce((suma, a) => suma + a.cantidad, 0);
+            if (totalCantidad !== 4) {
+                mostrarMensaje('admin-mensaje', `Las cantidades deben sumar 4 clases en total (suman ${totalCantidad}).`, 'error');
+                return;
+            }
+
             const boton = form.querySelector('button[type="submit"]');
             boton.disabled = true;
             try {
@@ -650,9 +698,7 @@
                     method: 'POST',
                     body: JSON.stringify({
                         alumnoId: alumnoActualId,
-                        profesorId: form.profesorId.value,
-                        instrumento: form.instrumento.value,
-                        horaClase: form.horaClase.value,
+                        asignaciones,
                         duracionMinutos: form.duracionMinutos.value ? Number(form.duracionMinutos.value) : null
                     })
                 });
