@@ -448,8 +448,19 @@
         async function cargarBitacora() {
             const contenedor = document.getElementById('bitacora-contenedor');
             const bitacora = await apiFetch('/alumno/bitacora');
-            if (bitacora.googleDocsUrl) {
-                contenedor.innerHTML = `<a href="${escapeHtml(bitacora.googleDocsUrl)}" target="_blank" rel="noopener" class="bitacora-link"><i class="fa-solid fa-book-open"></i> Abrir mi bitácora</a>`;
+            const enlaces = [
+                [bitacora.googleDocsUrl1, bitacora.instrumentoBitacora1],
+                [bitacora.googleDocsUrl2, bitacora.instrumentoBitacora2]
+            ].filter(([url]) => !!url);
+
+            if (enlaces.length > 0) {
+                contenedor.innerHTML = enlaces.map(([url, instrumento]) => `
+                    <div style="margin-bottom:10px;">
+                        <a href="${escapeHtml(url)}" target="_blank" rel="noopener" class="bitacora-link">
+                            <i class="fa-solid fa-book-open"></i> Abrir mi bitácora${instrumento ? ' — ' + escapeHtml(INSTRUMENTOS[instrumento] || instrumento) : ''}
+                        </a>
+                    </div>
+                `).join('');
             } else {
                 contenedor.innerHTML = '<p class="lista-vacia">Tu profesor aún no ha compartido tu bitácora. Estará disponible aquí en cuanto lo haga.</p>';
             }

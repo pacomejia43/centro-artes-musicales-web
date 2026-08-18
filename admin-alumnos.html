@@ -156,8 +156,8 @@
             <button type="button" class="modal-cerrar" data-cerrar="modal-nuevo-alumno">&times;</button>
             <h3>Nuevo alumno</h3>
             <form class="modal-form" id="form-nuevo-alumno">
-                <label for="na-email">Email</label>
-                <input type="email" id="na-email" name="email" required>
+                <label for="na-email">Usuario</label>
+                <input type="text" id="na-email" name="email" required>
 
                 <label for="na-password">Contraseña inicial</label>
                 <input type="text" id="na-password" name="password" required minlength="6">
@@ -188,8 +188,9 @@
             <button type="button" class="modal-cerrar" data-cerrar="modal-alumno">&times;</button>
             <h3 id="modal-alumno-titulo">Alumno</h3>
             <form class="modal-form" id="form-alumno">
-                <label>Email</label>
-                <input type="email" id="alumno-email" disabled>
+                <label for="alumno-email">Usuario</label>
+                <input type="text" id="alumno-email" name="email" required>
+                <p class="ayuda-campo">El alumno inicia sesión con este usuario y su contraseña — no necesita ser un correo.</p>
 
                 <label for="al-nombre">Nombre completo</label>
                 <input type="text" id="al-nombre" name="nombre" required>
@@ -204,9 +205,19 @@
                 <input type="date" id="al-fechaPrimeraClase" name="fechaPrimeraClase">
                 <p class="ayuda-campo">Con esta fecha se calculan las 4 clases del ciclo y se genera automáticamente el cargo del próximo pago (4 semanas después).</p>
 
-                <label for="al-googleDocsUrl">Link de bitácora (Google Docs)</label>
-                <input type="url" id="al-googleDocsUrl" name="googleDocsUrl" placeholder="https://docs.google.com/…">
-                <div id="alumno-bitacora-link"></div>
+                <label>Bitácora 1 (Google Docs)</label>
+                <div style="display:flex; gap:8px;">
+                    <select id="al-instrumentoBitacora1" name="instrumentoBitacora1" style="flex:0 0 40%;"></select>
+                    <input type="url" id="al-googleDocsUrl1" name="googleDocsUrl1" placeholder="https://docs.google.com/…" style="flex:1;">
+                </div>
+                <div id="alumno-bitacora-link-1"></div>
+
+                <label>Bitácora 2 (Google Docs, opcional)</label>
+                <div style="display:flex; gap:8px;">
+                    <select id="al-instrumentoBitacora2" name="instrumentoBitacora2" style="flex:0 0 40%;"></select>
+                    <input type="url" id="al-googleDocsUrl2" name="googleDocsUrl2" placeholder="https://docs.google.com/…" style="flex:1;">
+                </div>
+                <div id="alumno-bitacora-link-2"></div>
 
                 <label style="display:flex; align-items:center; gap:8px;">
                     <input type="checkbox" id="al-activo" name="activo" style="width:auto;"> Alumno activo
@@ -407,14 +418,24 @@
                     cicloSeccion.style.display = 'none';
                 }
 
-                // AlumnoResponse no trae googleDocsUrl: es un endpoint aparte.
-                form.googleDocsUrl.value = '';
-                document.getElementById('alumno-bitacora-link').innerHTML = '';
+                // AlumnoResponse no trae las bitácoras: es un endpoint aparte.
+                form.googleDocsUrl1.value = '';
+                form.instrumentoBitacora1.value = '';
+                form.googleDocsUrl2.value = '';
+                form.instrumentoBitacora2.value = '';
+                document.getElementById('alumno-bitacora-link-1').innerHTML = '';
+                document.getElementById('alumno-bitacora-link-2').innerHTML = '';
                 try {
                     const bitacora = await apiFetch(`/admin/alumnos/${id}/bitacora`);
-                    form.googleDocsUrl.value = bitacora.googleDocsUrl || '';
-                    document.getElementById('alumno-bitacora-link').innerHTML = bitacora.googleDocsUrl
-                        ? `<a href="${escapeHtml(bitacora.googleDocsUrl)}" target="_blank" rel="noopener">Abrir bitácora actual ↗</a>`
+                    form.googleDocsUrl1.value = bitacora.googleDocsUrl1 || '';
+                    form.instrumentoBitacora1.value = bitacora.instrumentoBitacora1 || '';
+                    form.googleDocsUrl2.value = bitacora.googleDocsUrl2 || '';
+                    form.instrumentoBitacora2.value = bitacora.instrumentoBitacora2 || '';
+                    document.getElementById('alumno-bitacora-link-1').innerHTML = bitacora.googleDocsUrl1
+                        ? `<a href="${escapeHtml(bitacora.googleDocsUrl1)}" target="_blank" rel="noopener">Abrir bitácora 1 ↗</a>`
+                        : '';
+                    document.getElementById('alumno-bitacora-link-2').innerHTML = bitacora.googleDocsUrl2
+                        ? `<a href="${escapeHtml(bitacora.googleDocsUrl2)}" target="_blank" rel="noopener">Abrir bitácora 2 ↗</a>`
                         : '';
                 } catch (err) {
                     console.error('Error al cargar bitácora:', err);
@@ -452,9 +473,13 @@
                     method: 'PUT',
                     body: JSON.stringify({
                         nombre: form.nombre.value.trim(),
+                        email: form.email.value.trim(),
                         telefono: form.telefono.value.trim() || null,
                         fechaNacimiento: form.fechaNacimiento.value || null,
-                        googleDocsUrl: form.googleDocsUrl.value.trim() || null,
+                        googleDocsUrl1: form.googleDocsUrl1.value.trim() || null,
+                        instrumentoBitacora1: form.instrumentoBitacora1.value || null,
+                        googleDocsUrl2: form.googleDocsUrl2.value.trim() || null,
+                        instrumentoBitacora2: form.instrumentoBitacora2.value || null,
                         activo: form.activo.checked,
                         fechaPrimeraClase: form.fechaPrimeraClase.value || null
                     })
@@ -468,6 +493,14 @@
                 boton.disabled = false;
             }
         });
+
+        // ---------------------------------------------------------- bitácoras (selects de instrumento)
+
+        const opcionesInstrumento = '<option value="">— Instrumento —</option>' + Object.keys(INSTRUMENTOS).map(key =>
+            `<option value="${key}">${INSTRUMENTOS[key]}</option>`
+        ).join('');
+        document.getElementById('al-instrumentoBitacora1').innerHTML = opcionesInstrumento;
+        document.getElementById('al-instrumentoBitacora2').innerHTML = opcionesInstrumento;
 
         // ---------------------------------------------------------- generar clases del ciclo
 
