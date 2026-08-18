@@ -198,8 +198,37 @@
                 <div id="pago-transacciones"></div>
                 <div class="fila-acciones" style="margin-top:14px;">
                     <button type="button" class="btn-chico secundario" id="btn-registrar-transaccion">Registrar transacción</button>
+                    <button type="button" class="btn-chico secundario" id="btn-editar-cargo">Editar cargo</button>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- Modal: editar cargo -->
+    <div class="modal-overlay" id="modal-editar-cargo">
+        <div class="modal">
+            <button type="button" class="modal-cerrar" data-cerrar="modal-editar-cargo">&times;</button>
+            <h3>Editar cargo</h3>
+            <form class="modal-form" id="form-editar-cargo">
+                <label for="ec-monto">Monto</label>
+                <input type="number" id="ec-monto" name="monto" step="0.01" min="0.01" required>
+
+                <label for="ec-periodo">Periodo</label>
+                <input type="month" id="ec-periodo" name="periodo" required>
+                <p class="ayuda-campo">Cambia el mes si el pago corresponde al periodo actual o al que está por
+                    comenzar, en vez del que se registró originalmente.</p>
+
+                <label for="ec-fechaLimite">Fecha límite de pago</label>
+                <input type="date" id="ec-fechaLimite" name="fechaLimite" required>
+
+                <label for="ec-notas">Notas (opcional)</label>
+                <textarea id="ec-notas" name="notas" maxlength="500"></textarea>
+
+                <div class="form-inline-botones">
+                    <button type="submit" class="btn-chico">Guardar cambios</button>
+                    <button type="button" class="btn-chico secundario" data-cerrar="modal-editar-cargo">Cancelar</button>
+                </div>
+            </form>
         </div>
     </div>
 
@@ -372,6 +401,7 @@
                             <button type="button" class="btn-chico" data-confirmar-tx="${t.id}">Confirmar</button>
                             <button type="button" class="btn-chico secundario" data-rechazar-tx="${t.id}">Rechazar</button>
                         ` : ''}
+                        <button type="button" class="btn-chico peligro" data-eliminar-tx="${t.id}">Eliminar</button>
                     </div>
                 </div>
             `).join('');
@@ -385,23 +415,33 @@
                     abrirModal('modal-rechazar-transaccion');
                 });
             });
+            cont.querySelectorAll('[data-eliminar-tx]').forEach(btn => {
+                btn.addEventListener('click', () => eliminarTransaccion(btn.dataset.eliminarTx));
+            });
+        }
+
+        /** Resumen + transacciones del pago actual — compartido por abrirDetallePago y refrescarDetallePago
+         *  para que confirmar/rechazar/eliminar una transacción o editar el cargo siempre dejen
+         *  el Monto/Pagado/Saldo/Estado del encabezado al día, no solo la lista de transacciones. */
+        function renderDetallePago(pago) {
+            document.getElementById('dp-titulo').textContent = `${pago.alumnoNombre} — ${formatearPeriodo(pago.periodo)}`;
+            document.getElementById('dp-resumen').innerHTML = `
+                ${pago.vencido ? '<p class="pago-vencido-aviso"><i class="fa-solid fa-triangle-exclamation"></i> Este pago está vencido.</p>' : ''}
+                <div class="pago-resumen">
+                    <div class="resumen-mes-dato"><span class="numero">$${Number(pago.monto).toFixed(2)}</span><span class="etiqueta">Monto</span></div>
+                    <div class="resumen-mes-dato"><span class="numero">$${Number(pago.montoPagado).toFixed(2)}</span><span class="etiqueta">Pagado</span></div>
+                    <div class="resumen-mes-dato"><span class="numero">$${Number(pago.saldoPendiente).toFixed(2)}</span><span class="etiqueta">Saldo</span></div>
+                </div>
+                <p>${badgeEstado(pago.estado)} &nbsp;vence el ${formatearFechaCorta(pago.fechaLimite)}</p>
+            `;
+            renderTransacciones(pago);
         }
 
         async function abrirDetallePago(id) {
             try {
                 const pago = await apiFetch(`/admin/pagos/${id}`);
                 pagoActualId = pago.id;
-                document.getElementById('dp-titulo').textContent = `${pago.alumnoNombre} — ${formatearPeriodo(pago.periodo)}`;
-                document.getElementById('dp-resumen').innerHTML = `
-                    ${pago.vencido ? '<p class="pago-vencido-aviso"><i class="fa-solid fa-triangle-exclamation"></i> Este pago está vencido.</p>' : ''}
-                    <div class="pago-resumen">
-                        <div class="resumen-mes-dato"><span class="numero">$${Number(pago.monto).toFixed(2)}</span><span class="etiqueta">Monto</span></div>
-                        <div class="resumen-mes-dato"><span class="numero">$${Number(pago.montoPagado).toFixed(2)}</span><span class="etiqueta">Pagado</span></div>
-                        <div class="resumen-mes-dato"><span class="numero">$${Number(pago.saldoPendiente).toFixed(2)}</span><span class="etiqueta">Saldo</span></div>
-                    </div>
-                    <p>${badgeEstado(pago.estado)} &nbsp;vence el ${formatearFechaCorta(pago.fechaLimite)}</p>
-                `;
-                renderTransacciones(pago);
+                renderDetallePago(pago);
                 abrirModal('modal-detalle-pago');
             } catch (err) {
                 mostrarMensaje('admin-mensaje', err.message, 'error');
@@ -410,7 +450,7 @@
 
         async function refrescarDetallePago() {
             const pago = await apiFetch(`/admin/pagos/${pagoActualId}`);
-            renderTransacciones(pago);
+            renderDetallePago(pago);
             cargarPagos(paginaActualPagos);
         }
 
@@ -457,6 +497,19 @@
             }
         }
 
+        /** A diferencia de "Rechazar", borra la transacción por completo — para cuando el admin
+         *  la confirmó por error y no solo quiere marcarla como rechazada. */
+        async function eliminarTransaccion(id) {
+            if (!confirm('¿Eliminar esta transacción permanentemente? Si estaba confirmada, el saldo del pago se recalculará. Esta acción no se puede deshacer.')) return;
+            try {
+                await apiFetch(`/admin/pagos/transacciones/${id}`, { method: 'DELETE' });
+                mostrarMensaje('admin-mensaje', 'Transacción eliminada.', 'exito');
+                await refrescarDetallePago();
+            } catch (err) {
+                mostrarMensaje('admin-mensaje', err.message, 'error');
+            }
+        }
+
         document.getElementById('form-rechazar-transaccion').addEventListener('submit', async (e) => {
             e.preventDefault();
             const form = e.target;
@@ -469,6 +522,48 @@
                 });
                 cerrarModal('modal-rechazar-transaccion');
                 mostrarMensaje('admin-mensaje', 'Transacción rechazada.', 'exito');
+                await refrescarDetallePago();
+            } catch (err) {
+                mostrarMensaje('admin-mensaje', err.message, 'error');
+            } finally {
+                boton.disabled = false;
+            }
+        });
+
+        // ---------------------------------------------------------- editar cargo
+
+        document.getElementById('btn-editar-cargo').addEventListener('click', async () => {
+            try {
+                const pago = await apiFetch(`/admin/pagos/${pagoActualId}`);
+                const form = document.getElementById('form-editar-cargo');
+                form.reset();
+                form.monto.value = pago.monto;
+                form.periodo.value = pago.periodo;
+                form.fechaLimite.value = pago.fechaLimite;
+                form.notas.value = pago.notas || '';
+                abrirModal('modal-editar-cargo');
+            } catch (err) {
+                mostrarMensaje('admin-mensaje', err.message, 'error');
+            }
+        });
+
+        document.getElementById('form-editar-cargo').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const form = e.target;
+            const boton = form.querySelector('button[type="submit"]');
+            boton.disabled = true;
+            try {
+                await apiFetch(`/admin/pagos/${pagoActualId}`, {
+                    method: 'PUT',
+                    body: JSON.stringify({
+                        monto: form.monto.value ? Number(form.monto.value) : null,
+                        periodo: form.periodo.value.trim() || null,
+                        fechaLimite: form.fechaLimite.value || null,
+                        notas: form.notas.value.trim() || null
+                    })
+                });
+                cerrarModal('modal-editar-cargo');
+                mostrarMensaje('admin-mensaje', 'Cargo actualizado.', 'exito');
                 await refrescarDetallePago();
             } catch (err) {
                 mostrarMensaje('admin-mensaje', err.message, 'error');
