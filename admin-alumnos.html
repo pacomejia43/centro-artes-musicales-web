@@ -82,7 +82,7 @@
                         <thead>
                             <tr>
                                 <th>Nombre</th>
-                                <th>Email</th>
+                                <th>ID usuario</th>
                                 <th>Teléfono</th>
                                 <th>Inscripción</th>
                                 <th>Estado</th>
@@ -207,6 +207,10 @@
 
                 <label for="al-fechaNacimiento">Fecha de nacimiento</label>
                 <input type="date" id="al-fechaNacimiento" name="fechaNacimiento">
+
+                <label for="al-fechaInscripcion">Fecha de inscripción</label>
+                <input type="date" id="al-fechaInscripcion" name="fechaInscripcion" required>
+                <p class="ayuda-campo">Es independiente de la fecha de primera clase: son fechas distintas y cambiar una no modifica la otra ni afecta el ciclo de clases o el próximo pago.</p>
 
                 <label for="al-fechaPrimeraClase">Fecha de primera clase</label>
                 <input type="date" id="al-fechaPrimeraClase" name="fechaPrimeraClase">
@@ -464,6 +468,7 @@
                 form.nombre.value = alumno.nombre || '';
                 form.telefono.value = alumno.telefono || '';
                 form.fechaNacimiento.value = alumno.fechaNacimiento || '';
+                form.fechaInscripcion.value = alumno.fechaInscripcion || '';
                 form.fechaPrimeraClase.value = alumno.fechaPrimeraClase || '';
                 if (alumno.precioMensual != null) {
                     form.precioMensual.value = alumno.precioMensual;
@@ -586,6 +591,7 @@
                         googleDocsUrl2: form.googleDocsUrl2.value.trim() || null,
                         instrumentoBitacora2: form.instrumentoBitacora2.value || null,
                         activo: form.activo.checked,
+                        fechaInscripcion: form.fechaInscripcion.value || null,
                         fechaPrimeraClase: form.fechaPrimeraClase.value || null,
                         precioMensual: form.precioMensual.value ? Number(form.precioMensual.value) : null
                     })
