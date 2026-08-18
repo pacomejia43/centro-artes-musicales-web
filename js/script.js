@@ -1,4 +1,21 @@
 // ══════════════════════════════════════
+// MOSTRAR/OCULTAR CONTRASEÑA (botón de ojito)
+// No hace nada en páginas sin este botón (ej. si el NodeList sale vacío)
+// ══════════════════════════════════════
+
+document.querySelectorAll('.btn-mostrar-password').forEach(boton => {
+    boton.addEventListener('click', () => {
+        const input = document.getElementById(boton.dataset.target);
+        if (!input) return;
+        const mostrar = input.type === 'password';
+        input.type = mostrar ? 'text' : 'password';
+        boton.querySelector('i').className = mostrar ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye';
+        boton.setAttribute('aria-label', mostrar ? 'Ocultar contraseña' : 'Mostrar contraseña');
+    });
+});
+
+
+// ══════════════════════════════════════
 // MENÚ RESPONSIVE
 // ══════════════════════════════════════
 

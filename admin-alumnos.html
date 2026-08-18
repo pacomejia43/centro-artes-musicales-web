@@ -178,6 +178,9 @@
                 <label for="na-fechaPrimeraClase">Fecha de primera clase (opcional)</label>
                 <input type="date" id="na-fechaPrimeraClase" name="fechaPrimeraClase">
 
+                <label for="na-precioMensual">Precio mensual (opcional)</label>
+                <input type="number" id="na-precioMensual" name="precioMensual" min="0.01" step="0.01" placeholder="Si se deja vacío, se usa el precio general">
+
                 <div class="form-inline-botones">
                     <button type="submit" class="btn-chico">Crear alumno</button>
                     <button type="button" class="btn-chico secundario" data-cerrar="modal-nuevo-alumno">Cancelar</button>
@@ -208,6 +211,10 @@
                 <label for="al-fechaPrimeraClase">Fecha de primera clase</label>
                 <input type="date" id="al-fechaPrimeraClase" name="fechaPrimeraClase">
                 <p class="ayuda-campo">Con esta fecha se calculan las 4 clases del ciclo y se genera automáticamente el cargo del próximo pago (4 semanas después).</p>
+
+                <label for="al-precioMensual">Precio mensual</label>
+                <input type="number" id="al-precioMensual" name="precioMensual" min="0.01" step="0.01" placeholder="Precio general">
+                <p class="ayuda-campo">Deja el precio general si este alumno paga lo mismo que todos; cámbialo solo si paga una tarifa distinta.</p>
 
                 <label>Bitácora 1 (Google Docs)</label>
                 <div style="display:flex; gap:8px;">
@@ -244,11 +251,27 @@
             </div>
 
             <div class="modal-seccion">
+                <h4>Cupo de clases por instrumento</h4>
+                <p class="ayuda-campo">
+                    Opcional. Si no configuras nada aquí, el alumno se rige por el límite mensual general (4 clases,
+                    sin importar el instrumento). Configura cupos solo para alumnos que reparten sus clases entre
+                    varios instrumentos (ej. Valentina: 2 de piano + 2 de canto al mes).
+                </p>
+                <div id="alumno-cupos-lista"></div>
+                <div class="fila-acciones" style="margin-top:10px;">
+                    <button type="button" class="btn-chico secundario" id="btn-agregar-cupo">+ Agregar instrumento</button>
+                    <button type="button" class="btn-chico secundario" id="btn-guardar-cupos">Guardar cupos</button>
+                </div>
+            </div>
+
+            <div class="modal-seccion">
                 <h4>Otras acciones</h4>
                 <div class="fila-acciones">
                     <a class="btn-chico secundario" id="alumno-link-pagos" href="#">Ver pagos</a>
                     <button type="button" class="btn-chico secundario" id="btn-reset-password">Restablecer contraseña</button>
+                    <button type="button" class="btn-chico secundario" id="btn-ver-password">Ver contraseña actual</button>
                 </div>
+                <div id="password-visible-contenedor"></div>
             </div>
         </div>
     </div>
@@ -379,7 +402,8 @@
                         nombre: form.nombre.value.trim(),
                         telefono: form.telefono.value.trim() || null,
                         fechaNacimiento: form.fechaNacimiento.value || null,
-                        fechaPrimeraClase: form.fechaPrimeraClase.value || null
+                        fechaPrimeraClase: form.fechaPrimeraClase.value || null,
+                        precioMensual: form.precioMensual.value ? Number(form.precioMensual.value) : null
                     })
                 });
                 cerrarModal('modal-nuevo-alumno');
@@ -406,9 +430,11 @@
                 form.telefono.value = alumno.telefono || '';
                 form.fechaNacimiento.value = alumno.fechaNacimiento || '';
                 form.fechaPrimeraClase.value = alumno.fechaPrimeraClase || '';
+                form.precioMensual.value = alumno.precioMensual != null ? alumno.precioMensual : '';
                 form.activo.checked = !!alumno.activo;
 
                 document.getElementById('alumno-link-pagos').href = `admin-pagos.html?alumnoId=${alumno.id}`;
+                document.getElementById('password-visible-contenedor').innerHTML = '';
 
                 const cicloSeccion = document.getElementById('alumno-ciclo-seccion');
                 const cicloInfo = document.getElementById('alumno-ciclo-info');
@@ -450,6 +476,14 @@
                 resumenEl.innerHTML = '<h4>Resumen del mes</h4><p class="lista-vacia">Cargando…</p>';
                 try {
                     const resumen = await apiFetch(`/admin/alumnos/${id}/resumen-mes`);
+                    const filasPorInstrumento = (resumen.porInstrumento || []).map(item => `
+                        <div class="clase-item">
+                            <div class="clase-info">
+                                <strong>${escapeHtml(INSTRUMENTOS[item.instrumento] || item.instrumento)}</strong>
+                                <span>${item.tomadas} tomadas de ${item.cupoMensual} · ${item.disponibles} disponibles</span>
+                            </div>
+                        </div>
+                    `).join('');
                     resumenEl.innerHTML = `
                         <h4>Resumen del mes (${escapeHtml(resumen.periodo)})</h4>
                         <div class="resumen-mes-grid">
@@ -457,9 +491,18 @@
                             <div class="resumen-mes-dato"><span class="numero">${resumen.clasesDisponibles}</span><span class="etiqueta">Disponibles</span></div>
                             <div class="resumen-mes-dato"><span class="numero">${resumen.limiteMensual}</span><span class="etiqueta">Límite</span></div>
                         </div>
+                        ${filasPorInstrumento}
                     `;
                 } catch (err) {
                     resumenEl.innerHTML = `<h4>Resumen del mes</h4><p class="lista-vacia">${escapeHtml(err.message)}</p>`;
+                }
+
+                document.getElementById('alumno-cupos-lista').innerHTML = '';
+                try {
+                    const cupos = await apiFetch(`/admin/alumnos/${id}/cupos`);
+                    cupos.forEach(c => agregarFilaCupo(c.instrumento, c.cupoMensual));
+                } catch (err) {
+                    mostrarMensaje('admin-mensaje', err.message, 'error');
                 }
 
                 abrirModal('modal-alumno');
@@ -486,7 +529,8 @@
                         googleDocsUrl2: form.googleDocsUrl2.value.trim() || null,
                         instrumentoBitacora2: form.instrumentoBitacora2.value || null,
                         activo: form.activo.checked,
-                        fechaPrimeraClase: form.fechaPrimeraClase.value || null
+                        fechaPrimeraClase: form.fechaPrimeraClase.value || null,
+                        precioMensual: form.precioMensual.value ? Number(form.precioMensual.value) : null
                     })
                 });
                 cerrarModal('modal-alumno');
@@ -506,6 +550,72 @@
         ).join('');
         document.getElementById('al-instrumentoBitacora1').innerHTML = opcionesInstrumento;
         document.getElementById('al-instrumentoBitacora2').innerHTML = opcionesInstrumento;
+
+        // ---------------------------------------------------------- cupo de clases por instrumento
+
+        function agregarFilaCupo(instrumentoSeleccionado, cantidad) {
+            const opciones = Object.keys(INSTRUMENTOS).map(key =>
+                `<option value="${key}" ${key === instrumentoSeleccionado ? 'selected' : ''}>${INSTRUMENTOS[key]}</option>`
+            ).join('');
+            const fila = document.createElement('div');
+            fila.className = 'fila-cupo';
+            fila.innerHTML = `
+                <select class="cupo-instrumento">${opciones}</select>
+                <input type="number" class="cupo-cantidad" min="1" step="1" value="${cantidad || 1}">
+                <button type="button" class="btn-chico secundario btn-quitar-cupo">Quitar</button>
+            `;
+            fila.querySelector('.btn-quitar-cupo').addEventListener('click', () => fila.remove());
+            document.getElementById('alumno-cupos-lista').appendChild(fila);
+        }
+
+        document.getElementById('btn-agregar-cupo').addEventListener('click', () => agregarFilaCupo(null, 2));
+
+        document.getElementById('btn-guardar-cupos').addEventListener('click', async () => {
+            const filas = document.querySelectorAll('#alumno-cupos-lista .fila-cupo');
+            const cupos = Array.from(filas).map(fila => ({
+                instrumento: fila.querySelector('.cupo-instrumento').value,
+                cupoMensual: Number(fila.querySelector('.cupo-cantidad').value)
+            }));
+            try {
+                await apiFetch(`/admin/alumnos/${alumnoActualId}/cupos`, {
+                    method: 'PUT',
+                    body: JSON.stringify({ cupos })
+                });
+                mostrarMensaje('admin-mensaje', 'Cupos guardados.', 'exito');
+            } catch (err) {
+                mostrarMensaje('admin-mensaje', err.message, 'error');
+            }
+        });
+
+        // ---------------------------------------------------------- ver contraseña actual
+
+        document.getElementById('btn-ver-password').addEventListener('click', async () => {
+            const contenedor = document.getElementById('password-visible-contenedor');
+            contenedor.innerHTML = '<p class="lista-vacia">Cargando…</p>';
+            try {
+                const resp = await apiFetch(`/admin/alumnos/${alumnoActualId}/password`);
+                if (!resp.password) {
+                    contenedor.innerHTML = '<p class="lista-vacia">Este alumno no tiene una contraseña capturada para mostrar todavía (por ejemplo, si nunca ha iniciado sesión ni se le ha restablecido la contraseña desde que existe esta función).</p>';
+                    return;
+                }
+                contenedor.innerHTML = `
+                    <div class="password-visible-caja">
+                        <code>${escapeHtml(resp.password)}</code>
+                        <button type="button" class="btn-chico secundario" id="btn-copiar-password">Copiar</button>
+                    </div>
+                `;
+                document.getElementById('btn-copiar-password').addEventListener('click', async () => {
+                    try {
+                        await navigator.clipboard.writeText(resp.password);
+                        mostrarMensaje('admin-mensaje', 'Contraseña copiada al portapapeles.', 'exito');
+                    } catch (err) {
+                        mostrarMensaje('admin-mensaje', 'No se pudo copiar automáticamente; selecciónala manualmente.', 'error');
+                    }
+                });
+            } catch (err) {
+                contenedor.innerHTML = `<p class="lista-vacia">${escapeHtml(err.message)}</p>`;
+            }
+        });
 
         // ---------------------------------------------------------- generar clases del ciclo
 

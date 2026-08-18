@@ -74,6 +74,7 @@
                         <span class="etiqueta">Clases disponibles</span>
                     </div>
                 </div>
+                <div id="resumen-por-instrumento"></div>
             </div>
 
             <div class="panel-card">
@@ -104,6 +105,31 @@
             <div class="panel-card">
                 <h2><i class="fa-solid fa-book-open"></i> Mi bitácora</h2>
                 <div id="bitacora-contenedor"><p class="lista-vacia">Cargando…</p></div>
+            </div>
+
+            <div class="panel-card">
+                <h2><i class="fa-solid fa-key"></i> Cambiar contraseña</h2>
+                <form class="form-inline visible" id="form-cambiar-password">
+                    <label for="cp-actual">Contraseña actual</label>
+                    <div class="campo-password">
+                        <input type="password" id="cp-actual" name="passwordActual" required autocomplete="current-password">
+                        <button type="button" class="btn-mostrar-password" data-target="cp-actual" aria-label="Mostrar contraseña">
+                            <i class="fa-solid fa-eye"></i>
+                        </button>
+                    </div>
+
+                    <label for="cp-nueva">Contraseña nueva (mínimo 8 caracteres)</label>
+                    <div class="campo-password">
+                        <input type="password" id="cp-nueva" name="passwordNueva" required minlength="8" autocomplete="new-password">
+                        <button type="button" class="btn-mostrar-password" data-target="cp-nueva" aria-label="Mostrar contraseña">
+                            <i class="fa-solid fa-eye"></i>
+                        </button>
+                    </div>
+
+                    <div class="form-inline-botones">
+                        <button type="submit" class="btn-chico">Cambiar contraseña</button>
+                    </div>
+                </form>
             </div>
 
         </div>
@@ -235,6 +261,20 @@
             document.getElementById('resumen-tomadas').textContent = resumen.clasesTomadas;
             document.getElementById('resumen-disponibles').textContent = resumen.clasesDisponibles;
             document.getElementById('resumen-periodo').textContent = '(' + resumen.periodo + ')';
+
+            const porInstrumentoEl = document.getElementById('resumen-por-instrumento');
+            if (resumen.porInstrumento && resumen.porInstrumento.length > 0) {
+                porInstrumentoEl.innerHTML = resumen.porInstrumento.map(item => `
+                    <div class="clase-item">
+                        <div class="clase-info">
+                            <strong>${escapeHtml(INSTRUMENTOS[item.instrumento] || item.instrumento)}</strong>
+                            <span>${item.tomadas} tomadas de ${item.cupoMensual} · ${item.disponibles} disponibles</span>
+                        </div>
+                    </div>
+                `).join('');
+            } else {
+                porInstrumentoEl.innerHTML = '';
+            }
         }
 
         // ---------------------------------------------------------- clases + reagendo
@@ -470,6 +510,30 @@
                 contenedor.innerHTML = '<p class="lista-vacia">Tu profesor aún no ha compartido tu bitácora. Estará disponible aquí en cuanto lo haga.</p>';
             }
         }
+
+        // ---------------------------------------------------------- cambiar contraseña
+
+        document.getElementById('form-cambiar-password').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const form = e.target;
+            const boton = form.querySelector('button[type="submit"]');
+            boton.disabled = true;
+            try {
+                await apiFetch('/auth/password', {
+                    method: 'PUT',
+                    body: JSON.stringify({
+                        passwordActual: form.passwordActual.value,
+                        passwordNueva: form.passwordNueva.value
+                    })
+                });
+                form.reset();
+                mostrarMensajePanel('Tu contraseña fue actualizada.', 'exito');
+            } catch (err) {
+                mostrarMensajePanel(err.message, 'error');
+            } finally {
+                boton.disabled = false;
+            }
+        });
 
         // ---------------------------------------------------------- arranque
 

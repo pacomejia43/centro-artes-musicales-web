@@ -2354,12 +2354,6 @@ background-position:
     background-color: var(--verde-boton-hover);
 }
 
-.instalar-instrucciones {
-    margin-top: 18px;
-    color: #777;
-    font-size: 0.9rem;
-}
-
 .instalar-qr-imprimible {
     margin-top: 34px;
     padding-top: 30px;
@@ -2387,8 +2381,7 @@ background-position:
     header .btn-instalar-app,
     footer,
     .instalar-tarjeta .instalar-subtitulo,
-    #btn-instalar-pwa,
-    .instalar-instrucciones {
+    #btn-instalar-pwa {
         display: none !important;
     }
 
@@ -2410,4 +2403,80 @@ background-position:
         width: 320px;
         height: 320px;
     }
+}
+
+
+/* ==========================================
+   CUPO DE CLASES POR INSTRUMENTO Y VER CONTRASEÑA — admin-alumnos.html
+========================================== */
+
+.fila-cupo {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.fila-cupo select {
+    flex: 1;
+}
+
+.fila-cupo input {
+    width: 80px;
+}
+
+.password-visible-caja {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background-color: var(--crema-fondo);
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin-top: 10px;
+}
+
+.password-visible-caja code {
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+
+/* ==========================================
+   BOTÓN DE OJITO (mostrar/ocultar contraseña)
+   Al final del archivo a propósito: .campo-password input debe ganar el padding-right
+   sin importar qué otras reglas de "input" existan para el formulario donde se use
+   (.auth-form, .form-inline, .modal-form, etc.) — con igual especificidad, gana el
+   orden de aparición en la hoja de estilos.
+========================================== */
+
+.campo-password {
+    position: relative;
+}
+
+.campo-password input {
+    display: block;
+    width: 100%;
+    padding-right: 46px;
+}
+
+.campo-password .btn-mostrar-password {
+    position: absolute;
+    top: 50%;
+    right: 6px;
+    margin: 0;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    padding: 8px;
+    color: #999;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1;
+}
+
+.campo-password .btn-mostrar-password:hover {
+    background: none;
+    color: var(--verde-boton);
 }
