@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Iniciar sesión — Centro de Artes Musicales</title>
+    <title>Instala la app — Centro de Artes Musicales</title>
     <link rel="stylesheet" href="css/estilos.css">
     <link rel="manifest" href="manifest.json">
     <link rel="icon" type="image/png" href="img/logos/icon-192.png">
@@ -49,24 +49,25 @@
         </a>
     </header>
 
-    <section class="auth-section">
-        <div class="auth-card">
-            <h2>Iniciar sesión</h2>
-            <p class="auth-subtitulo">Consulta tus clases, pagos y tu bitácora</p>
+    <section class="instalar-section">
+        <div class="instalar-tarjeta">
+            <img src="img/logos/solologotransparente.png" alt="Centro de Artes Musicales" class="instalar-logo">
+            <h1>Instala la app de CEDAM</h1>
+            <p class="instalar-subtitulo">Accede más rápido a tus clases, pagos y bitácora — directo desde la pantalla de inicio de tu celular, como una app.</p>
 
-            <div class="auth-mensaje error" id="login-error"></div>
+            <button type="button" id="btn-instalar-pwa" style="display:none;">
+                <i class="fa-solid fa-download"></i> Instalar app
+            </button>
+            <p class="instalar-instrucciones">
+                Si el botón no aparece, tu navegador ya la tiene instalada o necesitas instalarla manualmente:
+                en iPhone toca <i class="fa-solid fa-arrow-up-from-bracket"></i> Compartir → "Agregar a pantalla de inicio";
+                en Android, abre el menú (⋮) → "Agregar a pantalla de inicio" o "Instalar app".
+            </p>
 
-            <form class="auth-form" id="login-form">
-                <label for="email">Usuario</label>
-                <input type="text" id="email" name="email" required autocomplete="username">
-
-                <label for="password">Contraseña</label>
-                <input type="password" id="password" name="password" required autocomplete="current-password">
-
-                <button type="submit" id="login-btn">Entrar</button>
-            </form>
-
-            <p class="auth-switch">¿Aún no tienes cuenta? <a href="registro.html">Regístrate aquí</a></p>
+            <div class="instalar-qr-imprimible">
+                <img src="img/logos/qr-instalar-app.png" alt="Código QR para instalar la app de Centro de Artes Musicales">
+                <p>Escanea para instalar<br><strong>cedam.vercel.app/instalar.html</strong></p>
+            </div>
         </div>
     </section>
 
@@ -126,38 +127,5 @@
     <script src="js/api.js"></script>
     <script src="js/script.js"></script>
     <script src="js/pwa.js"></script>
-    <script>
-        document.getElementById('login-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const btn = document.getElementById('login-btn');
-            const errorBox = document.getElementById('login-error');
-            errorBox.classList.remove('visible');
-
-            const email = document.getElementById('email').value.trim();
-            const password = document.getElementById('password').value;
-
-            btn.disabled = true;
-            btn.textContent = 'Entrando...';
-
-            try {
-                const data = await apiFetch('/auth/login', {
-                    method: 'POST',
-                    body: JSON.stringify({ email, password })
-                });
-                guardarSesion(data.token, {
-                    usuarioId: data.usuarioId,
-                    nombre: data.nombre,
-                    email: data.email,
-                    role: data.role
-                });
-                window.location.href = (data.role === 'ADMIN') ? 'admin.html' : 'mi-cuenta.html';
-            } catch (err) {
-                errorBox.textContent = err.message;
-                errorBox.classList.add('visible');
-                btn.disabled = false;
-                btn.textContent = 'Entrar';
-            }
-        });
-    </script>
 </body>
 </html>

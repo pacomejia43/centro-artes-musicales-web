@@ -169,6 +169,25 @@ nav ul li a:hover {
     background-color: var(--verde-boton-hover);
 }
 
+/* Selector compuesto (no solo .btn-instalar-app): este botón también trae la clase
+   .btn-header para heredar tamaño/radio/tipografía. Fondo y borde van con !important
+   porque necesitan pisar tanto a .btn-header como el estilo nativo del navegador
+   para <button> (que .btn-header nunca tuvo que pelear al ser siempre un <a>). */
+.btn-header.btn-instalar-app {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    background-color: transparent !important;
+    border: 2px solid var(--blanco) !important;
+    color: var(--blanco);
+    font-family: inherit;
+}
+
+.btn-header.btn-instalar-app:hover {
+    background-color: rgba(255, 255, 255, 0.15) !important;
+}
+
 
 /* ==========================================
    HERO / PORTADA PRINCIPAL
@@ -995,6 +1014,14 @@ footer {
 
     .btn-header {
         display: none;
+    }
+
+    /* A diferencia del botón de WhatsApp, este sí debe verse en celular: es justo ahí donde sirve. */
+    .btn-header.btn-instalar-app {
+        display: inline-flex;
+        padding: 8px 14px;
+        font-size: 12px;
+        margin-right: 8px;
     }
 
     /* HERO */
@@ -2272,5 +2299,115 @@ background-position:
     .tabla-admin th,
     .tabla-admin td {
         padding: 10px;
+    }
+}
+
+/* --- instalar.html (instalar la app / QR) --- */
+
+.instalar-section {
+    padding: 60px 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.instalar-tarjeta {
+    background-color: var(--blanco);
+    border-radius: 18px;
+    padding: 40px 36px;
+    max-width: 480px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+}
+
+.instalar-logo {
+    width: 90px;
+    height: 90px;
+    margin: 0 auto 18px;
+    display: block;
+}
+
+.instalar-tarjeta h1 {
+    color: var(--verde-oscuro);
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+.instalar-tarjeta > p.instalar-subtitulo {
+    color: var(--texto-oscuro);
+    margin-bottom: 26px;
+}
+
+#btn-instalar-pwa {
+    background-color: var(--verde-boton);
+    color: var(--blanco);
+    border: none;
+    padding: 14px 28px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+#btn-instalar-pwa:hover {
+    background-color: var(--verde-boton-hover);
+}
+
+.instalar-instrucciones {
+    margin-top: 18px;
+    color: #777;
+    font-size: 0.9rem;
+}
+
+.instalar-qr-imprimible {
+    margin-top: 34px;
+    padding-top: 30px;
+    border-top: 1px solid #eee;
+}
+
+.instalar-qr-imprimible img {
+    width: 220px;
+    height: 220px;
+    margin: 0 auto;
+    display: block;
+    border-radius: 8px;
+}
+
+.instalar-qr-imprimible p {
+    margin-top: 14px;
+    color: #777;
+    font-size: 0.9rem;
+}
+
+@media print {
+    header nav,
+    header .menu-toggle,
+    header .btn-header,
+    header .btn-instalar-app,
+    footer,
+    .instalar-tarjeta .instalar-subtitulo,
+    #btn-instalar-pwa,
+    .instalar-instrucciones {
+        display: none !important;
+    }
+
+    header {
+        position: static;
+        justify-content: center;
+    }
+
+    .instalar-tarjeta {
+        box-shadow: none;
+        max-width: 100%;
+    }
+
+    .instalar-qr-imprimible {
+        border-top: none;
+    }
+
+    .instalar-qr-imprimible img {
+        width: 320px;
+        height: 320px;
     }
 }
