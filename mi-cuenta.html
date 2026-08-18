@@ -235,7 +235,7 @@
         // ---------------------------------------------------------- clases + reagendo
 
         async function cargarClases() {
-            const pagina = await apiFetch('/alumno/clases?size=20&sort=fechaHora,desc');
+            const pagina = await apiFetch('/alumno/clases?size=20&sort=fechaHora,asc');
             const lista = document.getElementById('lista-clases');
             lista.innerHTML = '';
 
