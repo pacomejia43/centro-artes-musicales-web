@@ -288,7 +288,7 @@
                         const tr = document.createElement('tr');
                         tr.innerHTML = `
                             <td>${escapeHtml(p.alumnoNombre)}</td>
-                            <td>${escapeHtml(p.periodo)}</td>
+                            <td>${escapeHtml(formatearPeriodo(p.periodo))}</td>
                             <td>$${Number(p.monto).toFixed(2)}</td>
                             <td>$${Number(p.montoPagado).toFixed(2)}</td>
                             <td>$${Number(p.saldoPendiente).toFixed(2)}${p.vencido ? ' <i class="fa-solid fa-triangle-exclamation" style="color:#a13a3a;" title="Vencido"></i>' : ''}</td>
@@ -391,7 +391,7 @@
             try {
                 const pago = await apiFetch(`/admin/pagos/${id}`);
                 pagoActualId = pago.id;
-                document.getElementById('dp-titulo').textContent = `${pago.alumnoNombre} — ${pago.periodo}`;
+                document.getElementById('dp-titulo').textContent = `${pago.alumnoNombre} — ${formatearPeriodo(pago.periodo)}`;
                 document.getElementById('dp-resumen').innerHTML = `
                     ${pago.vencido ? '<p class="pago-vencido-aviso"><i class="fa-solid fa-triangle-exclamation"></i> Este pago está vencido.</p>' : ''}
                     <div class="pago-resumen">

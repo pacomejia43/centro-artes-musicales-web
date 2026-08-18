@@ -2479,23 +2479,6 @@ background-position:
     width: 65px;
 }
 
-.password-visible-caja {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    background-color: var(--crema-fondo);
-    border-radius: 8px;
-    padding: 10px 14px;
-    margin-top: 10px;
-}
-
-.password-visible-caja code {
-    font-size: 1rem;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-}
-
-
 /* ==========================================
    BOTÓN DE OJITO (mostrar/ocultar contraseña)
    Al final del archivo a propósito: .campo-password input debe ganar el padding-right

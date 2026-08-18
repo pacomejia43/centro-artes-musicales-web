@@ -30,16 +30,29 @@ function escapeHtml(texto) {
     return div.innerHTML;
 }
 
+const MESES = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio',
+    'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
+
+/** "2026-08-08" (o con hora) -> "08/agosto/2026" */
+function formatearFechaCorta(fechaIso) {
+    if (!fechaIso) return '—';
+    const d = new Date(fechaIso.length > 10 ? fechaIso : fechaIso + 'T00:00:00');
+    return String(d.getDate()).padStart(2, '0') + '/' + MESES[d.getMonth()] + '/' + d.getFullYear();
+}
+
+/** "2026-08-08T16:00:00" -> "08/agosto/2026, 4:00 p.m." */
 function formatearFecha(fechaHoraIso) {
     if (!fechaHoraIso) return '—';
     const d = new Date(fechaHoraIso);
-    return d.toLocaleString('es-MX', { dateStyle: 'medium', timeStyle: 'short' });
+    const hora = d.toLocaleTimeString('es-MX', { hour: 'numeric', minute: '2-digit' });
+    return formatearFechaCorta(fechaHoraIso) + ', ' + hora;
 }
 
-function formatearFechaCorta(fechaIso) {
-    if (!fechaIso) return '—';
-    const d = new Date(fechaIso + 'T00:00:00');
-    return d.toLocaleDateString('es-MX', { dateStyle: 'medium' });
+/** "2026-08" (YearMonth) -> "agosto-2026" */
+function formatearPeriodo(periodoIso) {
+    if (!periodoIso) return '—';
+    const [anio, mes] = periodoIso.split('-').map(Number);
+    return MESES[mes - 1] + '-' + anio;
 }
 
 function badgeEstado(valor) {

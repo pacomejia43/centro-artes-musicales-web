@@ -264,9 +264,7 @@
                 <div class="fila-acciones">
                     <a class="btn-chico secundario" id="alumno-link-pagos" href="#">Ver pagos</a>
                     <button type="button" class="btn-chico secundario" id="btn-reset-password">Restablecer contraseña</button>
-                    <button type="button" class="btn-chico secundario" id="btn-ver-password">Ver contraseña actual</button>
                 </div>
-                <div id="password-visible-contenedor"></div>
             </div>
 
             <div class="form-inline-botones modal-botones-finales">
@@ -455,7 +453,6 @@
                 form.activo.checked = !!alumno.activo;
 
                 document.getElementById('alumno-link-pagos').href = `admin-pagos.html?alumnoId=${alumno.id}`;
-                document.getElementById('password-visible-contenedor').innerHTML = '';
 
                 const cicloSeccion = document.getElementById('alumno-ciclo-seccion');
                 const cicloInfo = document.getElementById('alumno-ciclo-info');
@@ -506,7 +503,7 @@
                         </div>
                     `).join('');
                     resumenEl.innerHTML = `
-                        <h4>Resumen del mes (${escapeHtml(resumen.periodo)})</h4>
+                        <h4>Resumen del mes (${escapeHtml(formatearPeriodo(resumen.periodo))})</h4>
                         <div class="resumen-mes-grid">
                             <div class="resumen-mes-dato"><span class="numero">${resumen.clasesTomadas}</span><span class="etiqueta">Tomadas</span></div>
                             <div class="resumen-mes-dato"><span class="numero">${resumen.clasesDisponibles}</span><span class="etiqueta">Disponibles</span></div>
@@ -601,36 +598,6 @@
         }
 
         document.getElementById('btn-agregar-cupo').addEventListener('click', () => agregarFilaCupo(null, 2));
-
-        // ---------------------------------------------------------- ver contraseña actual
-
-        document.getElementById('btn-ver-password').addEventListener('click', async () => {
-            const contenedor = document.getElementById('password-visible-contenedor');
-            contenedor.innerHTML = '<p class="lista-vacia">Cargando…</p>';
-            try {
-                const resp = await apiFetch(`/admin/alumnos/${alumnoActualId}/password`);
-                if (!resp.password) {
-                    contenedor.innerHTML = '<p class="lista-vacia">Este alumno no tiene una contraseña capturada para mostrar todavía (por ejemplo, si nunca ha iniciado sesión ni se le ha restablecido la contraseña desde que existe esta función).</p>';
-                    return;
-                }
-                contenedor.innerHTML = `
-                    <div class="password-visible-caja">
-                        <code>${escapeHtml(resp.password)}</code>
-                        <button type="button" class="btn-chico secundario" id="btn-copiar-password">Copiar</button>
-                    </div>
-                `;
-                document.getElementById('btn-copiar-password').addEventListener('click', async () => {
-                    try {
-                        await navigator.clipboard.writeText(resp.password);
-                        mostrarMensaje('admin-mensaje', 'Contraseña copiada al portapapeles.', 'exito');
-                    } catch (err) {
-                        mostrarMensaje('admin-mensaje', 'No se pudo copiar automáticamente; selecciónala manualmente.', 'error');
-                    }
-                });
-            } catch (err) {
-                contenedor.innerHTML = `<p class="lista-vacia">${escapeHtml(err.message)}</p>`;
-            }
-        });
 
         // ---------------------------------------------------------- generar clases del ciclo
 
