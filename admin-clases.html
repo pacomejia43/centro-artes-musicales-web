@@ -361,7 +361,7 @@
                 hasta: document.getElementById('filtro-hasta').value,
                 page: pagina,
                 size: 15,
-                sort: 'fechaHora,desc'
+                sort: 'fechaHora,asc'
             });
             try {
                 const pageResp = await apiFetch('/admin/clases' + qs);
@@ -385,6 +385,7 @@
                                     <button type="button" class="btn-chico secundario" data-reagendar="${c.id}">Reagendar</button>
                                     <button type="button" class="btn-chico secundario" data-cancelar="${c.id}">Cancelar</button>
                                 ` : ''}
+                                <button type="button" class="btn-chico peligro" data-eliminar="${c.id}">Eliminar</button>
                             </div></td>
                         `;
                         tbody.appendChild(tr);
@@ -409,6 +410,9 @@
                             document.getElementById('form-cancelar-clase').reset();
                             abrirModal('modal-cancelar-clase');
                         });
+                    });
+                    tbody.querySelectorAll('[data-eliminar]').forEach(btn => {
+                        btn.addEventListener('click', () => eliminarClase(btn.dataset.eliminar));
                     });
                 }
                 renderPaginacion(document.getElementById('paginacion-clases'), pageResp, cargarClases);
@@ -498,6 +502,19 @@
                 boton.disabled = false;
             }
         });
+
+        // ---------------------------------------------------------- eliminar
+
+        async function eliminarClase(id) {
+            if (!confirm('¿Eliminar esta clase permanentemente? Esta acción no se puede deshacer.')) return;
+            try {
+                await apiFetch(`/admin/clases/${id}`, { method: 'DELETE' });
+                mostrarMensaje('admin-mensaje', 'Clase eliminada.', 'exito');
+                cargarClases(paginaActualClases);
+            } catch (err) {
+                mostrarMensaje('admin-mensaje', err.message, 'error');
+            }
+        }
 
         // ---------------------------------------------------------- reagendar (desde admin)
 

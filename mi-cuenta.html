@@ -63,15 +63,16 @@
             <div class="auth-mensaje" id="panel-mensaje"></div>
 
             <div class="panel-card">
-                <h2><i class="fa-regular fa-calendar-check"></i> Resumen del mes <span id="resumen-periodo"></span></h2>
+                <h2><i class="fa-regular fa-calendar-check"></i> Resumen del mes</h2>
+                <p class="resumen-mes-subtitulo" id="resumen-periodo"></p>
                 <div class="resumen-mes-grid">
-                    <div class="resumen-mes-dato">
-                        <span class="numero" id="resumen-tomadas">—</span>
-                        <span class="etiqueta">Clases tomadas</span>
-                    </div>
                     <div class="resumen-mes-dato">
                         <span class="numero" id="resumen-disponibles">—</span>
                         <span class="etiqueta">Clases disponibles</span>
+                    </div>
+                    <div class="resumen-mes-dato">
+                        <span class="numero" id="resumen-tomadas">—</span>
+                        <span class="etiqueta">Clases tomadas</span>
                     </div>
                 </div>
                 <div id="resumen-por-instrumento"></div>
@@ -449,7 +450,7 @@
         }
 
         async function cargarHistorialPagos() {
-            const pagina = await apiFetch('/alumno/pagos?sort=periodo,desc');
+            const pagina = await apiFetch('/alumno/pagos?sort=periodo,asc');
             const lista = document.getElementById('lista-pagos-historial');
             lista.innerHTML = '';
 

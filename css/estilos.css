@@ -1772,6 +1772,13 @@ background-position:
     color: var(--verde-boton);
 }
 
+.resumen-mes-subtitulo {
+    color: #888;
+    font-size: 0.85rem;
+    margin-top: -12px;
+    margin-bottom: 18px;
+}
+
 .resumen-mes-grid {
     display: flex;
     gap: 40px;
@@ -1882,6 +1889,16 @@ background-position:
 
 .btn-chico.secundario:hover {
     background-color: #f0f0f0;
+}
+
+.btn-chico.peligro {
+    background: none;
+    border: 1px solid #e0b4b4;
+    color: #a13a3a;
+}
+
+.btn-chico.peligro:hover {
+    background-color: #fbe4e4;
 }
 
 .form-inline {
@@ -2219,6 +2236,14 @@ background-position:
     color: var(--verde-oscuro);
     font-size: 0.95rem;
     margin-bottom: 12px;
+}
+
+.modal-botones-finales {
+    display: flex;
+    gap: 10px;
+    margin-top: 22px;
+    padding-top: 18px;
+    border-top: 1px solid #eee;
 }
 
 /* --- dashboard (admin.html) --- */
