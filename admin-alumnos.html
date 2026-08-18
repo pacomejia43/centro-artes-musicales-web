@@ -375,12 +375,16 @@
                             <td>${badgeActivo(a.activo)}</td>
                             <td><div class="fila-acciones">
                                 <button type="button" class="btn-chico secundario" data-ver="${a.id}">Ver / editar</button>
+                                <button type="button" class="btn-chico peligro" data-eliminar="${a.id}">Eliminar</button>
                             </div></td>
                         `;
                         tbody.appendChild(tr);
                     });
                     tbody.querySelectorAll('[data-ver]').forEach(btn => {
                         btn.addEventListener('click', () => abrirDetalleAlumno(btn.dataset.ver));
+                    });
+                    tbody.querySelectorAll('[data-eliminar]').forEach(btn => {
+                        btn.addEventListener('click', () => eliminarAlumno(btn.dataset.eliminar, btn.closest('tr').children[0].textContent));
                     });
                 }
                 renderPaginacion(document.getElementById('paginacion-alumnos'), pageResp, cargarAlumnos);
@@ -426,6 +430,22 @@
                 boton.disabled = false;
             }
         });
+
+        // ---------------------------------------------------------- eliminar
+
+        async function eliminarAlumno(id, nombre) {
+            const confirmado = confirm(
+                `¿Eliminar a ${nombre} permanentemente? Se borrarán también todas sus clases, pagos y cupos registrados. Esta acción no se puede deshacer.`
+            );
+            if (!confirmado) return;
+            try {
+                await apiFetch(`/admin/alumnos/${id}`, { method: 'DELETE' });
+                mostrarMensaje('admin-mensaje', 'Alumno eliminado junto con sus clases y pagos.', 'exito');
+                cargarAlumnos(paginaActualAlumnos);
+            } catch (err) {
+                mostrarMensaje('admin-mensaje', err.message, 'error');
+            }
+        }
 
         // ---------------------------------------------------------- detalle / editar
 

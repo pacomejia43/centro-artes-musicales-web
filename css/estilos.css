@@ -1787,6 +1787,7 @@ background-position:
 
 .resumen-mes-dato {
     text-align: center;
+    min-width: 0;
 }
 
 .resumen-mes-dato .numero {
@@ -1795,6 +1796,15 @@ background-position:
     color: var(--verde-boton);
     line-height: 1;
     display: block;
+}
+
+/* Fechas largas (ej. "18/septiembre/2026") no caben en el mismo tamaño que un monto corto:
+   se encoge según el ancho disponible y, si aun así no cabe, pasa a una segunda línea en
+   vez de salirse del recuadro. */
+.resumen-mes-dato .numero-fecha {
+    font-size: clamp(1.15rem, 4.5vw, 2.6rem);
+    line-height: 1.15;
+    overflow-wrap: break-word;
 }
 
 .resumen-mes-dato .etiqueta {
