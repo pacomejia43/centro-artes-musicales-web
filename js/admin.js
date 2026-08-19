@@ -20,6 +20,7 @@ const METODOS_PAGO = {
     EFECTIVO: 'Efectivo',
     TRANSFERENCIA: 'Transferencia',
     TARJETA: 'Tarjeta',
+    STRIPE: 'Stripe',
     OTRO: 'Otro'
 };
 

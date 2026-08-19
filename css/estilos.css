@@ -1698,6 +1698,12 @@ background-position:
     border: 1px solid #c5e0bb;
 }
 
+.auth-mensaje.info {
+    background-color: #fdf1cf;
+    color: #93720c;
+    border: 1px solid #f2dda0;
+}
+
 
 /* ==========================================
    PANEL DEL ALUMNO — mi-cuenta.html
@@ -1873,6 +1879,12 @@ background-position:
 .estado-RECHAZADA   { background-color: #fbe4e4; color: #a13a3a; }
 .estado-PAGADO      { background-color: #e0f3d9; color: #386024; }
 .estado-PARCIAL     { background-color: #fdf1cf; color: #93720c; }
+.estado-REEMBOLSADO  { background-color: #dcecfb; color: #1c5a96; }
+.estado-REEMBOLSADA  { background-color: #dcecfb; color: #1c5a96; }
+.estado-FALLIDA      { background-color: #fbe4e4; color: #a13a3a; }
+.estado-ACTIVA        { background-color: #e0f3d9; color: #386024; }
+.estado-PAST_DUE      { background-color: #fbe6d4; color: #a15a1c; }
+.estado-INCOMPLETA    { background-color: #fdf1cf; color: #93720c; }
 
 .btn-chico {
     background-color: var(--verde-boton);

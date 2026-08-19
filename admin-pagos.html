@@ -73,6 +73,7 @@
                             <option value="PENDIENTE">PENDIENTE</option>
                             <option value="PARCIAL">PARCIAL</option>
                             <option value="PAGADO">PAGADO</option>
+                            <option value="REEMBOLSADO">REEMBOLSADO</option>
                         </select>
                         <input type="month" id="filtro-periodo" placeholder="Periodo">
                     </div>
@@ -423,6 +424,8 @@
                     <div class="clase-info">
                         <strong>$${Number(t.monto).toFixed(2)} · ${METODOS_PAGO[t.metodoPago] || t.metodoPago}</strong>
                         <span>${formatearFecha(t.fecha)}${t.referencia ? ' · Ref: ' + escapeHtml(t.referencia) : ''}</span>
+                        ${t.stripeSubscriptionId ? `<span>Cobro automático · Suscripción: ${escapeHtml(t.stripeSubscriptionId)}</span>` : ''}
+                        ${t.stripeCheckoutSessionId ? `<span>Stripe Checkout: ${escapeHtml(t.stripeCheckoutSessionId)}</span>` : ''}
                         ${t.motivoRechazo ? `<span style="display:block;color:#a13a3a;">Motivo del rechazo: ${escapeHtml(t.motivoRechazo)}</span>` : ''}
                     </div>
                     <div class="clase-acciones">

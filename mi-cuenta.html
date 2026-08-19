@@ -99,6 +99,11 @@
             </div>
 
             <div class="panel-card">
+                <h2><i class="fa-solid fa-rotate"></i> Pago automático</h2>
+                <div id="suscripcion-contenedor"><p class="lista-vacia">Cargando…</p></div>
+            </div>
+
+            <div class="panel-card">
                 <h2><i class="fa-solid fa-clock-rotate-left"></i> Historial de pagos</h2>
                 <div id="lista-pagos-historial"><p class="lista-vacia">Cargando…</p></div>
             </div>
@@ -181,6 +186,20 @@
             COMPOSICION_MUSICAL: 'Composición musical',
             ARREGLO: 'Arreglo',
             LECTURA_ESCRITURA_PARTITURAS: 'Lectura y escritura de partituras'
+        };
+
+        const ESTADOS_PAGO = {
+            PENDIENTE: 'Pendiente',
+            PARCIAL: 'Pago parcial',
+            PAGADO: 'Pagado ✓',
+            REEMBOLSADO: 'Reembolsado'
+        };
+
+        const ESTADOS_SUSCRIPCION = {
+            ACTIVA: 'Activo',
+            PAST_DUE: 'Pago atrasado',
+            CANCELADA: 'Cancelado',
+            INCOMPLETA: 'Pendiente de confirmar'
         };
 
         function escapeHtml(texto) {
@@ -394,10 +413,15 @@
                         </div>
                     </div>
                     <p style="margin-bottom:15px;">
-                        <span class="estado-badge estado-${pago.estado}">${pago.estado}</span>
+                        <span class="estado-badge estado-${pago.estado}">${ESTADOS_PAGO[pago.estado] || pago.estado}</span>
                     </p>
                     ${saldo > 0 ? `
-                        <button type="button" class="btn-chico" id="btn-mostrar-form-pago">Registrar mi pago</button>
+                        <div class="fila-acciones" style="margin-bottom:10px;">
+                            <button type="button" class="btn-chico" id="btn-pagar-stripe" data-pago-id="${pago.id}">
+                                <i class="fa-solid fa-lock"></i> Pagar ahora
+                            </button>
+                            <button type="button" class="btn-chico secundario" id="btn-mostrar-form-pago">Ya pagué por transferencia/efectivo</button>
+                        </div>
                         <form class="form-inline" id="form-registrar-pago">
                             <label>Monto pagado</label>
                             <input type="number" step="0.01" min="0.01" name="monto" required value="${saldo.toFixed(2)}">
@@ -415,8 +439,13 @@
                                 <button type="button" class="btn-chico secundario" id="btn-cancelar-form-pago">Cancelar</button>
                             </div>
                         </form>
-                    ` : '<p class="lista-vacia">Este período ya está pagado. ¡Gracias!</p>'}
+                    ` : '<p class="lista-vacia">Pagado ✓ — ¡Gracias!</p>'}
                 `;
+
+                const btnPagarStripe = document.getElementById('btn-pagar-stripe');
+                if (btnPagarStripe) {
+                    btnPagarStripe.addEventListener('click', () => pagarConStripe(pago.id, btnPagarStripe));
+                }
 
                 const btnMostrar = document.getElementById('btn-mostrar-form-pago');
                 const formPago = document.getElementById('form-registrar-pago');
@@ -453,6 +482,20 @@
             }
         }
 
+        /** Botón "Pagar ahora"/"Pagar" — usado tanto en la tarjeta del período actual como en cada
+         *  fila del historial. El backend calcula el monto real del saldo pendiente; aquí solo se
+         *  manda el id del cargo. */
+        async function pagarConStripe(pagoId, boton) {
+            if (boton) boton.disabled = true;
+            try {
+                const resp = await apiFetch(`/alumno/pagos/${pagoId}/checkout`, { method: 'POST' });
+                window.location.href = resp.url;
+            } catch (err) {
+                mostrarMensajePanel(err.message, 'error');
+                if (boton) boton.disabled = false;
+            }
+        }
+
         async function cargarHistorialPagos() {
             const pagina = await apiFetch('/alumno/pagos?sort=periodo,asc');
             const lista = document.getElementById('lista-pagos-historial');
@@ -466,15 +509,142 @@
             pagina.content.forEach(pago => {
                 const item = document.createElement('div');
                 item.className = 'clase-item';
+                const saldo = Number(pago.saldoPendiente);
                 item.innerHTML = `
                     <div class="clase-info">
                         <strong>${formatearPeriodo(pago.periodo)}</strong>
                         <span>Monto: $${Number(pago.monto).toFixed(2)} · Pagado: $${Number(pago.montoPagado).toFixed(2)}</span>
                     </div>
-                    <span class="estado-badge estado-${pago.estado}">${pago.estado}</span>
+                    <div class="clase-acciones">
+                        <span class="estado-badge estado-${pago.estado}">${ESTADOS_PAGO[pago.estado] || pago.estado}</span>
+                        ${saldo > 0 ? `<button type="button" class="btn-chico" data-pagar-historial="${pago.id}">Pagar</button>` : ''}
+                    </div>
                 `;
                 lista.appendChild(item);
             });
+
+            lista.querySelectorAll('[data-pagar-historial]').forEach(btn => {
+                btn.addEventListener('click', () => pagarConStripe(btn.dataset.pagarHistorial, btn));
+            });
+        }
+
+        // ---------------------------------------------------------- pago automático (suscripción)
+
+        async function cargarSuscripcion() {
+            const contenedor = document.getElementById('suscripcion-contenedor');
+            try {
+                const sub = await apiFetch('/alumno/suscripcion');
+                renderSuscripcion(sub);
+            } catch (err) {
+                renderSuscripcionInactiva();
+            }
+        }
+
+        function renderSuscripcionInactiva() {
+            const contenedor = document.getElementById('suscripcion-contenedor');
+            contenedor.innerHTML = `
+                <p class="lista-vacia">No tienes pago automático activado.</p>
+                <button type="button" class="btn-chico secundario" id="btn-activar-suscripcion">Activar pago automático</button>
+            `;
+            document.getElementById('btn-activar-suscripcion').addEventListener('click', activarSuscripcion);
+        }
+
+        function renderSuscripcion(sub) {
+            const contenedor = document.getElementById('suscripcion-contenedor');
+            if (sub.estado === 'CANCELADA') {
+                renderSuscripcionInactiva();
+                return;
+            }
+            contenedor.innerHTML = `
+                <p style="margin-bottom:10px;">
+                    <span class="estado-badge estado-${sub.estado}">${ESTADOS_SUSCRIPCION[sub.estado] || sub.estado}</span>
+                    ${sub.estado === 'ACTIVA' && !sub.cancelacionProgramada ? ' Pago automático activo ✓' : ''}
+                    ${sub.cancelacionProgramada ? ` — se cancelará el ${formatearFechaCorta(sub.fechaCancelacion)}` : ''}
+                </p>
+                <p style="margin-bottom:10px;">Cobro mensual: $${Number(sub.monto).toFixed(2)} MXN</p>
+                ${!sub.cancelacionProgramada ? '<button type="button" class="btn-chico peligro" id="btn-cancelar-suscripcion">Cancelar pago automático</button>' : ''}
+            `;
+            const btnCancelar = document.getElementById('btn-cancelar-suscripcion');
+            if (btnCancelar) btnCancelar.addEventListener('click', cancelarSuscripcion);
+        }
+
+        async function activarSuscripcion() {
+            const boton = document.getElementById('btn-activar-suscripcion');
+            if (boton) boton.disabled = true;
+            try {
+                const resp = await apiFetch('/alumno/suscripcion', { method: 'POST' });
+                window.location.href = resp.url;
+            } catch (err) {
+                mostrarMensajePanel(err.message, 'error');
+                if (boton) boton.disabled = false;
+            }
+        }
+
+        async function cancelarSuscripcion() {
+            if (!confirm('¿Cancelar tu pago automático? Seguirás teniendo acceso hasta el final del periodo que ya pagaste.')) return;
+            try {
+                await apiFetch('/alumno/suscripcion', { method: 'DELETE' });
+                mostrarMensajePanel('Tu pago automático se cancelará al final de tu periodo actual.', 'exito');
+                await cargarSuscripcion();
+            } catch (err) {
+                mostrarMensajePanel(err.message, 'error');
+            }
+        }
+
+        // ---------------------------------------------------------- regreso desde Stripe Checkout
+
+        /**
+         * Stripe redirige aquí después del pago, pero eso NO significa que ya esté confirmado —
+         * la confirmación real llega por webhook al backend (ver PagoService/StripeWebhookService).
+         * Mientras tanto se muestra "Estamos confirmando…" y se consulta el backend cada pocos
+         * segundos hasta ver el nuevo estado, en vez de darlo por pagado solo por haber vuelto aquí.
+         */
+        async function manejarRetornoDeStripe() {
+            const params = new URLSearchParams(window.location.search);
+            const pagoResultado = params.get('pago');
+            const suscripcionResultado = params.get('suscripcion');
+            const pagoId = params.get('pago_id');
+
+            if (pagoResultado === 'exito' && pagoId) {
+                mostrarMensajePanel('Estamos confirmando tu pago…', 'info');
+                await esperarConfirmacion(async () => {
+                    const pago = await apiFetch(`/alumno/pagos/${pagoId}`);
+                    return pago.estado === 'PAGADO' || pago.estado === 'PARCIAL';
+                }, '¡Pago confirmado! ✓', 'Seguimos confirmando tu pago. Si no se refleja en un momento, actualiza la página.');
+                await Promise.all([cargarPagoActual(), cargarHistorialPagos()]);
+            } else if (pagoResultado === 'cancelado') {
+                mostrarMensajePanel('Cancelaste el pago. Puedes intentarlo de nuevo cuando quieras.', 'error');
+            } else if (suscripcionResultado === 'exito') {
+                mostrarMensajePanel('Estamos confirmando tu pago automático…', 'info');
+                await esperarConfirmacion(async () => {
+                    try {
+                        const sub = await apiFetch('/alumno/suscripcion');
+                        return sub.estado === 'ACTIVA';
+                    } catch (err) {
+                        return false; // 404: el webhook todavía no llega
+                    }
+                }, '¡Pago automático activado! ✓', 'Seguimos confirmando tu pago automático. Si no se refleja en un momento, actualiza la página.');
+                await cargarSuscripcion();
+            } else if (suscripcionResultado === 'cancelada') {
+                mostrarMensajePanel('Cancelaste la activación del pago automático.', 'error');
+            } else {
+                return;
+            }
+
+            // Limpia session_id/pago_id de la URL para que un refresh no repita el polling.
+            window.history.replaceState({}, '', window.location.pathname);
+        }
+
+        async function esperarConfirmacion(yaConfirmado, mensajeExito, mensajeSigueEnEspera) {
+            const maxIntentos = 10;
+            for (let intento = 0; intento < maxIntentos; intento++) {
+                if (await yaConfirmado()) {
+                    mostrarMensajePanel(mensajeExito, 'exito');
+                    return;
+                }
+                await new Promise(resolve => setTimeout(resolve, 3000));
+            }
+            mostrarMensajePanel(mensajeSigueEnEspera, 'info');
         }
 
         // ---------------------------------------------------------- bitácora
@@ -514,6 +684,8 @@
         cargarHistorialPagos().catch(err => {
             document.getElementById('lista-pagos-historial').innerHTML = `<p class="lista-vacia">${escapeHtml(err.message)}</p>`;
         });
+        cargarSuscripcion();
+        manejarRetornoDeStripe();
         cargarBitacora().catch(err => {
             document.getElementById('bitacora-contenedor').innerHTML = `<p class="lista-vacia">${escapeHtml(err.message)}</p>`;
         });
