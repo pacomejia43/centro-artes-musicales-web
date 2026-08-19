@@ -79,26 +79,9 @@
                     <button type="button" class="btn-chico" id="btn-nuevo-cargo"><i class="fa-solid fa-plus"></i> Nuevo cargo</button>
                 </div>
 
-                <div class="tabla-admin-wrapper">
-                    <table class="tabla-admin">
-                        <thead>
-                            <tr>
-                                <th>Alumno</th>
-                                <th>Periodo</th>
-                                <th>Monto</th>
-                                <th>Pagado</th>
-                                <th>Saldo</th>
-                                <th>Estado</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tabla-pagos-body">
-                            <tr><td colspan="7" class="lista-vacia">Cargando…</td></tr>
-                        </tbody>
-                    </table>
+                <div class="acordeon-meses" id="pagos-meses">
+                    <p class="lista-vacia">Cargando…</p>
                 </div>
-
-                <div class="paginacion" id="paginacion-pagos"></div>
             </div>
 
         </div>
@@ -286,7 +269,6 @@
     <script>
         protegerPaginaAdmin();
 
-        let paginaActualPagos = 0;
         let pagoActualId = null;
         let transaccionActualId = null;
 
@@ -294,54 +276,102 @@
             btn.addEventListener('click', () => cerrarModal(btn.dataset.cerrar));
         });
 
-        // ---------------------------------------------------------- listado
+        // ---------------------------------------------------------- listado agrupado por mes
 
-        async function cargarPagos(pagina = 0) {
-            paginaActualPagos = pagina;
-            const tbody = document.getElementById('tabla-pagos-body');
+        async function cargarPagos() {
+            const contenedor = document.getElementById('pagos-meses');
             const qs = construirQueryString({
                 alumnoId: document.getElementById('filtro-alumno').value,
                 estado: document.getElementById('filtro-estado').value,
                 periodo: document.getElementById('filtro-periodo').value.trim(),
-                page: pagina,
-                size: 15,
+                size: 1000,
                 sort: 'periodo,desc'
             });
             try {
                 const pageResp = await apiFetch('/admin/pagos' + qs);
-                tbody.innerHTML = '';
-                if (pageResp.content.length === 0) {
-                    tbody.innerHTML = '<tr><td colspan="7" class="lista-vacia">No se encontraron pagos.</td></tr>';
-                } else {
-                    pageResp.content.forEach(p => {
-                        const tr = document.createElement('tr');
-                        tr.innerHTML = `
-                            <td>${escapeHtml(p.alumnoNombre)}</td>
-                            <td>${escapeHtml(formatearPeriodo(p.periodo))}</td>
-                            <td>$${Number(p.monto).toFixed(2)}</td>
-                            <td>$${Number(p.montoPagado).toFixed(2)}</td>
-                            <td>$${Number(p.saldoPendiente).toFixed(2)}${p.vencido ? ' <i class="fa-solid fa-triangle-exclamation" style="color:#a13a3a;" title="Vencido"></i>' : ''}</td>
-                            <td>${badgeEstado(p.estado)}</td>
-                            <td><div class="fila-acciones">
-                                <button type="button" class="btn-chico secundario" data-ver="${p.id}">Ver</button>
-                            </div></td>
-                        `;
-                        tbody.appendChild(tr);
-                    });
-                    tbody.querySelectorAll('[data-ver]').forEach(btn => {
-                        btn.addEventListener('click', () => abrirDetallePago(btn.dataset.ver));
-                    });
-                }
-                renderPaginacion(document.getElementById('paginacion-pagos'), pageResp, cargarPagos);
+                renderPagosPorMes(pageResp.content);
             } catch (err) {
-                tbody.innerHTML = `<tr><td colspan="7" class="lista-vacia">${escapeHtml(err.message)}</td></tr>`;
+                contenedor.innerHTML = `<p class="lista-vacia">${escapeHtml(err.message)}</p>`;
             }
         }
 
+        /** Agrupa los pagos por periodo (mes) en secciones desplegables — la etiqueta del mes
+         *  se toca para expandir o colapsar su lista. El mes más reciente abre por defecto; el
+         *  resto empieza colapsado. Al volver a pintar (ej. tras cerrar el detalle de un pago)
+         *  conserva qué meses tenía abiertos el admin, para no cerrárselos de golpe. */
+        function renderPagosPorMes(pagos) {
+            const contenedor = document.getElementById('pagos-meses');
+            if (pagos.length === 0) {
+                contenedor.innerHTML = '<p class="lista-vacia">No se encontraron pagos.</p>';
+                return;
+            }
+
+            const grupos = new Map();
+            pagos.forEach(p => {
+                if (!grupos.has(p.periodo)) grupos.set(p.periodo, []);
+                grupos.get(p.periodo).push(p);
+            });
+            const periodos = Array.from(grupos.keys()).sort((a, b) => b.localeCompare(a));
+
+            const abiertosPrevios = new Set(
+                Array.from(contenedor.querySelectorAll('.mes-grupo.abierto')).map(el => el.dataset.periodo)
+            );
+
+            contenedor.innerHTML = periodos.map((periodo, indice) => {
+                const pagosDelMes = grupos.get(periodo);
+                const saldoMes = pagosDelMes.reduce((suma, p) => suma + Number(p.saldoPendiente), 0);
+                const abierto = abiertosPrevios.size > 0 ? abiertosPrevios.has(periodo) : indice === 0;
+                const filas = pagosDelMes.map(p => `
+                    <tr>
+                        <td>${escapeHtml(p.alumnoNombre)}</td>
+                        <td>$${Number(p.monto).toFixed(2)}</td>
+                        <td>$${Number(p.montoPagado).toFixed(2)}</td>
+                        <td>$${Number(p.saldoPendiente).toFixed(2)}${p.vencido ? ' <i class="fa-solid fa-triangle-exclamation" style="color:#a13a3a;" title="Vencido"></i>' : ''}</td>
+                        <td>${badgeEstado(p.estado)}</td>
+                        <td><div class="fila-acciones">
+                            <button type="button" class="btn-chico secundario" data-ver="${p.id}">Ver</button>
+                        </div></td>
+                    </tr>
+                `).join('');
+                return `
+                    <div class="mes-grupo${abierto ? ' abierto' : ''}" data-periodo="${periodo}">
+                        <button type="button" class="mes-grupo-header">
+                            <span class="mes-grupo-titulo"><i class="fa-solid fa-chevron-right"></i> ${escapeHtml(formatearPeriodo(periodo))}</span>
+                            <span class="mes-grupo-resumen">${pagosDelMes.length} pago${pagosDelMes.length === 1 ? '' : 's'}${saldoMes > 0 ? ` · $${saldoMes.toFixed(2)} pendiente` : ''}</span>
+                        </button>
+                        <div class="mes-grupo-body">
+                            <div class="tabla-admin-wrapper">
+                                <table class="tabla-admin">
+                                    <thead>
+                                        <tr>
+                                            <th>Alumno</th>
+                                            <th>Monto</th>
+                                            <th>Pagado</th>
+                                            <th>Saldo</th>
+                                            <th>Estado</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>${filas}</tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            contenedor.querySelectorAll('.mes-grupo-header').forEach(btn => {
+                btn.addEventListener('click', () => btn.closest('.mes-grupo').classList.toggle('abierto'));
+            });
+            contenedor.querySelectorAll('[data-ver]').forEach(btn => {
+                btn.addEventListener('click', () => abrirDetallePago(btn.dataset.ver));
+            });
+        }
+
         ['filtro-alumno', 'filtro-estado'].forEach(id => {
-            document.getElementById(id).addEventListener('change', () => cargarPagos(0));
+            document.getElementById(id).addEventListener('change', () => cargarPagos());
         });
-        document.getElementById('filtro-periodo').addEventListener('input', debounce(() => cargarPagos(0), 350));
+        document.getElementById('filtro-periodo').addEventListener('input', debounce(() => cargarPagos(), 350));
 
         // ---------------------------------------------------------- nuevo cargo
 
@@ -372,7 +402,7 @@
                 });
                 cerrarModal('modal-nuevo-cargo');
                 mostrarMensaje('admin-mensaje', 'Cargo creado correctamente.', 'exito');
-                cargarPagos(0);
+                cargarPagos();
             } catch (err) {
                 mostrarMensaje('admin-mensaje', err.message, 'error');
             } finally {
@@ -451,7 +481,7 @@
         async function refrescarDetallePago() {
             const pago = await apiFetch(`/admin/pagos/${pagoActualId}`);
             renderDetallePago(pago);
-            cargarPagos(paginaActualPagos);
+            cargarPagos();
         }
 
         document.getElementById('btn-registrar-transaccion').addEventListener('click', () => {
@@ -581,9 +611,9 @@
             poblarSelectAlumnos(document.getElementById('filtro-alumno'), alumnoIdInicial, 'Todos los alumnos'),
             poblarSelectAlumnos(document.getElementById('cp-alumnoId'), null, 'Selecciona un alumno…')
         ])
-            .then(() => cargarPagos(0))
+            .then(() => cargarPagos())
             .catch(err => {
-                document.getElementById('tabla-pagos-body').innerHTML = `<tr><td colspan="7" class="lista-vacia">${escapeHtml(err.message)}</td></tr>`;
+                document.getElementById('pagos-meses').innerHTML = `<p class="lista-vacia">${escapeHtml(err.message)}</p>`;
             });
     </script>
 </body>

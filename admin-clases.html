@@ -375,7 +375,7 @@
                         tr.innerHTML = `
                             <td>${formatearFecha(c.fechaHora)}</td>
                             <td>${escapeHtml(c.alumnoNombre)}</td>
-                            <td>${escapeHtml(c.profesorNombre)}</td>
+                            <td>${c.profesorNombre ? escapeHtml(c.profesorNombre) : '—'}</td>
                             <td>${escapeHtml(INSTRUMENTOS[c.instrumento] || c.instrumento)}</td>
                             <td>${c.duracionMinutos ? c.duracionMinutos + ' min' : '—'}</td>
                             <td>${badgeEstado(c.estado)}</td>

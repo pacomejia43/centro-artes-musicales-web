@@ -287,7 +287,7 @@
                 item.innerHTML = `
                     <div class="clase-info">
                         <strong>${escapeHtml(INSTRUMENTOS[clase.instrumento] || clase.instrumento)}</strong>
-                        <span>${formatearFecha(clase.fechaHora)} · con ${escapeHtml(clase.profesorNombre)}</span>
+                        <span>${formatearFecha(clase.fechaHora)} · ${clase.profesorNombre ? 'con ' + escapeHtml(clase.profesorNombre) : 'profesor por asignar'}</span>
                     </div>
                     <div class="clase-acciones">
                         <span class="estado-badge estado-${clase.estado}">${clase.estado}</span>

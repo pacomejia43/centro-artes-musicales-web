@@ -2120,6 +2120,71 @@ background-position:
     white-space: nowrap;
 }
 
+/* --- pagos agrupados por mes (acordeón) --- */
+
+.acordeon-meses {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.mes-grupo {
+    border: 1px solid #eee;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.mes-grupo-header {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 14px 18px;
+    background-color: var(--crema-fondo);
+    border: none;
+    font-family: inherit;
+    text-align: left;
+    cursor: pointer;
+}
+
+.mes-grupo-titulo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 700;
+    color: var(--verde-texto);
+}
+
+.mes-grupo-titulo i {
+    font-size: 0.8em;
+    color: var(--verde-boton);
+    transition: transform 0.2s;
+}
+
+.mes-grupo.abierto .mes-grupo-titulo i {
+    transform: rotate(90deg);
+}
+
+.mes-grupo-resumen {
+    font-size: 0.82rem;
+    color: #777;
+}
+
+.mes-grupo-body {
+    display: none;
+    padding: 8px 18px 18px;
+}
+
+.mes-grupo.abierto .mes-grupo-body {
+    display: block;
+}
+
+.mes-grupo .tabla-admin-wrapper {
+    margin: 0;
+}
+
 .checkbox-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);

@@ -183,6 +183,27 @@
         </div>
     </div>
 
+    <!-- Modal: eliminar profesor (con reasignación de sus clases) -->
+    <div class="modal-overlay" id="modal-eliminar-profesor">
+        <div class="modal">
+            <button type="button" class="modal-cerrar" data-cerrar="modal-eliminar-profesor">&times;</button>
+            <h3>Eliminar profesor</h3>
+            <p id="ep-descripcion"></p>
+            <form class="modal-form" id="form-eliminar-profesor">
+                <label for="ep-reemplazoId">Asignar sus clases a</label>
+                <select id="ep-reemplazoId" name="reemplazoId">
+                    <option value="">Dejar esas clases sin profesor asignado</option>
+                </select>
+                <p class="ayuda-campo">Las clases del profesor eliminado (pasadas y programadas) pasan al que elijas
+                    aquí. Si lo dejas sin profesor, quedarán a la espera de que le asignes uno más adelante.</p>
+                <div class="form-inline-botones">
+                    <button type="submit" class="btn-chico peligro">Eliminar profesor</button>
+                    <button type="button" class="btn-chico secundario" data-cerrar="modal-eliminar-profesor">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <script src="js/api.js"></script>
     <script src="js/script.js"></script>
     <script src="js/pwa.js"></script>
@@ -232,12 +253,16 @@
                             <td>${badgeActivo(p.activo)}</td>
                             <td><div class="fila-acciones">
                                 <button type="button" class="btn-chico secundario" data-editar="${p.id}">Editar</button>
+                                <button type="button" class="btn-chico peligro" data-eliminar="${p.id}">Eliminar</button>
                             </div></td>
                         `;
                         tbody.appendChild(tr);
                     });
                     tbody.querySelectorAll('[data-editar]').forEach(btn => {
                         btn.addEventListener('click', () => abrirEdicionProfesor(btn.dataset.editar));
+                    });
+                    tbody.querySelectorAll('[data-eliminar]').forEach(btn => {
+                        btn.addEventListener('click', () => iniciarEliminarProfesor(btn.dataset.eliminar, btn.closest('tr').children[0].textContent));
                     });
                 }
                 renderPaginacion(document.getElementById('paginacion-profesores'), pageResp, cargarProfesores);
@@ -307,6 +332,58 @@
                     mostrarMensaje('admin-mensaje', 'Profesor creado correctamente.', 'exito');
                 }
                 cerrarModal('modal-profesor');
+                cargarProfesores(paginaActualProfesores);
+            } catch (err) {
+                mostrarMensaje('admin-mensaje', err.message, 'error');
+            } finally {
+                boton.disabled = false;
+            }
+        });
+
+        // ---------------------------------------------------------- eliminar
+
+        let profesorAEliminarId = null;
+
+        /** Antes de eliminar, busca si hay otros profesores activos para poder reasignarles las
+         *  clases del que se está eliminando. Si no hay ninguno, confirma directo (como eliminarAlumno)
+         *  y esas clases quedan sin profesor asignado. Si hay, abre el modal para elegir a cuál. */
+        async function iniciarEliminarProfesor(id, nombre) {
+            profesorAEliminarId = id;
+            try {
+                const pagina = await apiFetch('/admin/profesores?activo=true&size=200&sort=nombreCompleto,asc');
+                const otrosProfesores = pagina.content.filter(p => String(p.id) !== String(id));
+
+                if (otrosProfesores.length === 0) {
+                    const confirmado = confirm(
+                        `¿Eliminar a ${nombre} permanentemente? No hay otro profesor activo al cual reasignar sus clases: quedarán sin profesor asignado hasta que les asignes uno. Esta acción no se puede deshacer.`
+                    );
+                    if (!confirmado) return;
+                    await apiFetch(`/admin/profesores/${id}`, { method: 'DELETE' });
+                    mostrarMensaje('admin-mensaje', 'Profesor eliminado.', 'exito');
+                    cargarProfesores(paginaActualProfesores);
+                    return;
+                }
+
+                document.getElementById('ep-descripcion').textContent =
+                    `Vas a eliminar a ${nombre} permanentemente. Elige a qué profesor se le asignan sus clases (pasadas y programadas), o déjalas sin profesor.`;
+                document.getElementById('ep-reemplazoId').innerHTML = '<option value="">Dejar esas clases sin profesor asignado</option>'
+                    + otrosProfesores.map(p => `<option value="${p.id}">${escapeHtml(p.nombreCompleto)}</option>`).join('');
+                abrirModal('modal-eliminar-profesor');
+            } catch (err) {
+                mostrarMensaje('admin-mensaje', err.message, 'error');
+            }
+        }
+
+        document.getElementById('form-eliminar-profesor').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const form = e.target;
+            const boton = form.querySelector('button[type="submit"]');
+            boton.disabled = true;
+            try {
+                const qs = construirQueryString({ reemplazoId: form.reemplazoId.value });
+                await apiFetch(`/admin/profesores/${profesorAEliminarId}${qs}`, { method: 'DELETE' });
+                cerrarModal('modal-eliminar-profesor');
+                mostrarMensaje('admin-mensaje', 'Profesor eliminado.', 'exito');
                 cargarProfesores(paginaActualProfesores);
             } catch (err) {
                 mostrarMensaje('admin-mensaje', err.message, 'error');
